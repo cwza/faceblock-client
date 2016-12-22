@@ -1,7 +1,8 @@
 import { merge } from 'lodash'
-import { normalize, arrayOf } from 'normalizr';
-import { handleActions } from 'redux-actions';
-import { post as postSchema } from '../schemas/faceblockSchemas';
+import { normalize, arrayOf } from 'normalizr'
+import { handleActions } from 'redux-actions'
+import { post as postSchema } from '../schemas/faceblockSchemas'
+import postsActions from '../actions/postsActions'
 
 const normalizePosts = (posts) => {
   return normalize(posts, arrayOf(postSchema)).entities.posts;
@@ -18,7 +19,8 @@ const allPosts = (state, action) => {
 }
 
 const postsReducer = handleActions({
-  FETCH_OLD_POSTS_SUCCESS: (state, action) => allPosts(state, action),
+  [postsActions.fetchOldPostsSuccess().type]: (state, action) => allPosts(state, action),
 }, {})
+
 
 export default postsReducer;
