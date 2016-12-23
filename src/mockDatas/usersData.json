@@ -1,0 +1,24 @@
+{
+  "entities": {
+    "users": [
+      {
+        "id": 1,
+        "mail": "t1@gmail.com",
+        "createTime": "2016-12-21T07:00:39.558Z",
+        "updateTime": "2016-12-21T07:00:39.558Z"
+      },
+      {
+        "id": 2,
+        "mail": "t2@gmail.com",
+        "createTime": "2016-12-21T07:00:39.558Z",
+        "updateTime": "2016-12-21T07:00:39.558Z"
+      },
+      {
+        "id": 3,
+        "mail": "t3@gmail.com",
+        "createTime": "2016-12-21T07:00:39.558Z",
+        "updateTime": "2016-12-21T07:00:39.558Z"
+      }
+    ]
+  }
+}
