@@ -8,13 +8,17 @@ const normalizePosts = (posts) => {
   return normalize(posts, arrayOf(postSchema)).entities.posts;
 }
 
-const mergeFetchedPostsToState = (state, posts) => {
+const mergeFetchedPostsToState = (state = {}, posts) => {
   return merge({}, state, normalizePosts(posts, postSchema));
 }
 
-const allPosts = (state, action) => {
-  if(action.payload.response.entities.posts)
-    return mergeFetchedPostsToState(state, action.payload.response.entities.posts);
+const allPosts = (state = {}, action) => {
+  if(action.payload.response.entities.posts) {
+    return {
+      items: mergeFetchedPostsToState(state.items, action.payload.response.entities.posts),
+      isFetching: false,
+    };
+  }
   return state;
 }
 

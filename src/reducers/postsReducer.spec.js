@@ -8,13 +8,19 @@ test('#postsReducer()', () => {
     {id: 2, userId: 1, content: 'bb'},
   ];
   let oriState = {
-    2: {id: 2, userId: 1, content: 'aa'},
-    3: {id: 3, userId: 1, content: 'cc'},
+    items: {
+      2: {id: 2, userId: 1, content: 'aa'},
+      3: {id: 3, userId: 1, content: 'cc'},
+    },
+    isFetching: true,
   };
   let expectedNewState = {
-    1: {id: 1, userId: 1, content: 'aa'},
-    2: {id: 2, userId: 1, content: 'bb'},
-    3: {id: 3, userId: 1, content: 'cc'},
+    items: {
+      1: {id: 1, userId: 1, content: 'aa'},
+      2: {id: 2, userId: 1, content: 'bb'},
+      3: {id: 3, userId: 1, content: 'cc'},
+    },
+    isFetching: false,
   };
   let apiResponse = {
     entities: {
