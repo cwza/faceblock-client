@@ -45,4 +45,7 @@ const postsReducer = combineReducers({
 
 
 export default postsReducer;
-export {itemsReducer, isFetchingReducer}
+// export {itemsReducer, isFetchingReducer}
+if(process.env.NODE_ENV !== 'production') {
+  module.exports.private = {itemsReducer, isFetchingReducer};
+}

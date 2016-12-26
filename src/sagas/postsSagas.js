@@ -28,5 +28,5 @@ function* watchFetchOldPostsStart() {
 
 export {watchFetchOldPostsStart};
 if(process.env.NODE_ENV !== 'production') {
-  module.exports = {fetchPosts, getFetchOldPostsQueryStr, watchFetchOldPostsStart};
+  module.exports.private = {fetchPosts, getFetchOldPostsQueryStr, watchFetchOldPostsStart};
 }

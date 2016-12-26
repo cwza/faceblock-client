@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { itemsReducer, isFetchingReducer } from './postsReducer'
+let { itemsReducer, isFetchingReducer } = require('./postsReducer').private
 import postsActions from '../actions/postsActions'
 
 let postsFromApi = [

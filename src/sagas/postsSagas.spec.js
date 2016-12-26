@@ -4,7 +4,7 @@ import * as postsService from '../services/faceblock/postsApis'
 import postsActions from '../actions/postsActions'
 import { getPostsForHomePageByTime } from '../selectors/postsSelectors'
 import { posts } from '../mockDatas/data'
-const postsSagas = require('./postsSagas');
+const postsSagas = require('./postsSagas').private;
 
 describe('#fetchPosts()', () => {
   it('should call postsService.fetchPosts if success should dispatch fetchPostsSuccess otherwise dispatch fetchPostsError', () => {
