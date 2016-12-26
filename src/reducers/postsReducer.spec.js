@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-const { itemsReducer, isFetchingReducer } = require('./postsReducer')
+import { itemsReducer, isFetchingReducer } from './postsReducer'
 import postsActions from '../actions/postsActions'
 
 let postsFromApi = [
@@ -7,8 +7,10 @@ let postsFromApi = [
   {id: 2, userId: 1, content: 'bb'},
 ];
 let apiResponse = {
-  entities: {
-    posts: postsFromApi
+  response: {
+    entities: {
+      posts: postsFromApi
+    }
   }
 }
 let oriState = {

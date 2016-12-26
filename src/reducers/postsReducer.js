@@ -14,9 +14,15 @@ const mergeFetchedPostsToState = (state, posts) => {
 }
 
 const itemsReducer = (state = {}, action) => {
-  if(action.payload.response.entities.posts)
-    return mergeFetchedPostsToState(state, action.payload.response.entities.posts)
-  return state;
+  switch(action.type) {
+    case postsActions.fetchPostsSuccess().type:
+      if(action.payload.response.entities.posts) {
+        return mergeFetchedPostsToState(state, action.payload.response.entities.posts)
+      }
+      return state;
+    default:
+      return state;
+  }
 }
 
 const isFetchingReducer = (state = {}, action) => {
@@ -34,11 +40,9 @@ const isFetchingReducer = (state = {}, action) => {
 
 const postsReducer = combineReducers({
   items: itemsReducer,
-  isFetching: isFetchingReducer,
+  isFetching: isFetchingReducer
 });
 
 
 export default postsReducer;
-if(process.env.NODE_ENV !== 'production') {
-  module.exports = {itemsReducer, isFetchingReducer};
-}
+export {itemsReducer, isFetchingReducer}

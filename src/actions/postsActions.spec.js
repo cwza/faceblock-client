@@ -5,7 +5,7 @@ test('#fetchOldPostsStart()', () => {
   let fetchOldPostsStart = postsActions.fetchOldPostsStart(queryStr)
   let expected = {
     type: 'FETCH_OLD_POSTS_START',
-    payload: {queryStr}
+    payload: {queryStr, postsSelector: undefined}
   }
   console.log('fetchOldPostsStart: ', fetchOldPostsStart);
   expect(fetchOldPostsStart).to.deep.equal(expected);
@@ -15,7 +15,7 @@ test('#fetchPostsSuccess()', () => {
   let fetchPostsSuccess = postsActions.fetchPostsSuccess(response)
   let expected = {
     type: 'FETCH_POSTS_SUCCESS',
-    payload: {response}
+    payload: response
   }
   console.log('fetchPostsSuccess : ', fetchPostsSuccess);
   expect(fetchPostsSuccess).to.deep.equal(expected);

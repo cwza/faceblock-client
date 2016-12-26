@@ -3,11 +3,11 @@ import postsReducer from './postsReducer'
 
 const entitiesReducer = combineReducers({
   posts: postsReducer
-})
+});
 
 const faceblockReducer = combineReducers({
   entities: entitiesReducer
-})
+});
 
 const apisReducer = combineReducers({
   faceblock: faceblockReducer
@@ -15,9 +15,9 @@ const apisReducer = combineReducers({
 
 const rootReducer = combineReducers({
   apis: apisReducer
-})
+});
 
-export default rootReducer
+export default rootReducer;
 // export default function counter(state = 0, action) {
 //   switch (action.type) {
 //     case 'INCREMENT':

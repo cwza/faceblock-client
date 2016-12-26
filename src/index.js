@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 import routes from './routes'
 import Root from './containers/Root'
 import configureStore from './store/configureStore'
-// import rootSaga from './sagas'
+import rootSaga from './sagas'
 
 // state = {
 //   entities: {
@@ -22,7 +22,7 @@ const defaultState = {
 };
 
 const store = configureStore(defaultState)
-// store.runSaga(rootSaga)
+store.runSaga(rootSaga)
 
 ReactDOM.render(
   <Root
