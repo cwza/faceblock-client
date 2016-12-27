@@ -1,8 +1,9 @@
 import { fork } from 'redux-saga/effects'
-import { watchFetchOldPostsStart } from './postsSagas'
+import { watchFetchOldPostsStart, watchFetchNewPostsStart } from './postsSagas'
 
 export default function* root() {
   yield [
-    fork(watchFetchOldPostsStart)
+    fork(watchFetchOldPostsStart),
+    fork(watchFetchNewPostsStart)
   ]
 }

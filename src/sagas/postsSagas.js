@@ -18,6 +18,13 @@ function* getFetchOldPostsQueryStr(queryStr, postsSelector) {
   return queryStr + '&underNearId=' + posts[posts.length - 1].id;
 }
 
+function* getFetchNewPostsQueryStr(queryStr, postsSelector) {
+  let posts = yield select(postsSelector);
+  if(posts.length === 0 || posts === undefined)
+    return queryStr;
+  return queryStr + '&upperNearId=' + posts[0].id;
+}
+
 function* watchFetchOldPostsStart() {
   while(true) {
     let {payload} = yield take(postsActions.fetchOldPostsStart().type);
@@ -26,7 +33,15 @@ function* watchFetchOldPostsStart() {
   }
 }
 
-export {watchFetchOldPostsStart};
+function* watchFetchNewPostsStart() {
+  while(true) {
+    let {payload} = yield take(postsActions.fetchNewPostsStart().type);
+    let queryStr = yield* getFetchNewPostsQueryStr(payload.queryStr, payload.postsSelector);
+    yield fork(fetchPosts, 'posts?' + queryStr);
+  }
+}
+
+export {watchFetchOldPostsStart, watchFetchNewPostsStart};
 if(process.env.NODE_ENV !== 'production') {
   module.exports.private = {fetchPosts, getFetchOldPostsQueryStr, watchFetchOldPostsStart};
 }
