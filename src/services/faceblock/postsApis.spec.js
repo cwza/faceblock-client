@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { fetchPosts, createPost } from './postsApis'
+import { fetchPosts, createPost, deletePost } from './postsApis'
 
 describe.skip('#fetchPosts()', () => {
   it('', () => {
@@ -14,8 +14,19 @@ describe.skip('#fetchPosts()', () => {
 
 describe.skip('#createPost()', () => {
   it('', () => {
-    let data = {userId: 1, content: 'new test post'};
+    let data = {userId: 'xx', content: 'new test post'};
     return createPost(data)
+    .then(response => {
+      console.log('res', response);
+    }).catch(error => {
+      console.log('err', error);
+    });
+  });
+});
+
+describe.skip('#deletePost()', () => {
+  it('', () => {
+    return deletePost(48)
     .then(response => {
       console.log('res', response);
     }).catch(error => {

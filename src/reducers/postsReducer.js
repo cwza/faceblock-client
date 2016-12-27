@@ -5,6 +5,7 @@ import { normalize, arrayOf } from 'normalizr'
 import { post as postSchema } from '../schemas/faceblockSchemas'
 import postsActions from '../actions/postsActions'
 import otherActions from '../actions/otherActions'
+import * as utils from '../utils'
 
 const normalizePosts = (posts) => {
   return normalize(posts, arrayOf(postSchema)).entities.posts;
@@ -22,6 +23,8 @@ const itemsReducer = (state = {}, action) => {
         return mergeFetchedPostsToState(state, action.payload.response.entities.posts)
       }
       return state;
+    case postsActions.deletePostSuccess().type:
+      return utils.deletePropertiesFromObject(state, [action.payload.toString()])
     default:
       return state;
   }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
 import * as postsSelectors from '../selectors/postsSelectors'
 import AddPostForm from '../components/AddPostForm'
-import PostList from '../components/PostList'
+import PostList from './PostList'
 
 let queryStr = 'q=userId:(1, 2)&sort=createTime&order=desc&limit=5';
 // let queryParams = {userIds: [1], contentContains: '#cwz', sort: 'createTime', order: 'desc', limit: 5};

@@ -20,7 +20,7 @@ describe('#fetchPosts()', () => {
       put(postsActions.fetchPostsSuccess(response))
     );
     expect(iter.throw(error).value).to.deep.equal(
-      put(otherActions.setError(error))
+      put(otherActions.setError({error}))
     );
   });
 });

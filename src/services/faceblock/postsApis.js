@@ -16,7 +16,7 @@ const fetchPosts = (queryStr) => {
     .then(response => {
       return response.json().then(json => ({json, response}));
     }).then(({json, response}) => {
-      if(!response.ok) return Promise.reject(json);
+      if(!response.ok) return Promise.reject(json.error);
       return {response: camelizeKeys(json)};
     })
 }
@@ -35,9 +35,22 @@ const createPost = (data) => {
   }).then(response => {
     return response.json().then(json => ({json, response}));
   }).then(({json, response}) => {
-    if(!response.ok) return Promise.reject(json);
+    if(!response.ok) return Promise.reject(json.error);
     return {response: camelizeKeys(json)};
   })
 }
 
-export { fetchPosts, createPost };
+const deletePost = (postId) => {
+  const fullUrl = API_ROOT + 'posts/' + postId;
+  console.log('delete post url: ', fullUrl);
+  return fetch(fullUrl, {
+    method: "DELETE",
+    credentials: "same-origin"
+  }).then(response => {
+    if(!response.ok) return response.json();
+  }).then(json => {
+    if(json) return Promise.reject(json.error);
+  });
+}
+
+export { fetchPosts, createPost, deletePost };

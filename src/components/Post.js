@@ -5,7 +5,10 @@ class Post extends Component {
     let { post } = this.props;
     return (
       <div>
-        <h1>{JSON.stringify(post, null, 2)}</h1>
+        <button onClick={this.props.handleDeletePost}>Delete</button>
+        <div onClick={this.props.onClick}>
+          <h1>{JSON.stringify(post, null, 2)}</h1>
+        </div>
       </div>
     )
   }

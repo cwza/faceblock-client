@@ -10,7 +10,7 @@ function* fetchPosts(queryStr) {
     let response = yield call(postsService.fetchPosts, queryStr);
     yield put(postsActions.fetchPostsSuccess(response));
   } catch(error) {
-    yield put(otherActions.setError(error))
+    yield put(otherActions.setError({error}))
   }
 }
 
@@ -19,7 +19,16 @@ function* createPost(data) {
     let response = yield call(postsService.createPost, data);
     yield put(postsActions.createPostSuccess(response));
   } catch(error) {
-    yield put(otherActions.setError(error))
+    yield put(otherActions.setError({error}))
+  }
+}
+
+function* deletePost(postId) {
+  try {
+    yield call(postsService.deletePost, postId);
+    yield put(postsActions.deletePostSuccess(postId));
+  } catch(error) {
+    yield put(otherActions.setError({error}))
   }
 }
 
@@ -62,7 +71,14 @@ function* watchCreatePostStart() {
   }
 }
 
-export {watchFetchOldPostsStart, watchFetchNewPostsStart, watchCreatePostStart};
+function* watchDeletePostStart() {
+  while(true) {
+    let {payload} = yield take(postsActions.deletePostStart().type);
+    yield fork(deletePost, payload);
+  }
+}
+
+export {watchFetchOldPostsStart, watchFetchNewPostsStart, watchCreatePostStart, watchDeletePostStart};
 if(process.env.NODE_ENV !== 'production') {
   module.exports.private = {fetchPosts, getFetchOldPostsQueryStr, watchFetchOldPostsStart};
 }

@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import Post from '../components/Post'
 import ReactModal from 'react-modal';
-import PostDetailPage from '../containers/PostDetailPage'
+import PostDetailPage from './PostDetailPage'
+import { connect } from 'react-redux'
+import postsActions from '../actions/postsActions'
 
 class PostList extends Component {
   constructor(props) {
     super(props);
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleDeletePost = this.handleDeletePost.bind(this);
     this.state = {
       showModal: false,
       modalPost: {},
@@ -20,15 +23,17 @@ class PostList extends Component {
   handleOpenModal (modalPost) {
     this.setState({ showModal: true, modalPost });
   }
-
   handleCloseModal () {
     this.setState({ showModal: false });
+  }
+  handleDeletePost(postId) {
+    this.props.deletePostStart(postId);
   }
   renderPostList(posts) {
     return posts.map((post, i) => {
       return (
-        <div key={i} onClick={() => this.handleOpenModal(post)}>
-          <Post post={post} />
+        <div key={i} >
+          <Post post={post} onClick={() => this.handleOpenModal(post)} handleDeletePost={() => this.handleDeletePost(post.id)} />
         </div>
       )
     });
@@ -40,7 +45,7 @@ class PostList extends Component {
            contentLabel="Minimal Modal Example"
            onRequestClose={this.handleCloseModal}
       >
-        <PostDetailPage post={this.state.modalPost}/>
+        <PostDetailPage post={this.state.modalPost} handleCloseModal={() => this.handleCloseModal()}/>
       </ReactModal>
     )
   }
@@ -58,4 +63,11 @@ class PostList extends Component {
   }
 }
 
-export default PostList;
+const mapStateToProps = (state) => {
+  return {
+  }
+}
+
+export default connect(mapStateToProps, {
+  deletePostStart: postsActions.deletePostStart
+})(PostList);

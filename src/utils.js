@@ -5,4 +5,12 @@ const parseTimeStrFieldToDate = (obj, fields) => {
   return result;
 }
 
-export {parseTimeStrFieldToDate};
+let deletePropertiesFromObject = (obj, properties) => {
+  let returnedObj = {};
+  Object.keys(obj)
+    .filter(key => !properties.includes(key))
+    .forEach(key => returnedObj[key] = obj[key]);
+  return returnedObj;
+}
+
+export {parseTimeStrFieldToDate, deletePropertiesFromObject};
