@@ -4,6 +4,7 @@ import { normalize, arrayOf } from 'normalizr'
 // import { handleActions } from 'redux-actions'
 import { post as postSchema } from '../schemas/faceblockSchemas'
 import postsActions from '../actions/postsActions'
+import otherActions from '../actions/otherActions'
 
 const normalizePosts = (posts) => {
   return normalize(posts, arrayOf(postSchema)).entities.posts;
@@ -32,7 +33,7 @@ const isFetchingReducer = (state = {}, action) => {
     case postsActions.fetchNewPostsStart().type:
       return true;
     case postsActions.fetchPostsSuccess().type:
-    case postsActions.fetchPostsError().type:
+    case otherActions.setError().type:
       return false;
     default:
       return state;

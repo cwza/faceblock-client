@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import postsReducer from './postsReducer'
 import { reducer as formReducer } from 'redux-form'
+import errorReducer from './errorReducer'
 
 const entitiesReducer = combineReducers({
   posts: postsReducer
@@ -16,7 +17,8 @@ const apisReducer = combineReducers({
 
 const rootReducer = combineReducers({
   apis: apisReducer,
-  form: formReducer
+  form: formReducer,
+  error: errorReducer,
 });
 
 export default rootReducer;

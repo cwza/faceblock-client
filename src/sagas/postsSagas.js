@@ -1,5 +1,6 @@
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import postsActions from '../actions/postsActions'
+import otherActions from '../actions/otherActions'
 import * as postsService from '../services/faceblock/postsApis'
 import * as usersSelectors from '../selectors/usersSelectors'
 
@@ -9,7 +10,7 @@ function* fetchPosts(queryStr) {
     let response = yield call(postsService.fetchPosts, queryStr);
     yield put(postsActions.fetchPostsSuccess(response));
   } catch(error) {
-    yield put(postsActions.fetchPostsError(error))
+    yield put(otherActions.setError(error))
   }
 }
 
@@ -18,7 +19,7 @@ function* createPost(data) {
     let response = yield call(postsService.createPost, data);
     yield put(postsActions.createPostSuccess(response));
   } catch(error) {
-    yield put(postsActions.createPostError(error))
+    yield put(otherActions.setError(error))
   }
 }
 
