@@ -16,6 +16,7 @@ const mergeFetchedPostsToState = (state, posts) => {
 const itemsReducer = (state = {}, action) => {
   switch(action.type) {
     case postsActions.fetchPostsSuccess().type:
+    case postsActions.createPostSuccess().type:
       if(action.payload.response.entities.posts) {
         return mergeFetchedPostsToState(state, action.payload.response.entities.posts)
       }

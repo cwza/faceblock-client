@@ -8,7 +8,7 @@ const postsSagas = require('./postsSagas').private;
 
 describe('#fetchPosts()', () => {
   it('should call postsService.fetchPosts if success should dispatch fetchPostsSuccess otherwise dispatch fetchPostsError', () => {
-    let queryStr = 'posts?q=userId:(1)&sort=createTime&order=desc&limit=5';
+    let queryStr = 'q=userId:(1)&sort=createTime&order=desc&limit=5';
     let response = {response: {}};
     let error = {error: {}};
     let iter = postsSagas.fetchPosts(queryStr);
@@ -26,7 +26,7 @@ describe('#fetchPosts()', () => {
 
 describe('#getFetchOldPostsQueryStr()', () => {
   it('should call getPostsForHomePageByTime selector and return new queryStr', () => {
-    let queryStr = 'posts?q=userId:(1)&sort=createTime&order=desc&limit=5';
+    let queryStr = 'q=userId:(1)&sort=createTime&order=desc&limit=5';
     let iter = postsSagas.getFetchOldPostsQueryStr(queryStr, getPostsForHomePageByTime);
     expect(iter.next().value).to.deep.equal(
       select(getPostsForHomePageByTime)
