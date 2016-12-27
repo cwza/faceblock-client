@@ -8,11 +8,14 @@ const validate = (values) => {
   return errors;
 }
 
-const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
+const renderTextAreaField = ({
+    input, label,
+    meta: { touched, error, warning }, ...rest
+  }) => (
   <div>
     <label>{label}</label>
     <div>
-      <input {...input} placeholder={label} type={type}/>
+      <textarea form="AddPostForm" cols="35" wrap="soft" {...input} {...rest} />
       {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
     </div>
   </div>
@@ -28,9 +31,9 @@ class AddPostForm extends Component {
     return (
       <div>
         <h1>I am AddPost.</h1>
-        <form onSubmit={handleSubmit}>
+        <form id="AddPostForm" onSubmit={handleSubmit}>
           <div>
-            <Field name="content" type="text" component={renderField} label="Content"/>
+            <Field name="content" placeholder="input something" component={renderTextAreaField} label="Content" />
           </div>
           <button type="submit">Submit</button>
         </form>

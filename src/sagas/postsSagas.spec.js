@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import { call, put, select, take, fork} from 'redux-saga/effects'
 import * as postsService from '../services/faceblock/postsApis'
 import postsActions from '../actions/postsActions'
+import otherActions from '../actions/otherActions'
 import { getPostsForHomePageByTime } from '../selectors/postsSelectors'
 import { posts } from '../mockDatas/data'
 const postsSagas = require('./postsSagas').private;
@@ -19,7 +20,7 @@ describe('#fetchPosts()', () => {
       put(postsActions.fetchPostsSuccess(response))
     );
     expect(iter.throw(error).value).to.deep.equal(
-      put(postsActions.fetchPostsError(error))
+      put(otherActions.setError(error))
     );
   });
 });

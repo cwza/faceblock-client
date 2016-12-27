@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
 import * as postsSelectors from '../selectors/postsSelectors'
-import Post from '../components/Post'
 import AddPostForm from '../components/AddPostForm'
+import PostList from '../components/PostList'
 
 let queryStr = 'q=userId:(1, 2)&sort=createTime&order=desc&limit=5';
 // let queryParams = {userIds: [1], contentContains: '#cwz', sort: 'createTime', order: 'desc', limit: 5};
@@ -12,23 +12,16 @@ class HomePage extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  componentDidMount() {
-    if(this.props.posts && this.props.posts.length === 0)
-      this.props.fetchOldPostsStart();
-  }
   handleSubmit(values) {
-    // window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`)
     this.props.createPostStart(values);
   }
   render() {
-    let { posts } = this.props;
+    let { posts, fetchOldPostsStart, fetchNewPostsStart } = this.props;
     return (
       <div>
         <h1>I am Home Page.</h1>
-        <AddPostForm onSubmit={this.handleSubmit}/>
-        <button onClick={this.props.fetchNewPostsStart}>Load New</button>
-        {posts.map((post, i) => <Post key={i} i={i} post={post} />)}
-        <button onClick={this.props.fetchOldPostsStart}>Load Old</button>
+        <AddPostForm onSubmit={this.handleSubmit} />
+        <PostList posts={posts} fetchOldPostsStart={fetchOldPostsStart} fetchNewPostsStart={fetchNewPostsStart} />
       </div>
     )
   }
