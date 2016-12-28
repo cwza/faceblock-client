@@ -24,6 +24,11 @@ class PostDetailPage extends Component {
   }
 }
 
+PostDetailPage.propTypes = {
+  post: React.PropTypes.object.isRequired,
+  handleCloseModal: React.PropTypes.func,
+};
+
 const mapStateToProps = (state) => {
   return {
   }

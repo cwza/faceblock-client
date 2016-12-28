@@ -42,6 +42,10 @@ class AddPostForm extends Component {
   }
 }
 
+AddPostForm.propTypes = {
+  onSubmit: React.PropTypes.func.isRequired,
+}
+
 export default reduxForm({
   form: 'AddPost', // a unique name for this form
   validate,

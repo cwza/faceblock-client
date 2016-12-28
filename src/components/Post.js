@@ -14,4 +14,10 @@ class Post extends Component {
   }
 }
 
+Post.propTypes = {
+  post: React.PropTypes.object.isRequired,
+  onClick: React.PropTypes.func,
+  handleDeletePost: React.PropTypes.func.isRequired,
+}
+
 export default Post;

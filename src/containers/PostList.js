@@ -63,6 +63,12 @@ class PostList extends Component {
   }
 }
 
+PostList.propTypes = {
+  posts: React.PropTypes.array,
+  fetchOldPostsStart: React.PropTypes.func,
+  fetchNewPostsStart: React.PropTypes.func,
+}
+
 const mapStateToProps = (state) => {
   return {
   }
