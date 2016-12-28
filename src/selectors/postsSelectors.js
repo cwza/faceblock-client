@@ -35,7 +35,7 @@ const getPostsForHomePageByTime = createSelector(
     let userIds = [...friendsIds, selfUser.id];
     let result = posts.filter(post => userIds.includes(post.userId))
       .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
-    console.log('getPostsForHomePageByTime: ', result);
+    // console.log('getPostsForHomePageByTime: ', result);
     return result;
   }
 );

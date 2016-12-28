@@ -12,3 +12,11 @@ describe('#parseTimeStrFieldToDate()', () => {
     expect(updateTimeType).to.equal('[object Date]');
   });
 });
+
+describe('#createUrlByParams()', () => {
+  it('should return paramized url', () => {
+    let params = {aaa: '111', bbb: '222'};
+    let result = utils.createUrlByParams('http://localhost:3000/?', params);
+    expect(result).to.equal('http://localhost:3000/?aaa=111&bbb=222');
+  });
+});

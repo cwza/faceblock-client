@@ -1,0 +1,30 @@
+import React, { Component } from 'react'
+import {getParamsFromHash, getUserInfo} from '../services/google/apis'
+
+class GoogleOauth2Callback extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {userInfo: {}};
+    this.params = getParamsFromHash(this.props.location.hash);
+    this.handleGetUserInfo = this.handleGetUserInfo.bind(this);
+    this.handleGetUserInfo()
+  }
+  handleGetUserInfo() {
+    getUserInfo(this.params.accessToken).then(response => {
+      this.setState({userInfo: response.response});
+    })
+  }
+  render() {
+    return (
+      <div>
+        <h1>{JSON.stringify(this.params, null, 2)}</h1>
+        <h1>{JSON.stringify(this.state.userInfo, null, 2)}</h1>
+      </div>
+    )
+  }
+}
+
+GoogleOauth2Callback.propTypes = {
+}
+
+export default GoogleOauth2Callback;

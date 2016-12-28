@@ -1,6 +1,6 @@
 import { camelizeKeys } from 'humps'
-import 'isomorphic-fetch'
 import { API_ROOT } from './utilsApis'
+import 'isomorphic-fetch'
 
 // const mockFetchPosts = (endpoint) => {
 //   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;

@@ -65,7 +65,8 @@
     "redux-form": "^6.4.1",
     "redux-logger": "^2.7.4",
     "redux-saga": "^0.13.0",
-    "reselect": "^2.5.4"
+    "reselect": "^2.5.4",
+    "whatwg-fetch": "^1.0.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
