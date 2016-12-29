@@ -4,20 +4,10 @@ import otherActions from '../actions/otherActions'
 import * as postsService from '../services/faceblock/postsApis'
 import * as usersSelectors from '../selectors/usersSelectors'
 
-
-function* fetchPosts(queryStr) {
+function* callPostsApi(apiName, args) {
   try {
-    let response = yield call(postsService.fetchPosts, queryStr);
-    yield put(postsActions.fetchPostsSuccess(response));
-  } catch(error) {
-    yield put(otherActions.setError({error}))
-  }
-}
-
-function* createPost(data) {
-  try {
-    let response = yield call(postsService.createPost, data);
-    yield put(postsActions.createPostSuccess(response));
+    let response = yield call(postsService[apiName], args);
+    yield put(postsActions[apiName + 'Success'](response));
   } catch(error) {
     yield put(otherActions.setError({error}))
   }
@@ -51,7 +41,8 @@ function* watchFetchOldPostsStart() {
   while(true) {
     let {payload} = yield take(postsActions.fetchOldPostsStart().type);
     let queryStr = yield* getFetchOldPostsQueryStr(payload.queryStr, payload.postsSelector);
-    yield fork(fetchPosts, queryStr);
+    yield fork(callPostsApi, 'fetchPosts', queryStr);
+    // yield fork(fetchPosts, queryStr);
   }
 }
 
@@ -59,7 +50,7 @@ function* watchFetchNewPostsStart() {
   while(true) {
     let {payload} = yield take(postsActions.fetchNewPostsStart().type);
     let queryStr = yield* getFetchNewPostsQueryStr(payload.queryStr, payload.postsSelector);
-    yield fork(fetchPosts, queryStr);
+    yield fork(callPostsApi, 'fetchPosts',queryStr);
   }
 }
 
@@ -67,7 +58,7 @@ function* watchCreatePostStart() {
   while(true) {
     let {payload} = yield take(postsActions.createPostStart().type);
     let selfId = yield select(usersSelectors.getSelfId);
-    yield fork(createPost, {...payload, userId: selfId});
+    yield fork(callPostsApi, 'createPost', {...payload, userId: selfId});
   }
 }
 
@@ -80,5 +71,5 @@ function* watchDeletePostStart() {
 
 export default {watchFetchOldPostsStart, watchFetchNewPostsStart, watchCreatePostStart, watchDeletePostStart};
 if(process.env.NODE_ENV !== 'production') {
-  module.exports.private = {fetchPosts, getFetchOldPostsQueryStr, watchFetchOldPostsStart};
+  module.exports.private = {callPostsApi, getFetchOldPostsQueryStr, watchFetchOldPostsStart};
 }

@@ -6,18 +6,21 @@ const createUrlByParams = (base, params) => {
 }
 
 const parseTimeStrFieldToDate = (obj, fields) => {
-  let result = {...obj};
-  Object.keys(obj).filter(key => fields.includes(key))
-    .forEach(key => result[key] = new Date(obj[key]))
-  return result;
+  return Object.keys(obj)
+    .filter(key => fields.includes(key))
+    .reduce((result, key) => {
+      result[key] = new Date(obj[key])
+      return result;
+    }, {...obj});
 }
 
 let deletePropertiesFromObject = (obj, properties) => {
-  let returnedObj = {};
-  Object.keys(obj)
+  return Object.keys(obj)
     .filter(key => !properties.includes(key))
-    .forEach(key => returnedObj[key] = obj[key]);
-  return returnedObj;
+    .reduce((result, key) => {
+      result[key] = obj[key];
+      return result;
+    }, {});
 }
 
 export {parseTimeStrFieldToDate, deletePropertiesFromObject, createUrlByParams};

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { call, put, select, take, fork} from 'redux-saga/effects'
+import { call, put, select, take} from 'redux-saga/effects'
 import * as postsService from '../services/faceblock/postsApis'
 import postsActions from '../actions/postsActions'
 import otherActions from '../actions/otherActions'
@@ -12,7 +12,7 @@ describe('#fetchPosts()', () => {
     let queryStr = 'q=userId:(1)&sort=createTime&order=desc&limit=5';
     let response = {response: {}};
     let error = {error: {}};
-    let iter = postsSagas.fetchPosts(queryStr);
+    let iter = postsSagas.callPostsApi('fetchPosts', queryStr);
     expect(iter.next().value).to.deep.equal(
       call(postsService.fetchPosts, queryStr)
     );
