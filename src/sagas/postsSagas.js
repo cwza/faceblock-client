@@ -7,7 +7,7 @@ import * as usersSelectors from '../selectors/usersSelectors'
 function* callPostsApi(apiName, args) {
   try {
     let response = yield call(postsService[apiName], args);
-    yield put(postsActions[apiName + 'Success'](response));
+    yield put(postsActions[apiName + 'Success']({response}));
   } catch(error) {
     yield put(otherActions.setError({error}))
   }

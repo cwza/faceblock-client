@@ -5,9 +5,10 @@ class GoogleOauth2Callback extends Component {
   constructor(props) {
     super(props);
     this.state = {userInfo: {}};
-    this.params = getParamsFromHash(this.props.location.hash);
     this.handleGetUserInfo = this.handleGetUserInfo.bind(this);
-    this.handleGetUserInfo()
+    this.params = getParamsFromHash(this.props.location.hash);
+  }
+  componentDidMount() {
   }
   handleGetUserInfo() {
     getUserInfo(this.params.accessToken).then(response => {
@@ -18,7 +19,6 @@ class GoogleOauth2Callback extends Component {
     return (
       <div>
         <h1>{JSON.stringify(this.params, null, 2)}</h1>
-        <h1>{JSON.stringify(this.state.userInfo, null, 2)}</h1>
       </div>
     )
   }
