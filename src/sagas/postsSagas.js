@@ -78,7 +78,7 @@ function* watchDeletePostStart() {
   }
 }
 
-export {watchFetchOldPostsStart, watchFetchNewPostsStart, watchCreatePostStart, watchDeletePostStart};
+export default {watchFetchOldPostsStart, watchFetchNewPostsStart, watchCreatePostStart, watchDeletePostStart};
 if(process.env.NODE_ENV !== 'production') {
   module.exports.private = {fetchPosts, getFetchOldPostsQueryStr, watchFetchOldPostsStart};
 }
