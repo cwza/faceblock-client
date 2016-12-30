@@ -16,7 +16,7 @@ class PostList extends Component {
       modalPost: {},
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     if(this.props.posts && this.props.posts.length === 0)
       this.props.fetchOldPostsStart();
   }

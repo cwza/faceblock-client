@@ -13,7 +13,7 @@ Redux state like:
     faceblock: {
       entities: {
         posts: {
-          items: {}
+          items: {},
           isFetching: false
         }
       }
@@ -21,7 +21,12 @@ Redux state like:
   },
   components: {},
   localStorage: {
-    userId, faceblockToken
+    authentication: {
+      item {
+        userId, faceblockToken
+      },
+      isFetching
+    }
   }
 }
 ```

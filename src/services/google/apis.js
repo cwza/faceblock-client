@@ -34,7 +34,7 @@ const getUserInfo = (token) => {
       return response.json().then(json => ({json, response}));
     }).then(({json, response}) => {
       if(!response.ok) return Promise.reject(json.error);
-      return {response: camelizeKeys(json)};
+      return camelizeKeys(json);
     })
 }
 

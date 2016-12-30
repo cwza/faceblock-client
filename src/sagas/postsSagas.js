@@ -4,9 +4,9 @@ import otherActions from '../actions/otherActions'
 import * as postsService from '../services/faceblock/postsApis'
 import * as usersSelectors from '../selectors/usersSelectors'
 
-function* callPostsApi(apiName, args) {
+function* callPostsApi(apiName, ...args) {
   try {
-    let response = yield call(postsService[apiName], args);
+    let response = yield call(postsService[apiName], ...args);
     yield put(postsActions[apiName + 'Success']({response}));
   } catch(error) {
     yield put(otherActions.setError({error}))

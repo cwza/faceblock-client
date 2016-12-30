@@ -8,4 +8,9 @@ const getFaceblockEntities = (state={}) => {
   return {};
 }
 
-export { getFaceblockEntities, getError };
+const getAuthentication = (state={}) => {
+  if(state.localStorage && state.localStorage.authentication && state.localStorage.authentication.item)
+    return state.localStorage.authentication;
+}
+
+export { getFaceblockEntities, getError , getAuthentication};

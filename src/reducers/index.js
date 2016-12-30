@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux'
 import postsReducer from './postsReducer'
+import usersReducer from './usersReducer'
+import authenticationReducer from './authenticationReducer'
 import { reducer as formReducer } from 'redux-form'
 import errorReducer from './errorReducer'
+import authenticationActions from '../actions/authenticationActions'
 
 const entitiesReducer = combineReducers({
-  posts: postsReducer
+  posts: postsReducer,
+  users: usersReducer,
 });
 
 const faceblockReducer = combineReducers({
@@ -15,11 +19,23 @@ const apisReducer = combineReducers({
   faceblock: faceblockReducer
 });
 
-const rootReducer = combineReducers({
+const localStorageReducer = combineReducers({
+  authentication: authenticationReducer
+});
+
+const appReducer = combineReducers({
   apis: apisReducer,
   form: formReducer,
   error: errorReducer,
+  localStorage: localStorageReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === authenticationActions.logout().type) {
+    state = {};
+  }
+  return appReducer(state, action)
+}
 
 export default rootReducer;
 // export default function counter(state = 0, action) {

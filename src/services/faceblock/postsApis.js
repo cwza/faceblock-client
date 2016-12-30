@@ -1,5 +1,5 @@
 import { camelizeKeys } from 'humps'
-import { API_ROOT } from './utilsApis'
+import { API_ROOT, getReqHeaders } from './utilsApis'
 import 'isomorphic-fetch'
 
 // const mockFetchPosts = (endpoint) => {
@@ -12,13 +12,15 @@ import 'isomorphic-fetch'
 const fetchPosts = (queryStr) => {
   const fullUrl = API_ROOT + 'posts?' + queryStr;
   console.log('fetch posts url: ', fullUrl);
-  return fetch(fullUrl)
-    .then(response => {
-      return response.json().then(json => ({json, response}));
-    }).then(({json, response}) => {
-      if(!response.ok) return Promise.reject(json.error);
-      return camelizeKeys(json);
-    })
+  return fetch(fullUrl, {
+    method: "GET",
+    headers: getReqHeaders(),
+  }).then(response => {
+    return response.json().then(json => ({json, response}));
+  }).then(({json, response}) => {
+    if(!response.ok) return Promise.reject(json.error);
+    return camelizeKeys(json);
+  })
 }
 
 const createPost = (data) => {
@@ -28,9 +30,7 @@ const createPost = (data) => {
   return fetch(fullUrl, {
     method: "POST",
     body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: getReqHeaders(),
     credentials: "same-origin"
   }).then(response => {
     return response.json().then(json => ({json, response}));
@@ -45,6 +45,7 @@ const deletePost = (postId) => {
   console.log('delete post url: ', fullUrl);
   return fetch(fullUrl, {
     method: "DELETE",
+    headers: getReqHeaders(),
     credentials: "same-origin"
   }).then(response => {
     if(!response.ok) return response.json();

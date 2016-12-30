@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Provider } from 'react-redux'
 import { Router, RouterContext } from 'react-router'
-import DevTools from './DevTools'
+// import DevTools from './DevTools'
 
 export default class Root extends Component {
   render() {
@@ -15,7 +15,8 @@ export default class Root extends Component {
             ? <RouterContext {...renderProps} />
             : <Router history={history} routes={routes} />
           }
-          <DevTools />
+          {//<DevTools />
+          }
         </div>
       </Provider>
     )
