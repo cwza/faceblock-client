@@ -3,7 +3,7 @@ import createLogger from 'redux-logger'
 import createSagaMiddleware, { END } from 'redux-saga'
 import DevTools from '../containers/DevTools'
 import rootReducer from '../reducers'
-
+import persistState from 'redux-localstorage'
 
 
 export default function configureStore(initialState) {
@@ -15,8 +15,9 @@ export default function configureStore(initialState) {
     compose(
       applyMiddleware(
         sagaMiddleware,
-        createLogger()
+        createLogger(),
       ),
+      persistState('localStorage'),
       DevTools.instrument()
     )
   )

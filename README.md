@@ -5,3 +5,23 @@ Core:
 
 Test:
   Jest
+
+Redux state like:
+``` js
+{
+  apis: {
+    faceblock: {
+      entities: {
+        posts: {
+          items: {}
+          isFetching: false
+        }
+      }
+    }   
+  },
+  components: {},
+  localStorage: {
+    userId, faceblockToken
+  }
+}
+```

@@ -19,6 +19,7 @@ import rootSaga from './sagas'
 //   }
 // }
 const defaultState = {
+  localStorage: {userId: 1, faceblockToken: 'xxx'}
 };
 
 const store = configureStore(defaultState)
