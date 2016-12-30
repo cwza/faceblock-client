@@ -1,24 +1,30 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createLogger from 'redux-logger'
 import createSagaMiddleware, { END } from 'redux-saga'
-import DevTools from '../containers/DevTools'
+// import DevTools from '../containers/DevTools'
 import rootReducer from '../reducers'
 import persistState from 'redux-localstorage'
 
 
 export default function configureStore(initialState) {
+  const composeEnhancers =
+    typeof window === 'object' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        // Specify here name, actionsBlacklist, actionsCreators and other options
+      }) : compose;
   const sagaMiddleware = createSagaMiddleware()
 
   const store = createStore(
     rootReducer,
     initialState,
-    compose(
+    composeEnhancers(
       applyMiddleware(
         sagaMiddleware,
         createLogger(),
       ),
       persistState('localStorage'),
-      DevTools.instrument()
+      // DevTools.instrument()
     )
   )
 
