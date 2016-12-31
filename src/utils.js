@@ -14,7 +14,7 @@ const parseTimeStrFieldToDate = (obj, fields) => {
     }, {...obj});
 }
 
-let deletePropertiesFromObject = (obj, properties) => {
+const deletePropertiesFromObject = (obj, properties) => {
   return Object.keys(obj)
     .filter(key => !properties.includes(key))
     .reduce((result, key) => {

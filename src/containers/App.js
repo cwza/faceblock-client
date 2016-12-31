@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { getError } from '../selectors/utilsSelectors'
 import Error from '../components/Error'
-import {getOauthLoginUrl} from '../services/google/apis'
 import authenticationActions from '../actions/authenticationActions'
-import { getAuthentication } from '../selectors/utilsSelectors'
 
-const googleLoginUrl = getOauthLoginUrl();
 class App extends Component {
   constructor(props) {
     super(props);
@@ -15,17 +12,21 @@ class App extends Component {
   }
   handleLogout() {
     this.props.logout();
+    browserHistory.push('/');
+    window.location.reload();
   }
   componentDidUpdate() {
     let { error } = this.props;
-    if(error && error.name === 'AUTHENTICATION_ERROR') window.location = googleLoginUrl;
+    if(error && error.name === 'AUTHENTICATION_ERROR') {
+      this.handleLogout();
+    }
   }
   render() {
     let { error } = this.props;
     return (
       <div>
         <h1>I am App Page.</h1>
-        <a href={googleLoginUrl}>Login</a>
+        <Link to="/authentication" activeClassName="active">Login</Link>
         <button onClick={this.handleLogout}>Logout</button>
         <ul role="navigation">
           <li><Link to="/" onlyActiveOnIndex={true} activeClassName="active">Home</Link></li>
@@ -41,7 +42,6 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     error: getError(state),
-    authenticationItem: getAuthentication(state).item,
   }
 }
 

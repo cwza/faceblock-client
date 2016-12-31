@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {getParamsFromHash } from '../services/google/apis'
 import authenticationActions from '../actions/authenticationActions'
 import { getAuthentication } from '../selectors/utilsSelectors'
+import Loading from '../components/Loading'
 
 class GoogleOauth2Callback extends Component {
   constructor(props) {
@@ -23,9 +24,11 @@ class GoogleOauth2Callback extends Component {
     this.props.router.push('/');
   }
   render() {
+    let isFetching = this.props.authentication.isFetching;
     return (
       <div>
         <h1>{JSON.stringify(this.params, null, 2)}</h1>
+        {isFetching && <Loading />}
       </div>
     )
   }
