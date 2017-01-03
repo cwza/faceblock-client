@@ -4,6 +4,7 @@ import {getParamsFromHash } from '../services/google/apis'
 import authenticationActions from '../actions/authenticationActions'
 import { getAuthentication } from '../selectors/utilsSelectors'
 import Loading from '../components/Loading'
+import { routerActions } from 'react-router-redux'
 
 class GoogleOauth2Callback extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class GoogleOauth2Callback extends Component {
       this.redirectToHomePage();
   }
   redirectToHomePage() {
-    this.props.router.push('/');
+    this.props.routerPush('/');
   }
   render() {
     let isFetching = this.props.authentication.isFetching;
@@ -34,12 +35,6 @@ class GoogleOauth2Callback extends Component {
   }
 }
 
-GoogleOauth2Callback.propTypes = {
-  router: React.PropTypes.shape({
-    push: React.PropTypes.func.isRequired
-  }).isRequired
-}
-
 const mapStateToProps = (state) => {
   return {
     authentication: getAuthentication(state),
@@ -48,4 +43,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   loginStart: authenticationActions.loginStart,
+  routerPush: routerActions.push,
 })(GoogleOauth2Callback);

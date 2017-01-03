@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Link, browserHistory } from 'react-router'
+import { Link } from 'react-router'
+import { routerActions } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { getError } from '../selectors/utilsSelectors'
 import Error from '../components/Error'
@@ -12,7 +13,7 @@ class App extends Component {
   }
   handleLogout() {
     this.props.logout();
-    browserHistory.push('/');
+    this.props.routerPush('/');
     window.location.reload();
   }
   componentDidUpdate() {
@@ -47,4 +48,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   logout: authenticationActions.logout,
+  routerPush: routerActions.push,
 })(App);

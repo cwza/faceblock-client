@@ -4,6 +4,8 @@ import createSagaMiddleware, { END } from 'redux-saga'
 // import DevTools from '../containers/DevTools'
 import rootReducer from '../reducers'
 import persistState from 'redux-localstorage'
+import { routerMiddleware } from 'react-router-redux'
+import { browserHistory } from 'react-router'
 
 
 export default function configureStore(initialState) {
@@ -14,6 +16,7 @@ export default function configureStore(initialState) {
         // Specify here name, actionsBlacklist, actionsCreators and other options
       }) : compose;
   const sagaMiddleware = createSagaMiddleware()
+  const reduxRouterMiddleware = routerMiddleware(browserHistory)
 
   const store = createStore(
     rootReducer,
@@ -21,6 +24,7 @@ export default function configureStore(initialState) {
     composeEnhancers(
       applyMiddleware(
         sagaMiddleware,
+        reduxRouterMiddleware,
         createLogger(),
       ),
       persistState('localStorage'),

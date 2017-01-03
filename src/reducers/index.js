@@ -5,6 +5,7 @@ import authenticationReducer from './authenticationReducer'
 import { reducer as formReducer } from 'redux-form'
 import errorReducer from './errorReducer'
 import authenticationActions from '../actions/authenticationActions'
+import { routerReducer } from 'react-router-redux'
 
 const entitiesReducer = combineReducers({
   posts: postsReducer,
@@ -28,11 +29,12 @@ const appReducer = combineReducers({
   form: formReducer,
   error: errorReducer,
   localStorage: localStorageReducer,
+  routing: routerReducer,
 });
 
 const rootReducer = (state, action) => {
   if (action.type === authenticationActions.logout().type) {
-    state = {};
+    state = {routing: state.routing};
   }
   return appReducer(state, action)
 }
