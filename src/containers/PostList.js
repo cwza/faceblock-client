@@ -67,6 +67,7 @@ PostList.propTypes = {
   posts: React.PropTypes.array,
   fetchOldPostsStart: React.PropTypes.func,
   fetchNewPostsStart: React.PropTypes.func,
+  deletePostStart: React.PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => {

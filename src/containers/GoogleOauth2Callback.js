@@ -34,6 +34,11 @@ class GoogleOauth2Callback extends Component {
     )
   }
 }
+GoogleOauth2Callback.propTypes = {
+  authentication: React.PropTypes.object,
+  loginStart: React.PropTypes.func.isRequired,
+  routerPush: React.PropTypes.func.isRequired,
+}
 
 const mapStateToProps = (state) => {
   return {

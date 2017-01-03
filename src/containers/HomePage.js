@@ -27,6 +27,13 @@ class HomePage extends Component {
   }
 }
 
+HomePage.propTypes = {
+  posts: React.PropTypes.array,
+  fetchOldPostsStart: React.PropTypes.func.isRequired,
+  fetchNewPostsStart: React.PropTypes.func.isRequired,
+  createPostStart: React.PropTypes.func.isRequired,
+}
+
 const mapStateToProps = (state) => {
   return {
     posts: postsSelectors.getPostsForHomePageByTime(state),

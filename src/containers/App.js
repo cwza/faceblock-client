@@ -40,6 +40,13 @@ class App extends Component {
   }
 }
 
+App.propTypes = {
+  error: React.PropTypes.object,
+  handleCloseModal: React.PropTypes.func,
+  logout: React.PropTypes.func.isRequired,
+  routerPush: React.PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => {
   return {
     error: getError(state),
