@@ -8,7 +8,10 @@ describe('#getSelfUser()', () => {
       items: usersItems,
       isFetching: false
     }
-    let state = {apis: {faceblock: {entities: {users}}}};
+    let state = {
+      apis: {faceblock: {entities: {users}}},
+      localStorage: {authentication: {item: {userId: 1, faceblockToken: 'xxx'}, isFetching: false}}
+    };
     let selfUser = usersSelectors.getSelfUser(state);
     let expected = usersItems[usersSelectors.getSelfId(state)];
     console.log('selfUser: ', selfUser);

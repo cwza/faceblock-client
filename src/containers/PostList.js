@@ -34,13 +34,13 @@ class PostList extends Component {
     });
   }
   render() {
-    let { posts } = this.props;
+    let { posts, fetchNewPostsStart, fetchOldPostsStart } = this.props;
     return (
       <div>
         <h1>I am PostList Page.</h1>
-        <button onClick={this.props.fetchNewPostsStart}>Load New</button>
+        {fetchNewPostsStart && <button onClick={fetchNewPostsStart}>Load New</button>}
         {this.renderPostList(posts)}
-        <button onClick={this.props.fetchOldPostsStart}>Load Old</button>
+        {fetchOldPostsStart && <button onClick={fetchOldPostsStart}>Load Old</button>}
       </div>
     )
   }

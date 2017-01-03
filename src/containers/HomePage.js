@@ -5,8 +5,8 @@ import * as postsSelectors from '../selectors/postsSelectors'
 import AddPostForm from '../components/AddPostForm'
 import PostList from './PostList'
 
-let queryStr = 'q=userId:(1, 2)&sort=createTime&order=desc&limit=5';
-// let queryParams = {userIds: [1], contentContains: '#cwz', sort: 'createTime', order: 'desc', limit: 5};
+// TODO getQueryStr from compute
+let queryStr = 'q=userId:(1, 2) and replyTo:(null)&sort=createTime&order=desc&limit=5';
 class HomePage extends Component {
   constructor(props) {
     super(props);

@@ -10,7 +10,6 @@ const getUsersObject = createSelector(
   }
 );
 
-//TODO: getRealUsersItems
 const getUsersItems = createSelector(
   [getUsersObject],
   (usersObject={}) => {
@@ -20,7 +19,6 @@ const getUsersItems = createSelector(
   }
 );
 
-//TODO: implement this
 const getSelfId = createSelector(
   [getAuthentication],
   (authentication={}) => {

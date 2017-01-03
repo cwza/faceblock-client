@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
 import { getPostById, getIsFetching } from '../selectors/postsSelectors'
 import { routerActions } from 'react-router-redux'
+import CommentList from './CommentList'
 
 class PostDetailPage extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class PostDetailPage extends Component {
       <div>
         <h1>I am PostDetailPage.</h1>
         <Post post={post} handleDeletePost={() => this.handleDeletePost(post.id)}/>
+        <CommentList postId={post.id}/>
       </div>
     )
   }
