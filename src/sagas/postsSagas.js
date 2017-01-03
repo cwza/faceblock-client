@@ -22,15 +22,15 @@ function* deletePost(postId) {
   }
 }
 
-function* getFetchOldPostsQueryStr(queryStr, postsSelector) {
-  let posts = yield select(postsSelector);
+function* getFetchOldPostsQueryStr(queryStr, postsSelector, props) {
+  let posts = yield select(postsSelector, props);
   if(posts.length === 0 || posts === undefined)
     return queryStr;
   return queryStr + '&underNearId=' + posts[posts.length - 1].id;
 }
 
-function* getFetchNewPostsQueryStr(queryStr, postsSelector) {
-  let posts = yield select(postsSelector);
+function* getFetchNewPostsQueryStr(queryStr, postsSelector, props) {
+  let posts = yield select(postsSelector, props);
   if(posts.length === 0 || posts === undefined)
     return queryStr;
   return queryStr + '&upperNearId=' + posts[0].id;
@@ -40,7 +40,7 @@ function* getFetchNewPostsQueryStr(queryStr, postsSelector) {
 function* watchFetchOldPostsStart() {
   while(true) {
     let {payload} = yield take(postsActions.fetchOldPostsStart().type);
-    let queryStr = yield* getFetchOldPostsQueryStr(payload.queryStr, payload.postsSelector);
+    let queryStr = yield* getFetchOldPostsQueryStr(payload.queryStr, payload.postsSelector, payload.props);
     yield fork(callPostsApi, 'fetchPosts', queryStr);
     // yield fork(fetchPosts, queryStr);
   }

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
-import * as postsSelectors from '../selectors/postsSelectors'
+import { getPostsForHomePageByTime } from '../selectors/postsSelectors'
 import AddPostForm from '../components/AddPostForm'
 import PostList from './PostList'
 
-// TODO getQueryStr from compute
-let queryStr = 'q=userId:(1, 2) and replyTo:(null)&sort=createTime&order=desc&limit=5';
+// TODO getQueryStr from compute, and add or #hashtag about self search
+let queryStr = 'q=userId:(1,2,4) and replyTo:(null)&sort=createTime&order=desc&limit=5';
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +21,9 @@ class HomePage extends Component {
       <div>
         <h1>I am Home Page.</h1>
         <AddPostForm onSubmit={this.handleSubmit} />
-        <PostList posts={posts} fetchOldPostsStart={fetchOldPostsStart} fetchNewPostsStart={fetchNewPostsStart} />
+        <PostList posts={posts}
+          fetchOldPostsStart={() => fetchOldPostsStart(queryStr, getPostsForHomePageByTime, this.props)}
+          fetchNewPostsStart={() => fetchNewPostsStart(queryStr, getPostsForHomePageByTime, this.props)} />
       </div>
     )
   }
@@ -34,14 +36,14 @@ HomePage.propTypes = {
   createPostStart: React.PropTypes.func.isRequired,
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   return {
-    posts: postsSelectors.getPostsForHomePageByTime(state),
+    posts: getPostsForHomePageByTime(state, props),
   }
 }
 
 export default connect(mapStateToProps, {
-  fetchOldPostsStart: () => postsActions.fetchOldPostsStart(queryStr, postsSelectors.getPostsForHomePageByTime),
-  fetchNewPostsStart: () => postsActions.fetchNewPostsStart(queryStr, postsSelectors.getPostsForHomePageByTime),
+  fetchOldPostsStart: postsActions.fetchOldPostsStart,
+  fetchNewPostsStart: postsActions.fetchNewPostsStart,
   createPostStart: postsActions.createPostStart,
 })(HomePage);

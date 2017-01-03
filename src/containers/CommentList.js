@@ -24,7 +24,7 @@ class CommentList extends Component {
       <div>
         <h1>I am CommentList.</h1>
         <AddPostForm onSubmit={this.handleSubmit} />
-        <PostList posts={comments} fetchOldPostsStart={() => fetchOldPostsStart(this.genQueryStr(), () => getPostsForCommentList(this.props))} />
+        <PostList posts={comments} fetchOldPostsStart={() => fetchOldPostsStart(this.genQueryStr(), getPostsForCommentList, this.props)} />
       </div>
     )
   }

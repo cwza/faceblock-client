@@ -43,8 +43,8 @@ const getAllPosts = createSelector(
 
 //TODO: if post.content contains hashtag about self name, they should be get too
 const getPostsForHomePageByTime = createSelector(
-  [getAllPosts, getFriendsIds, getSelfUser],
-  (posts=[], friendsIds=[], selfUser={}) => {
+  [getAllPosts, getFriendsIds, getSelfUser, getProps],
+  (posts=[], friendsIds=[], selfUser={}, props) => {
     let userIds = [...friendsIds, selfUser.id];
     let result = posts.filter(post => userIds.includes(post.userId))
       .filter(post => post.replyTo === null)
@@ -57,10 +57,26 @@ const getPostsForHomePageByTime = createSelector(
 const getPostsForCommentList = createSelector(
   [getAllPosts, getProps],
   (posts=[], props) => {
+    console.log('props.postId: ', props.postId);
     let result = posts.filter(post => post.replyTo === props.postId)
       .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
     return result;
   }
 )
 
-export {getPostsForHomePageByTime, getAllPosts, getPostById, getIsFetching, getPostsForCommentList};
+//TODO: if post.content contains hashtag about self name, they should be get too
+const getPostsForUserPostsPage = createSelector(
+  [getAllPosts, getProps],
+  (posts=[], props) => {
+    console.log('props.params.userId: ', props.params.userId);
+    let result = posts.filter(post => post.userId.toString() === props.params.userId)
+      .filter(post => post.replyTo === null)
+      .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
+    return result;
+  }
+)
+
+export {
+  getPostsForHomePageByTime, getAllPosts, getPostById, getIsFetching, getPostsForCommentList,
+  getPostsForUserPostsPage,
+};
