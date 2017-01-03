@@ -29,9 +29,10 @@ describe('#callPostsApi() fetchPosts', () => {
 describe('#getFetchOldPostsQueryStr()', () => {
   it('should call getPostsForHomePageByTime selector and return new queryStr', () => {
     let queryStr = 'q=userId:(1)&sort=createTime&order=desc&limit=5';
-    let iter = postsSagas.getFetchOldPostsQueryStr(queryStr, getPostsForHomePageByTime);
+    let props = {};
+    let iter = postsSagas.getFetchOldPostsQueryStr(queryStr, getPostsForHomePageByTime, props);
     expect(iter.next().value).to.deep.equal(
-      select(getPostsForHomePageByTime)
+      select(getPostsForHomePageByTime, props)
     );
     expect(iter.next(posts).value).to.deep.equal(
       queryStr + '&underNearId=1'

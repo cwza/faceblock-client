@@ -5,7 +5,7 @@ test('#fetchOldPostsStart()', () => {
   let fetchOldPostsStart = postsActions.fetchOldPostsStart(queryStr)
   let expected = {
     type: 'FETCH_OLD_POSTS_START',
-    payload: {queryStr, postsSelector: undefined}
+    payload: {queryStr, postsSelector: undefined, props: undefined}
   }
   console.log('fetchOldPostsStart: ', fetchOldPostsStart);
   expect(fetchOldPostsStart).to.deep.equal(expected);
