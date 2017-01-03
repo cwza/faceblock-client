@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { getError } from '../selectors/utilsSelectors'
 import Error from '../components/Error'
 import authenticationActions from '../actions/authenticationActions'
+import { getAuthentication } from '../selectors/utilsSelectors'
 
 class App extends Component {
   constructor(props) {
@@ -23,12 +24,12 @@ class App extends Component {
     }
   }
   render() {
-    let { error } = this.props;
+    let { error, faceblockToken } = this.props;
     return (
       <div>
         <h1>I am App Page.</h1>
-        <Link to="/authentication" activeClassName="active">Login</Link>
-        <button onClick={this.handleLogout}>Logout</button>
+        { !faceblockToken && <Link to="/authentication" activeClassName="active">Login</Link> }
+        { faceblockToken && <button onClick={this.handleLogout}>Logout</button> }
         <ul role="navigation">
           <li><Link to="/" onlyActiveOnIndex={true} activeClassName="active">Home</Link></li>
           <li><Link to="/users" activeClassName="active">Users</Link></li>
@@ -42,14 +43,15 @@ class App extends Component {
 
 App.propTypes = {
   error: React.PropTypes.object,
-  handleCloseModal: React.PropTypes.func,
   logout: React.PropTypes.func.isRequired,
   routerPush: React.PropTypes.func.isRequired,
+  faceblockToken: React.PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
   return {
     error: getError(state),
+    faceblockToken: getAuthentication(state).item.faceblockToken
   }
 }
 

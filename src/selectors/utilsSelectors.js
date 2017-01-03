@@ -9,7 +9,7 @@ const getFaceblockEntities = (state={}) => {
 }
 
 const getAuthentication = (state={}) => {
-  if(state.localStorage && state.localStorage.authentication && state.localStorage.authentication.item)
+  if(state.localStorage && state.localStorage.authentication)
     return state.localStorage.authentication;
 }
 
