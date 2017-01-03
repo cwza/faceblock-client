@@ -2,6 +2,13 @@ import { createSelector } from 'reselect'
 import { getFaceblockEntities } from './utilsSelectors'
 import { getFriendsIds, getSelfUser } from './usersSelectors'
 
+const getPostById = (state, postId) => {
+  if(state.apis.faceblock.entities && state.apis.faceblock.entities.posts
+    && state.apis.faceblock.entities.posts.items && state.apis.faceblock.entities.posts.items[postId])
+    return state.apis.faceblock.entities.posts.items[postId];
+  return {};
+}
+
 const getPostsObject = createSelector(
   [getFaceblockEntities],
   (entities={}) => {
@@ -9,13 +16,15 @@ const getPostsObject = createSelector(
     return {};
   }
 );
-// const getIsFetching = createSelector(
-//   [getPostsObject],
-//   (postsObject={}) => {
-//     if(postsObject.isFetching) return postsObject.isFetching;
-//     return false;
-//   }
-// );
+
+const getIsFetching = createSelector(
+  [getPostsObject],
+  (postsObject={}) => {
+    if(postsObject.isFetching) return postsObject.isFetching;
+    return false;
+  }
+)
+
 const getPostsItems = createSelector(
   [getPostsObject],
   (postsObject={}) => {
@@ -40,4 +49,4 @@ const getPostsForHomePageByTime = createSelector(
   }
 );
 
-export {getPostsForHomePageByTime, getAllPosts};
+export {getPostsForHomePageByTime, getAllPosts, getPostById, getIsFetching};

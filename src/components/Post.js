@@ -1,22 +1,32 @@
 import React, { Component } from 'react'
 
 class Post extends Component {
+  constructor(props) {
+    super(props);
+    this.renderPost = this.renderPost.bind(this);
+  }
+  renderPost(post) {
+    if(post) {
+      return (
+        <div>
+          <button onClick={this.props.handleDeletePost}>Delete</button>
+          <div onClick={this.props.handlePostClick}>
+            <h1>{JSON.stringify(post, null, 2)}</h1>
+          </div>
+        </div>
+      )
+    }
+    return (<div></div>)
+  }
   render() {
     let { post } = this.props;
-    return (
-      <div>
-        <button onClick={this.props.handleDeletePost}>Delete</button>
-        <div onClick={this.props.onClick}>
-          <h1>{JSON.stringify(post, null, 2)}</h1>
-        </div>
-      </div>
-    )
+    return this.renderPost(post);
   }
 }
 
 Post.propTypes = {
-  post: React.PropTypes.object.isRequired,
-  onClick: React.PropTypes.func,
+  post: React.PropTypes.object,
+  handlePostClick: React.PropTypes.func,
   handleDeletePost: React.PropTypes.func.isRequired,
 }
 

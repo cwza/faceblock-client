@@ -32,7 +32,9 @@ const isFetchingReducer = (state = {}, action) => {
   switch(action.type) {
     case usersActions.fetchOldUsersStart().type:
     case usersActions.fetchNewUsersStart().type:
+    case authenticationActions.loginStart().type:
       return true;
+    case authenticationActions.loginSuccess().type:
     case usersActions.fetchUsersSuccess().type:
     case otherActions.setError().type:
       return false;

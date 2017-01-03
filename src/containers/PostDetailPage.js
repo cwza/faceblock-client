@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-// import { Link } from 'react-router'
 import Post from '../components/Post'
 import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
+import { getPostById, getIsFetching } from '../selectors/postsSelectors'
+import { routerActions } from 'react-router-redux'
 
 class PostDetailPage extends Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class PostDetailPage extends Component {
   }
   handleDeletePost(postId) {
     this.props.deletePostStart(postId);
-    this.props.handleCloseModal();
+    if(!this.props.isFetching)
+      this.props.routerBack();
   }
   render() {
     let { post } = this.props;
@@ -28,13 +30,18 @@ PostDetailPage.propTypes = {
   post: React.PropTypes.object,
   handleCloseModal: React.PropTypes.func,
   deletePostStart: React.PropTypes.func.isRequired,
+  isFetching: React.PropTypes.bool.isRequired,
+  routerBack: React.PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   return {
+    post: getPostById(state, props.params.postId),
+    isFetching: getIsFetching(state),
   }
 }
 
 export default connect(mapStateToProps, {
-  deletePostStart: postsActions.deletePostStart
+  deletePostStart: postsActions.deletePostStart,
+  routerBack: routerActions.goBack,
 })(PostDetailPage);

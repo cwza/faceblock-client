@@ -32,9 +32,13 @@ const itemsReducer = (state = {}, action) => {
 
 const isFetchingReducer = (state = false, action) => {
   switch(action.type) {
+    case postsActions.createPostStart().type:
+    case postsActions.deletePostStart().type:
     case postsActions.fetchOldPostsStart().type:
     case postsActions.fetchNewPostsStart().type:
       return true;
+    case postsActions.deletePostSuccess().type:
+    case postsActions.createPostSuccess().type:
     case postsActions.fetchPostsSuccess().type:
     case otherActions.setError().type:
       return false;
