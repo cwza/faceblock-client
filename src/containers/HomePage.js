@@ -10,16 +10,16 @@ let queryStr = 'q=userId:(1,2,21) and replyTo:(null)&sort=createTime&order=desc&
 class HomePage extends Component {
   componentDidMount() {
     if(this.props.posts && this.props.posts.length === 0)
-      this.props.fetchOldPostsStart(queryStr, getPostsForHomePageByTime, this.props);
+      this.props.fetchOldPostsStart(queryStr, getPostsForHomePageByTime);
   }
   handleAddPostSubmit = (values) => {
     this.props.createPostStart(values);
   }
   handleFetchOldPosts = () => {
-    this.props.fetchOldPostsStart(queryStr, getPostsForHomePageByTime, this.props);
+    this.props.fetchOldPostsStart(queryStr, getPostsForHomePageByTime);
   }
   handleFetchNewPosts = () => {
-    this.props.fetchNewPostsStart(queryStr, getPostsForHomePageByTime, this.props);
+    this.props.fetchNewPostsStart(queryStr, getPostsForHomePageByTime);
   }
   render() {
     let { posts } = this.props;
@@ -40,7 +40,7 @@ HomePage.propTypes = {
 
 const mapStateToProps = (state, props) => {
   return {
-    posts: getPostsForHomePageByTime(state, props),
+    posts: getPostsForHomePageByTime(state),
   }
 }
 

@@ -7,8 +7,9 @@ import postsActions from '../actions/postsActions'
 
 class CommentList extends Component {
   componentDidMount() {
+    let { postId } = this.props;
     if(this.props.comments && this.props.comments.length === 0)
-      this.props.fetchOldPostsStart(this.genQueryStr(), getPostsForCommentList, this.props);
+      this.props.fetchOldPostsStart(this.genQueryStr(), getPostsForCommentList, {postId});
   }
   genQueryStr = () => {
     return `q=replyTo:(${this.props.postId})&sort=createTime&order=desc&limit=5`;
@@ -17,16 +18,16 @@ class CommentList extends Component {
     values.replyTo = this.props.postId;
     this.props.createPostStart(values);
   }
-  handleFetchOldPosts = () => {
-    this.props.fetchOldPostsStart(this.genQueryStr(), getPostsForCommentList, this.props);
+  handleFetchOldPosts = (postId) => {
+    this.props.fetchOldPostsStart(this.genQueryStr(postId), getPostsForCommentList, {postId});
   }
   render() {
-    let { comments } = this.props;
+    let { comments, postId } = this.props;
     return (
       <div>
         <h1>I am CommentList.</h1>
         <AddPostForm onSubmit={this.handleAddPostSubmit} />
-        <PostList posts={comments} handleFetchOldPosts={this.handleFetchOldPosts} />
+        <PostList posts={comments} handleFetchOldPosts={() => this.handleFetchOldPosts(postId)} />
       </div>
     )
   }
@@ -38,7 +39,7 @@ CommentList.propTypes = {
 
 const mapStateToProps = (state, props) => {
   return {
-    comments: getPostsForCommentList(state, props)
+    comments: getPostsForCommentList(state, {postId: props.postId})
   }
 }
 

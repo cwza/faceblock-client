@@ -12,15 +12,15 @@ function* callUsersApi(apiName, ...args) {
   }
 }
 
-function* getFetchOldUsersQueryStr(queryStr, usersSelector, formName, fieldName) {
-  let users = yield select(usersSelector, formName, fieldName);
+function* getFetchOldUsersQueryStr(queryStr, usersSelector, selectorParams) {
+  let users = yield select(usersSelector, selectorParams);
   if(users.length === 0 || users === undefined)
     return queryStr;
   return queryStr + '&underNearId=' + users[users.length - 1].id;
 }
 
-function* getFetchNewUsersQueryStr(queryStr, usersSelector, formName, fieldName) {
-  let users = yield select(usersSelector, formName, fieldName);
+function* getFetchNewUsersQueryStr(queryStr, usersSelector, selectorParams) {
+  let users = yield select(usersSelector, selectorParams);
   if(users.length === 0 || users === undefined)
     return queryStr;
   return queryStr + '&upperNearId=' + users[0].id;
@@ -30,7 +30,7 @@ function* getFetchNewUsersQueryStr(queryStr, usersSelector, formName, fieldName)
 function* watchFetchOldUsersStart() {
   while(true) {
     let {payload} = yield take(usersActions.fetchOldUsersStart().type);
-    let queryStr = yield* getFetchOldUsersQueryStr(payload.queryStr, payload.usersSelector, payload.formName, payload.fieldName);
+    let queryStr = yield* getFetchOldUsersQueryStr(payload.queryStr, payload.usersSelector, payload.selectorParams);
     yield fork(callUsersApi, 'fetchUsers', queryStr);
     // yield fork(fetchUsers, queryStr);
   }
@@ -39,7 +39,7 @@ function* watchFetchOldUsersStart() {
 function* watchFetchNewUsersStart() {
   while(true) {
     let {payload} = yield take(usersActions.fetchNewUsersStart().type);
-    let queryStr = yield* getFetchNewUsersQueryStr(payload.queryStr, payload.usersSelector, payload.formName, payload.fieldName);
+    let queryStr = yield* getFetchNewUsersQueryStr(payload.queryStr, payload.usersSelector, payload.selectorParams);
     yield fork(callUsersApi, 'fetchUsers',queryStr);
   }
 }

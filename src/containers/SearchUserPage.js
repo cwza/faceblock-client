@@ -6,6 +6,10 @@ import { getUsersForSearchUserPage } from '../selectors/usersSelectors'
 import UserList from '../components/UserList'
 import usersActions from '../actions/usersActions'
 
+let selectorParams = {
+  formName: 'KeywordSearch',
+  fieldName: 'searchKeyword'
+}
 class SearchUserPage extends Component {
   componentDidMount() {
   }
@@ -14,15 +18,13 @@ class SearchUserPage extends Component {
   }
   handleSearchFormOnChange = (value) => {
     let { searchKeyword } = this.props;
-    this.props.fetchOldUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, 'KeywordSearch', 'searchKeyword');
+    this.props.fetchOldUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, selectorParams);
   }
-  handleFetchOldUsers = () => {
-    let { searchKeyword } = this.props;
-    this.props.fetchOldUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, 'KeywordSearch', 'searchKeyword');
+  handleFetchOldUsers = (searchKeyword) => {
+    this.props.fetchOldUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, selectorParams);
   }
-  handleFetchNewUsers = () => {
-    let { searchKeyword } = this.props;
-    this.props.fetchNewUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, 'KeywordSearch', 'searchKeyword');
+  handleFetchNewUsers = (searchKeyword) => {
+    this.props.fetchNewUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, selectorParams);
   }
   render() {
     let { searchKeyword, users } = this.props;
@@ -32,8 +34,8 @@ class SearchUserPage extends Component {
         <KeywordSearchForm handleOnChange={this.handleSearchFormOnChange} />
         <h2>{this.genQueryStr(searchKeyword)}</h2>
         <UserList users={users}
-          handleFetchOldUsers={this.handleFetchOldUsers}
-          handleFetchNewUsers={this.handleFetchNewUsers} />
+          handleFetchOldUsers={() => this.handleFetchOldUsers(searchKeyword)}
+          handleFetchNewUsers={() => this.handleFetchNewUsers(searchKeyword)} />
       </div>
     )
   }
@@ -44,8 +46,8 @@ SearchUserPage.propTypes = {
 
 const mapStateToProps = (state, props) => {
   return {
-    searchKeyword: getSearchKeyword(state, 'KeywordSearch', 'searchKeyword'),
-    users: getUsersForSearchUserPage(state, 'KeywordSearch', 'searchKeyword'),
+    searchKeyword: getSearchKeyword(state, selectorParams),
+    users: getUsersForSearchUserPage(state, selectorParams),
   }
 }
 

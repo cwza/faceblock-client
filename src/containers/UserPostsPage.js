@@ -10,7 +10,7 @@ class UserPostsPage extends Component {
   componentDidMount() {
     let { userId } = this.props.params;
     if(this.props.posts && this.props.posts.length === 0)
-      this.props.fetchOldPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, this.props);
+      this.props.fetchOldPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, {userId});
   }
   genQueryStr = (userId) => {
     return `q=userId:(${userId}) and replyTo:(null)&sort=createTime&order=desc&limit=5`
@@ -18,25 +18,22 @@ class UserPostsPage extends Component {
   handleAddPostSubmit = (values) => {
     this.props.createPostStart(values);
   }
-  handleFetchOldPosts = () => {
-    let { userId } = this.props.params;
-    this.props.fetchOldPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, this.props);
+  handleFetchOldPosts = (userId) => {
+    this.props.fetchOldPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, {userId});
   }
-  handleFetchNewPosts = () => {
-    let { userId } = this.props.params;
-    this.props.fetchNewPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, this.props);
+  handleFetchNewPosts = (userId) => {
+    this.props.fetchNewPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, {userId});
   }
   render() {
     let { posts, selfId } = this.props;
     let { userId } = this.props.params;
-    console.log('selfId: ', selfId, ' userId: ', userId);
     return (
       <div>
         <h1>I am UserPostsPage.</h1>
         {(selfId.toString() === userId) && <AddPostForm onSubmit={this.handleAddPostSubmit} />}
         <PostList posts={posts}
-          handleFetchOldPosts={this.handleFetchOldPosts}
-          handleFetchNewPosts={this.handleFetchNewPosts} />
+          handleFetchOldPosts={() => this.handleFetchOldPosts(userId)}
+          handleFetchNewPosts={() => this.handleFetchNewPosts(userId)} />
       </div>
     )
   }
@@ -48,7 +45,7 @@ UserPostsPage.propTypes = {
 
 const mapStateToProps = (state, props) => {
   return {
-    posts: getPostsForUserPostsPage(state, props),
+    posts: getPostsForUserPostsPage(state, {userId: props.params.userId}),
     selfId: getSelfId(state),
   }
 }
