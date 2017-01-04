@@ -7,11 +7,6 @@ import Loading from '../components/Loading'
 import { routerActions } from 'react-router-redux'
 
 class GoogleOauth2Callback extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {userInfo: {}};
-    this.redirectToHomePage = this.redirectToHomePage.bind(this);
-  }
   componentDidMount() {
     this.params = getParamsFromHash(this.props.location.hash);
     this.props.loginStart('google', this.params.accessToken);
@@ -21,7 +16,7 @@ class GoogleOauth2Callback extends Component {
     if(authentication.item.faceblockToken && !authentication.isFetching)
       this.redirectToHomePage();
   }
-  redirectToHomePage() {
+  redirectToHomePage = () => {
     this.props.routerPush('/');
   }
   render() {

@@ -8,20 +8,16 @@ import authenticationActions from '../actions/authenticationActions'
 import { getAuthentication } from '../selectors/utilsSelectors'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.handleLogout = this.handleLogout.bind(this);
-  }
-  handleLogout() {
-    this.props.logout();
-    this.props.routerPush('/');
-    window.location.reload();
-  }
   componentDidUpdate() {
     let { error } = this.props;
     if(error && error.name === 'AUTHENTICATION_ERROR') {
       this.handleLogout();
     }
+  }
+  handleLogout = () => {
+    this.props.logout();
+    this.props.routerPush('/');
+    window.location.reload();
   }
   render() {
     let { error, faceblockToken } = this.props;

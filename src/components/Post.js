@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 
 class Post extends Component {
-  constructor(props) {
-    super(props);
-    this.renderPost = this.renderPost.bind(this);
-  }
-  renderPost(post) {
+  renderPost = (post) => {
     if(post) {
       return (
         <div>

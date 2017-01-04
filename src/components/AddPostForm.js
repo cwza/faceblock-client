@@ -22,10 +22,6 @@ const renderTextAreaField = ({
 )
 
 class AddPostForm extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.props.handleSubmit.bind(this);
-  }
   render() {
     let { handleSubmit } = this.props;
     return (

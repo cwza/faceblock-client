@@ -5,26 +5,13 @@ import postsActions from '../actions/postsActions'
 import { routerActions } from 'react-router-redux'
 
 class PostList extends Component {
-  constructor(props) {
-    super(props);
-    this.handleDeletePost = this.handleDeletePost.bind(this);
-    this.handlePostClick = this.handlePostClick.bind(this);
-    this.state = {
-      showModal: false,
-      modalPost: {},
-    };
-  }
-  componentDidMount() {
-    if(this.props.posts && this.props.posts.length === 0)
-      this.props.fetchOldPostsStart();
-  }
-  handleDeletePost(postId) {
+  handleDeletePost = (postId) => {
     this.props.deletePostStart(postId);
   }
-  handlePostClick(postId) {
+  handlePostClick = (postId) => {
     this.props.routerPush('/post/' + postId);
   }
-  renderPostList(posts) {
+  renderPostList = (posts) => {
     return posts.map((post, i) => {
       return (
         <div key={i} >
@@ -34,13 +21,13 @@ class PostList extends Component {
     });
   }
   render() {
-    let { posts, fetchNewPostsStart, fetchOldPostsStart } = this.props;
+    let { posts, handleFetchNewPosts, handleFetchOldPosts } = this.props;
     return (
       <div>
         <h1>I am PostList Page.</h1>
-        {fetchNewPostsStart && <button onClick={fetchNewPostsStart}>Load New</button>}
+        {handleFetchNewPosts && <button onClick={handleFetchNewPosts}>Load New</button>}
         {this.renderPostList(posts)}
-        {fetchOldPostsStart && <button onClick={fetchOldPostsStart}>Load Old</button>}
+        {handleFetchOldPosts && <button onClick={handleFetchOldPosts}>Load Old</button>}
       </div>
     )
   }
@@ -48,8 +35,8 @@ class PostList extends Component {
 
 PostList.propTypes = {
   posts: React.PropTypes.array,
-  fetchOldPostsStart: React.PropTypes.func,
-  fetchNewPostsStart: React.PropTypes.func,
+  handleFetchOldPosts: React.PropTypes.func,
+  handleFetchNewPosts: React.PropTypes.func,
   deletePostStart: React.PropTypes.func.isRequired,
 }
 

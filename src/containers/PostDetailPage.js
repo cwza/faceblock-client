@@ -7,11 +7,7 @@ import { routerActions } from 'react-router-redux'
 import CommentList from './CommentList'
 
 class PostDetailPage extends Component {
-  constructor(props) {
-    super(props);
-    this.handleDeletePost = this.handleDeletePost.bind(this);
-  }
-  handleDeletePost(postId) {
+  handleDeletePost = (postId) => {
     this.props.deletePostStart(postId);
     if(!this.props.isFetching)
       this.props.routerBack();
