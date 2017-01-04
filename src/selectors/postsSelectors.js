@@ -1,10 +1,7 @@
 import { createSelector } from 'reselect'
-import { getFaceblockEntities } from './utilsSelectors'
+import { getFaceblockEntities, getProps } from './utilsSelectors'
 import { getFriendsIds, getSelfUser } from './usersSelectors'
 
-const getProps = (state, props) => {
-  return props;
-}
 
 const getPostById = (state, postId) => {
   if(state.apis.faceblock.entities && state.apis.faceblock.entities.posts

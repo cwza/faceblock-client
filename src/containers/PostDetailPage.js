@@ -3,24 +3,24 @@ import Post from '../components/Post'
 import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
 import { getPostById, getIsFetching } from '../selectors/postsSelectors'
-import { getSelfUser } from '../selectors/usersSelectors'
+import { getSelfId } from '../selectors/usersSelectors'
 import { routerActions } from 'react-router-redux'
 import CommentList from './CommentList'
 
 class PostDetailPage extends Component {
-  handleDeletePost = (post, selfUser) => {
+  handleDeletePost = (post) => {
     this.props.deletePostStart(post.id);
     if(!this.props.isFetching)
       this.props.routerBack();
   }
   render() {
-    let { post, selfUser } = this.props;
+    let { post, selfId } = this.props;
     return (
       <div>
         <h1>I am PostDetailPage.</h1>
         <Post post={post}
-          handleDeletePost={() => this.handleDeletePost(post, selfUser)}
-          canDelete={post.userId === selfUser.id}
+          handleDeletePost={() => this.handleDeletePost(post)}
+          canDelete={post.userId === selfId}
         />
         <CommentList postId={post.id}/>
       </div>
@@ -35,7 +35,7 @@ const mapStateToProps = (state, props) => {
   return {
     post: getPostById(state, props.params.postId),
     isFetching: getIsFetching(state),
-    selfUser: getSelfUser(state),
+    selfId: getSelfId(state),
   }
 }
 

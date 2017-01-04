@@ -1,3 +1,7 @@
+const removeSpecialWordFromQuery = (queryStr) => {
+  return queryStr.replace(/[&\/\\#,+()$~%.'":*?<>{}!=^\[\] \\]/g,'');
+}
+
 const createUrlByParams = (base, params) => {
   let result = Object.keys(params).reduce((paramStr, key) => {
     return paramStr + key + '=' + params[key] + '&';
@@ -23,4 +27,4 @@ const deletePropertiesFromObject = (obj, properties) => {
     }, {});
 }
 
-export {parseTimeStrFieldToDate, deletePropertiesFromObject, createUrlByParams};
+export {parseTimeStrFieldToDate, deletePropertiesFromObject, createUrlByParams, removeSpecialWordFromQuery};

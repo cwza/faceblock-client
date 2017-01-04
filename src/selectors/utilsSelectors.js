@@ -1,4 +1,7 @@
 // import { createSelector } from 'reselect'
+const getProps = (state, props) => {
+  return props;
+}
 
 const getError = (state={}) => state.error
 
@@ -13,4 +16,4 @@ const getAuthentication = (state={}) => {
     return state.localStorage.authentication;
 }
 
-export { getFaceblockEntities, getError , getAuthentication};
+export { getFaceblockEntities, getError , getAuthentication, getProps};

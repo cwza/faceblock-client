@@ -6,7 +6,7 @@ import AddPostForm from '../components/AddPostForm'
 import PostList from '../components/PostList'
 
 // TODO getQueryStr from compute, and add or #hashtag about self search
-let queryStr = 'q=userId:(1,2,4) and replyTo:(null)&sort=createTime&order=desc&limit=5';
+let queryStr = 'q=userId:(1,2,21) and replyTo:(null)&sort=createTime&order=desc&limit=5';
 class HomePage extends Component {
   componentDidMount() {
     if(this.props.posts && this.props.posts.length === 0)

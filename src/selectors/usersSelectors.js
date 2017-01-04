@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { getFaceblockEntities, getAuthentication } from './utilsSelectors'
-// import { usersItems } from '../mockDatas/data'
+import { getFaceblockEntities, getAuthentication} from './utilsSelectors'
+import { getSearchKeyword } from './formSelectors'
 
 const getUsersObject = createSelector(
   [getFaceblockEntities],
@@ -15,7 +15,6 @@ const getUsersItems = createSelector(
   (usersObject={}) => {
     if(usersObject.items) return usersObject.items;
     return {};
-    // return usersItems
   }
 );
 
@@ -41,4 +40,19 @@ const getSelfUser = createSelector(
   }
 )
 
-export {getSelfId, getFriendsIds, getSelfUser};
+const getAllUsers = createSelector(
+  [getUsersItems],
+  (usersItems={}) => Object.values(usersItems)
+);
+
+const getUsersForSearchUserPage = createSelector(
+  [getAllUsers, getSearchKeyword],
+  (users=[], searchKeyword) => {
+    console.log('searchKeyword: ', searchKeyword);
+    let result = users.filter(user => user.mail.includes(searchKeyword))
+      .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
+    return result;
+  }
+)
+
+export {getSelfId, getFriendsIds, getSelfUser, getUsersForSearchUserPage};

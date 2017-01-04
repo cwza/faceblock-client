@@ -5,6 +5,7 @@ import UserPage from './containers/UserPage'
 import HomePage from './containers/HomePage'
 import UserPostsPage from './containers/UserPostsPage'
 import PostDetailPage from './containers/PostDetailPage'
+import SearchUserPage from './containers/SearchUserPage'
 import NoMatchPage from './components/NoMatchPage'
 import GoogleOauth2Callback from './containers/GoogleOauth2Callback'
 import Authentication from './components/Authentication'
@@ -32,6 +33,7 @@ export default (
       <Route path="/users" component={UserPage} />
       <Route path="/UserPostsPage/:userId" component={UserPostsPage} />
       <Route path="/post/:postId" component={PostDetailPage}></Route>
+      <Route path="/SearchUserPage" component={SearchUserPage}></Route>
     </Route>
     <Route path="/authentication" component={Authentication}></Route>
     <Route path="/googleOauth2Callback" component={GoogleOauth2Callback}></Route>

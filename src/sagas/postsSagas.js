@@ -49,7 +49,7 @@ function* watchFetchOldPostsStart() {
 function* watchFetchNewPostsStart() {
   while(true) {
     let {payload} = yield take(postsActions.fetchNewPostsStart().type);
-    let queryStr = yield* getFetchNewPostsQueryStr(payload.queryStr, payload.postsSelector);
+    let queryStr = yield* getFetchNewPostsQueryStr(payload.queryStr, payload.postsSelector, payload.props);
     yield fork(callPostsApi, 'fetchPosts',queryStr);
   }
 }
