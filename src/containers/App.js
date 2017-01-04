@@ -38,10 +38,6 @@ class App extends Component {
 }
 
 App.propTypes = {
-  error: React.PropTypes.object,
-  logout: React.PropTypes.func.isRequired,
-  routerPush: React.PropTypes.func.isRequired,
-  faceblockToken: React.PropTypes.string,
 };
 
 const mapStateToProps = (state) => {

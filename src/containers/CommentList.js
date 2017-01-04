@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AddPostForm from '../components/AddPostForm'
-import PostList from './PostList'
+import PostList from '../components/PostList'
 import { getPostsForCommentList } from '../selectors/postsSelectors'
 import postsActions from '../actions/postsActions'
 
@@ -34,9 +34,6 @@ class CommentList extends Component {
 
 CommentList.propTypes = {
   postId: React.PropTypes.number.isRequired,
-  comments: React.PropTypes.array,
-  fetchOldPostsStart: React.PropTypes.func.isRequired,
-  createPostStart: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => {

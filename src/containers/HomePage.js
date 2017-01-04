@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
 import { getPostsForHomePageByTime } from '../selectors/postsSelectors'
 import AddPostForm from '../components/AddPostForm'
-import PostList from './PostList'
+import PostList from '../components/PostList'
 
 // TODO getQueryStr from compute, and add or #hashtag about self search
 let queryStr = 'q=userId:(1,2,4) and replyTo:(null)&sort=createTime&order=desc&limit=5';
@@ -36,10 +36,6 @@ class HomePage extends Component {
 }
 
 HomePage.propTypes = {
-  posts: React.PropTypes.array,
-  fetchOldPostsStart: React.PropTypes.func.isRequired,
-  fetchNewPostsStart: React.PropTypes.func.isRequired,
-  createPostStart: React.PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state, props) => {

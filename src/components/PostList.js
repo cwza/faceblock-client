@@ -1,22 +1,14 @@
 import React, { Component } from 'react'
-import Post from '../components/Post'
-import { connect } from 'react-redux'
-import postsActions from '../actions/postsActions'
-import { routerActions } from 'react-router-redux'
+import PostContainer from '../containers/PostContainer'
 
 class PostList extends Component {
-  handleDeletePost = (postId) => {
-    this.props.deletePostStart(postId);
-  }
   handlePostClick = (postId) => {
     this.props.routerPush('/post/' + postId);
   }
   renderPostList = (posts) => {
     return posts.map((post, i) => {
       return (
-        <div key={i} >
-          <Post post={post} handlePostClick={() => this.handlePostClick(post.id)} handleDeletePost={() => this.handleDeletePost(post.id)} />
-        </div>
+          <PostContainer key={i} post={post} />
       )
     });
   }
@@ -34,18 +26,9 @@ class PostList extends Component {
 }
 
 PostList.propTypes = {
-  posts: React.PropTypes.array,
+  posts: React.PropTypes.array.isRequired,
   handleFetchOldPosts: React.PropTypes.func,
   handleFetchNewPosts: React.PropTypes.func,
-  deletePostStart: React.PropTypes.func.isRequired,
 }
 
-const mapStateToProps = (state) => {
-  return {
-  }
-}
-
-export default connect(mapStateToProps, {
-  deletePostStart: postsActions.deletePostStart,
-  routerPush: routerActions.push
-})(PostList);
+export default PostList;

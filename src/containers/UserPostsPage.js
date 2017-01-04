@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AddPostForm from '../components/AddPostForm'
-import PostList from './PostList'
+import PostList from '../components/PostList'
 import { getPostsForUserPostsPage } from '../selectors/postsSelectors'
 import postsActions from '../actions/postsActions'
 
@@ -40,10 +40,7 @@ class UserPostsPage extends Component {
 }
 
 UserPostsPage.propTypes = {
-  posts: React.PropTypes.array,
-  fetchOldPostsStart: React.PropTypes.func.isRequired,
-  fetchNewPostsStart: React.PropTypes.func.isRequired,
-  createPostStart: React.PropTypes.func.isRequired,
+  posts: React.PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state, props) => {

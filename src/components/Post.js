@@ -21,9 +21,9 @@ class Post extends Component {
 }
 
 Post.propTypes = {
-  post: React.PropTypes.object,
+  post: React.PropTypes.object.isRequired,
   handlePostClick: React.PropTypes.func,
-  handleDeletePost: React.PropTypes.func.isRequired,
+  handleDeletePost: React.PropTypes.func,
 }
 
 export default Post;

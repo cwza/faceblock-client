@@ -25,11 +25,6 @@ class PostDetailPage extends Component {
 }
 
 PostDetailPage.propTypes = {
-  post: React.PropTypes.object,
-  handleCloseModal: React.PropTypes.func,
-  deletePostStart: React.PropTypes.func.isRequired,
-  isFetching: React.PropTypes.bool.isRequired,
-  routerBack: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => {
