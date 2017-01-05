@@ -10,7 +10,7 @@ let selectorParams = {
   formName: 'KeywordSearch',
   fieldName: 'searchKeyword'
 }
-class SeatchPostPage extends Component {
+class SearchPostPage extends Component {
   componentDidMount() {
   }
   genQueryStr = (searchKeyword) => {
@@ -33,7 +33,7 @@ class SeatchPostPage extends Component {
     let { searchKeyword, posts } = this.props;
     return (
       <div>
-        <h1>I am SeatchPostPage.</h1>
+        <h1>I am SearchPostPage.</h1>
         <KeywordSearchForm handleOnChange={this.handleSearchFormOnChange} />
         <h2>{this.genQueryStr(searchKeyword)}</h2>
         <PostList posts={posts}
@@ -44,7 +44,7 @@ class SeatchPostPage extends Component {
   }
 }
 
-SeatchPostPage.propTypes = {
+SearchPostPage.propTypes = {
 }
 
 const mapStateToProps = (state, props) => {
@@ -57,4 +57,4 @@ const mapStateToProps = (state, props) => {
 export default connect(mapStateToProps, {
   fetchOldPostsStart: postsActions.fetchOldPostsStart,
   fetchNewPostsStart: postsActions.fetchNewPostsStart,
-})(SeatchPostPage);
+})(SearchPostPage);

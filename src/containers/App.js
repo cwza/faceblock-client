@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import { routerActions } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { getError } from '../selectors/utilsSelectors'
 import Error from '../components/Error'
 import authenticationActions from '../actions/authenticationActions'
 import { getAuthentication } from '../selectors/utilsSelectors'
+import { getSelfId } from '../selectors/usersSelectors'
+import SideBar from '../components/SideBar'
 
 class App extends Component {
   componentDidUpdate() {
@@ -20,18 +21,11 @@ class App extends Component {
     window.location.reload();
   }
   render() {
-    let { error, faceblockToken } = this.props;
+    let { error, faceblockToken, selfId } = this.props;
     return (
       <div>
         <h1>I am App Page.</h1>
-        { !faceblockToken && <Link to="/authentication" activeClassName="active">Login</Link> }
-        { faceblockToken && <button onClick={this.handleLogout}>Logout</button> }
-        <ul role="navigation">
-          <li><Link to="/" onlyActiveOnIndex={true} activeClassName="active">Home</Link></li>
-          <li><Link to="/users" activeClassName="active">Users</Link></li>
-          <li><Link to="/SearchUserPage" activeClassName="active">SearchUserPage</Link></li>
-          <li><Link to="/SearchPostPage" activeClassName="active">SearchPostPage</Link></li>
-        </ul>
+        <SideBar selfId={selfId} faceblockToken={faceblockToken} handleLogout={this.handleLogout}/>
         {error && <Error error={error} />}
         {this.props.children}
       </div>
@@ -45,7 +39,8 @@ App.propTypes = {
 const mapStateToProps = (state) => {
   return {
     error: getError(state),
-    faceblockToken: getAuthentication(state).item.faceblockToken
+    faceblockToken: getAuthentication(state).item.faceblockToken,
+    selfId: getSelfId(state),
   }
 }
 
