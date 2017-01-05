@@ -1,5 +1,7 @@
 const removeSpecialWordFromQuery = (queryStr) => {
-  return queryStr.replace(/[&\/\\#,+()$~%.'":*?<>{}!=^\[\] \\]/g,'');
+  if(queryStr)
+    return queryStr.replace(/[&\/\\,+()$~%.'":*?<>{}!=^\[\]\\]/g,'');
+  return '';
 }
 
 const createUrlByParams = (base, params) => {

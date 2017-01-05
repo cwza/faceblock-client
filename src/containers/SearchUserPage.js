@@ -14,17 +14,20 @@ class SearchUserPage extends Component {
   componentDidMount() {
   }
   genQueryStr = (searchKeyword) => {
+    searchKeyword = encodeURIComponent(searchKeyword);
     return `q=mail:(*${searchKeyword}*)&sort=createTime&order=desc&limit=5`;
   }
   handleSearchFormOnChange = (value) => {
-    let { searchKeyword } = this.props;
-    this.props.fetchOldUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, selectorParams);
+    if(value)
+      this.props.fetchOldUsersStart(this.genQueryStr(value), getUsersForSearchUserPage, selectorParams);
   }
   handleFetchOldUsers = (searchKeyword) => {
-    this.props.fetchOldUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, selectorParams);
+    if(searchKeyword)
+      this.props.fetchOldUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, selectorParams);
   }
   handleFetchNewUsers = (searchKeyword) => {
-    this.props.fetchNewUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, selectorParams);
+    if(searchKeyword)
+      this.props.fetchNewUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, selectorParams);
   }
   render() {
     let { searchKeyword, users } = this.props;

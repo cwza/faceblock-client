@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { getFaceblockEntities, getSelectorParams } from './utilsSelectors'
-import { getFriendsIds, getSelfUser } from './usersSelectors'
-
+import { getFriendsIds, getSelfId } from './usersSelectors'
+import { getSearchKeyword } from './formSelectors'
 
 const getPostById = (state, postId) => {
   if(state.apis.faceblock.entities && state.apis.faceblock.entities.posts
@@ -40,9 +40,9 @@ const getAllPosts = createSelector(
 
 //TODO: if post.content contains hashtag about self name, they should be get too
 const getPostsForHomePageByTime = createSelector(
-  [getAllPosts, getFriendsIds, getSelfUser],
-  (posts=[], friendsIds=[], selfUser={}) => {
-    let userIds = [...friendsIds, selfUser.id];
+  [getAllPosts, getFriendsIds, getSelfId],
+  (posts=[], friendsIds=[], selfId={}) => {
+    let userIds = [...friendsIds, selfId];
     let result = posts.filter(post => userIds.includes(post.userId))
       .filter(post => post.replyTo === null)
       .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
@@ -73,7 +73,17 @@ const getPostsForUserPostsPage = createSelector(
   }
 )
 
+const getPostsForSearchPostPage = createSelector(
+  [getAllPosts, getSearchKeyword],
+  (posts=[], searchKeyword) => {
+    console.log('searchKeyword: ', searchKeyword);
+    let result = posts.filter(post => searchKeyword && post.content.includes(searchKeyword))
+      .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
+    return result;
+  }
+)
+
 export {
   getPostsForHomePageByTime, getAllPosts, getPostById, getIsFetching, getPostsForCommentList,
-  getPostsForUserPostsPage,
+  getPostsForUserPostsPage, getPostsForSearchPostPage
 };

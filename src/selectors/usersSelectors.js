@@ -49,7 +49,7 @@ const getUsersForSearchUserPage = createSelector(
   [getAllUsers, getSearchKeyword],
   (users=[], searchKeyword) => {
     console.log('searchKeyword: ', searchKeyword);
-    let result = users.filter(user => user.mail.includes(searchKeyword))
+    let result = users.filter(user => searchKeyword && user.mail.includes(searchKeyword))
       .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
     return result;
   }

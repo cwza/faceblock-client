@@ -30,6 +30,7 @@ class App extends Component {
           <li><Link to="/" onlyActiveOnIndex={true} activeClassName="active">Home</Link></li>
           <li><Link to="/users" activeClassName="active">Users</Link></li>
           <li><Link to="/SearchUserPage" activeClassName="active">SearchUserPage</Link></li>
+          <li><Link to="/SearchPostPage" activeClassName="active">SearchPostPage</Link></li>
         </ul>
         {error && <Error error={error} />}
         {this.props.children}
