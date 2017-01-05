@@ -1,10 +1,8 @@
-import { Schema } from 'normalizr';
+import { schema } from 'normalizr';
 
-let post = new Schema('posts');
-let user = new Schema('users');
-
-post.define({
+const user = [new schema.Entity('users')];
+const post = [new schema.Entity('posts', {
   user: user,
-});
+})];
 
 export { post, user };

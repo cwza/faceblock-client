@@ -3,7 +3,7 @@ import Post from '../components/Post'
 import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
 import usersActions from '../actions/usersActions'
-import { getPostById, getIsFetching } from '../selectors/postsSelectors'
+import { getPostById, getIsFetching as postsIsFetching } from '../selectors/postsSelectors'
 import { getSelfId, getUserById } from '../selectors/usersSelectors'
 import { routerActions } from 'react-router-redux'
 import CommentList from './CommentList'
@@ -17,13 +17,13 @@ class PostDetailPage extends Component {
       fetchPostStart(postId);
   }
   componentDidUpdate() {
-    let {post, author, fetchUserStart} = this.props;
-    if(isEmpty(author) && !isEmpty(post))
+    let {post, author, fetchUserStart, postsIsFetching} = this.props;
+    if(isEmpty(author) && !isEmpty(post) && !postsIsFetching)
       fetchUserStart(post.userId);
   }
   handleDeletePost = (post) => {
     this.props.deletePostStart(post.id);
-    if(!this.props.isFetching)
+    if(!this.props.postsIsFetching)
       this.props.routerBack();
   }
   render() {
@@ -48,7 +48,7 @@ const mapStateToProps = (state, props) => {
   return {
     post: getPostById(state, props.params.postId),
     author: getUserById(state, getPostById(state, props.params.postId).userId),
-    isFetching: getIsFetching(state),
+    postsIsFetching: postsIsFetching(state),
     selfId: getSelfId(state),
   }
 }

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { merge } from 'lodash'
-import { normalize, arrayOf } from 'normalizr'
+import { normalize } from 'normalizr'
 // import { handleActions } from 'redux-actions'
 import { post as postSchema } from '../schemas/faceblockSchemas'
 import postsActions from '../actions/postsActions'
@@ -8,7 +8,7 @@ import otherActions from '../actions/otherActions'
 import * as utils from '../utils'
 
 const normalizePosts = (posts) => {
-  return normalize(posts, arrayOf(postSchema)).entities.posts;
+  return normalize(posts, postSchema).entities.posts;
 }
 
 const mergeFetchedPostsToState = (state, posts) => {
