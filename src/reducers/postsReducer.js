@@ -2,17 +2,17 @@ import { combineReducers } from 'redux'
 import { merge } from 'lodash'
 import { normalize } from 'normalizr'
 // import { handleActions } from 'redux-actions'
-import { post as postSchema } from '../schemas/faceblockSchemas'
+import { postListSchema } from '../schemas/faceblockSchemas'
 import postsActions from '../actions/postsActions'
 import otherActions from '../actions/otherActions'
 import * as utils from '../utils'
 
 const normalizePosts = (posts) => {
-  return normalize(posts, postSchema).entities.posts;
+  return normalize(posts, postListSchema).entities.posts;
 }
 
 const mergeFetchedPostsToState = (state, posts) => {
-  return merge({}, state, normalizePosts(posts, postSchema));
+  return merge({}, state, normalizePosts(posts));
 }
 
 const itemsReducer = (state = {}, action) => {

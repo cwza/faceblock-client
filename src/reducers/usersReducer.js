@@ -2,17 +2,17 @@ import { combineReducers } from 'redux'
 import { merge } from 'lodash'
 import { normalize } from 'normalizr'
 // import { handleActions } from 'redux-actions'
-import { user as userSchema } from '../schemas/faceblockSchemas'
+import { userListSchema } from '../schemas/faceblockSchemas'
 import usersActions from '../actions/usersActions'
 import authenticationActions from '../actions/authenticationActions'
 import otherActions from '../actions/otherActions'
 
 const normalizeUsers = (users) => {
-  return normalize(users, userSchema).entities.users;
+  return normalize(users, userListSchema).entities.users;
 }
 
 const mergeFetchedUsersToState = (state, users) => {
-  return merge({}, state, normalizeUsers(users, userSchema));
+  return merge({}, state, normalizeUsers(users));
 }
 
 const itemsReducer = (state = {}, action) => {

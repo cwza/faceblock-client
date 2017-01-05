@@ -1,8 +1,10 @@
 import { schema } from 'normalizr';
 
-const user = [new schema.Entity('users')];
-const post = [new schema.Entity('posts', {
-  user: user,
-})];
+const userSchema = new schema.Entity('users');
+const userListSchema = [userSchema];
+const postSchema = new schema.Entity('posts', {
+  user: userSchema,
+});
+const postListSchema = [postSchema];
 
-export { post, user };
+export { userSchema, userListSchema, postSchema, postListSchema };
