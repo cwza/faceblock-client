@@ -34,7 +34,7 @@ class CommentList extends Component {
 }
 
 CommentList.propTypes = {
-  postId: React.PropTypes.number.isRequired,
+  postId: React.PropTypes.number,
 };
 
 const mapStateToProps = (state, props) => {

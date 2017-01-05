@@ -50,7 +50,7 @@ function* watchFetchNewPostsStart() {
   while(true) {
     let {payload} = yield take(postsActions.fetchNewPostsStart().type);
     let queryStr = yield* getFetchNewPostsQueryStr(payload.queryStr, payload.postsSelector, payload.selectorParams);
-    yield fork(callPostsApi, 'fetchPosts',queryStr);
+    yield fork(callPostsApi, 'fetchPosts', queryStr);
   }
 }
 
@@ -69,7 +69,17 @@ function* watchDeletePostStart() {
   }
 }
 
-export default {watchFetchOldPostsStart, watchFetchNewPostsStart, watchCreatePostStart, watchDeletePostStart};
+function* watchFetchPostStart() {
+  while(true) {
+    let {payload} = yield take(postsActions.fetchPostStart().type);
+    yield fork(callPostsApi, 'fetchPost', payload);
+  }
+}
+
+export default {
+  watchFetchOldPostsStart, watchFetchNewPostsStart, watchCreatePostStart, watchDeletePostStart,
+  watchFetchPostStart,
+};
 if(process.env.NODE_ENV !== 'production') {
   module.exports.private = {callPostsApi, getFetchOldPostsQueryStr, watchFetchOldPostsStart};
 }

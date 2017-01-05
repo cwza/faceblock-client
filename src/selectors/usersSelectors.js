@@ -2,6 +2,13 @@ import { createSelector } from 'reselect'
 import { getFaceblockEntities, getAuthentication} from './utilsSelectors'
 import { getSearchKeyword } from './formSelectors'
 
+const getUserById = (state, userId) => {
+  if(state.apis.faceblock.entities && state.apis.faceblock.entities.users
+    && state.apis.faceblock.entities.users.items && state.apis.faceblock.entities.users.items[userId])
+    return state.apis.faceblock.entities.users.items[userId];
+  return {};
+}
+
 const getUsersObject = createSelector(
   [getFaceblockEntities],
   (entities={}) => {
@@ -55,4 +62,4 @@ const getUsersForSearchUserPage = createSelector(
   }
 )
 
-export {getSelfId, getFriendsIds, getSelfUser, getUsersForSearchUserPage};
+export {getSelfId, getFriendsIds, getSelfUser, getUsersForSearchUserPage, getUserById};

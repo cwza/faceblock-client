@@ -40,12 +40,18 @@ function* watchFetchNewUsersStart() {
   while(true) {
     let {payload} = yield take(usersActions.fetchNewUsersStart().type);
     let queryStr = yield* getFetchNewUsersQueryStr(payload.queryStr, payload.usersSelector, payload.selectorParams);
-    yield fork(callUsersApi, 'fetchUsers',queryStr);
+    yield fork(callUsersApi, 'fetchUsers', queryStr);
   }
 }
 
+function* watchFetchUserStart() {
+  while(true) {
+    let {payload} = yield take(usersActions.fetchUserStart().type);
+    yield fork(callUsersApi, 'fetchUser', payload);
+  }
+}
 
-export default {watchFetchOldUsersStart, watchFetchNewUsersStart};
+export default {watchFetchOldUsersStart, watchFetchNewUsersStart, watchFetchUserStart};
 if(process.env.NODE_ENV !== 'production') {
   module.exports.private = {callUsersApi, getFetchOldUsersQueryStr, watchFetchOldUsersStart};
 }

@@ -19,6 +19,7 @@ const itemsReducer = (state = {}, action) => {
   switch(action.type) {
     case postsActions.fetchPostsSuccess().type:
     case postsActions.createPostSuccess().type:
+    case postsActions.fetchPostSuccess().type:
       if(action.payload.response.entities.posts) {
         return mergeFetchedPostsToState(state, action.payload.response.entities.posts)
       }
@@ -36,10 +37,12 @@ const isFetchingReducer = (state = false, action) => {
     case postsActions.deletePostStart().type:
     case postsActions.fetchOldPostsStart().type:
     case postsActions.fetchNewPostsStart().type:
+    case postsActions.fetchPostStart().type:
       return true;
     case postsActions.deletePostSuccess().type:
     case postsActions.createPostSuccess().type:
     case postsActions.fetchPostsSuccess().type:
+    case postsActions.fetchPostSuccess().type:
     case otherActions.setError().type:
       return false;
     default:

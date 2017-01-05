@@ -54,4 +54,18 @@ const deletePost = (postId) => {
   });
 }
 
-export { fetchPosts, createPost, deletePost };
+const fetchPost = (postId) => {
+  const fullUrl = API_ROOT + 'posts/' + postId;
+  console.log('fetch post url: ', fullUrl);
+  return fetch(fullUrl, {
+    method: "GET",
+    headers: getReqHeaders(),
+  }).then(response => {
+    return response.json().then(json => ({json, response}));
+  }).then(({json, response}) => {
+    if(!response.ok) return Promise.reject(json.error);
+    return camelizeKeys(json);
+  })
+}
+
+export { fetchPosts, createPost, deletePost, fetchPost };

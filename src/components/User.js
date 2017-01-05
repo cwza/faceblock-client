@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
+import { isEmpty } from 'lodash'
 
 class User extends Component {
   renderUser = (user, handleUserClick) => {
-    if(user) {
+    if(!isEmpty(user)) {
       return (
         <div>
           <div onClick={handleUserClick}>
-            <li><Link to={`/userPostsPage/${user.id}`} activeClassName="active">{JSON.stringify(user, null, 2)}</Link></li>
+            <li><Link to={`/UserPostsPage/${user.id}`} activeClassName="active">{JSON.stringify(user, null, 2)}</Link></li>
           </div>
         </div>
       )

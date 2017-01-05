@@ -8,6 +8,8 @@ const postsActions = createActions({
   CREATE_POST_SUCCESS: response => response,
   DELETE_POST_START: id => id,
   DELETE_POST_SUCCESS: id => id,
+  FETCH_POST_START: postId => postId,
+  FETCH_POST_SUCCESS: response => response,
 });
 
 export default postsActions;

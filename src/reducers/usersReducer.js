@@ -19,6 +19,7 @@ const itemsReducer = (state = {}, action) => {
   switch(action.type) {
     case usersActions.fetchUsersSuccess().type:
     case authenticationActions.loginSuccess().type:
+    case usersActions.fetchUserSuccess().type:
       if(action.payload.response.entities.users) {
         return mergeFetchedUsersToState(state, action.payload.response.entities.users)
       }
@@ -33,9 +34,11 @@ const isFetchingReducer = (state = {}, action) => {
     case usersActions.fetchOldUsersStart().type:
     case usersActions.fetchNewUsersStart().type:
     case authenticationActions.loginStart().type:
+    case usersActions.fetchUserStart().type:
       return true;
     case authenticationActions.loginSuccess().type:
     case usersActions.fetchUsersSuccess().type:
+    case usersActions.fetchUserSuccess().type:
     case otherActions.setError().type:
       return false;
     default:
