@@ -23,8 +23,7 @@ class GoogleOauth2Callback extends Component {
     let isFetching = this.props.authentication.isFetching;
     return (
       <div>
-        <h1>{JSON.stringify(this.params, null, 2)}</h1>
-        {isFetching && <Loading />}
+        <Loading isFetching={isFetching}/>
       </div>
     )
   }

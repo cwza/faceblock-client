@@ -1,4 +1,5 @@
 import { take, put, call, fork, select } from 'redux-saga/effects'
+// import { delay } from 'redux-saga'
 import postsActions from '../actions/postsActions'
 import usersActions from '../actions/usersActions'
 import otherActions from '../actions/otherActions'
@@ -53,8 +54,10 @@ function* getFetchNewPostsQueryStr(queryStr, postsSelector, selectorParams) {
 
 ///////////////////////////////////WATCHER////////////////////////////
 function* watchFetchOldPostsStart() {
+  // const requestChan = yield actionChannel(postsActions.fetchOldPostsStart().type);
   while(true) {
     let {payload} = yield take(postsActions.fetchOldPostsStart().type);
+    // const {payload} = yield take(requestChan);
     let queryStr = yield* getFetchOldPostsQueryStr(payload.queryStr, payload.postsSelector, payload.selectorParams);
     yield fork(callPostsApi, 'fetchPosts', queryStr);
     // yield fork(fetchPosts, queryStr);
