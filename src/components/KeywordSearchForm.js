@@ -16,7 +16,7 @@ class KeywordSearchForm extends Component {
     let { handleOnChange } = this.props;
     return (
       <div>
-        <h1>I am AddPost.</h1>
+        <h1>I am KeywordSearchForm.</h1>
         <form id="KeywordSearchForm">
           <div>
             <Field handleOnChange={handleOnChange} name="searchKeyword" component={renderField} placeholder="input search keyword"/>

@@ -1,12 +1,27 @@
 import { take, put, call, fork, select } from 'redux-saga/effects'
 import postsActions from '../actions/postsActions'
+import usersActions from '../actions/usersActions'
 import otherActions from '../actions/otherActions'
+import { getUserById } from '../selectors/usersSelectors'
 import * as postsService from '../services/faceblock/postsApis'
 import * as usersSelectors from '../selectors/usersSelectors'
+import { isEmpty } from 'lodash'
 
 function* callPostsApi(apiName, ...args) {
   try {
     let response = yield call(postsService[apiName], ...args);
+    // fetch posts of authors
+    if(apiName.startsWith('fetch')) {
+      let posts = response.entities.posts;
+      let fetchedUserIds = [];
+      yield* posts.map(function *(post) {
+        let user = yield select(getUserById, post.userId)
+        if(isEmpty(user) && !fetchedUserIds.includes(post.userId)) {
+          yield put(usersActions.fetchUserStart(post.userId));
+          fetchedUserIds.push(post.userId);
+        }
+      });
+    }
     yield put(postsActions[apiName + 'Success']({response}));
   } catch(error) {
     yield put(otherActions.setError({error}))

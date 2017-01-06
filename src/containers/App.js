@@ -17,9 +17,9 @@ class App extends Component {
       fetchUserStart(selfId);
   }
   componentDidUpdate() {
-    let { error, handleLogout } = this.props;
+    let { error } = this.props;
     if(error && error.name === 'AUTHENTICATION_ERROR') {
-      handleLogout();
+      this.handleLogout();
     }
   }
   handleLogout = () => {

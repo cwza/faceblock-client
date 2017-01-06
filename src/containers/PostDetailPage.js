@@ -17,9 +17,9 @@ class PostDetailPage extends Component {
       fetchPostStart(postId);
   }
   componentDidUpdate() {
-    let {post, author, fetchUserStart, postsIsFetching} = this.props;
-    if(isEmpty(author) && !isEmpty(post) && !postsIsFetching)
-      fetchUserStart(post.userId);
+    // let {post, author, fetchUserStart, postsIsFetching} = this.props;
+    // if(isEmpty(author) && !isEmpty(post) && !postsIsFetching)
+    //   fetchUserStart(post.userId);
   }
   handleDeletePost = (post) => {
     this.props.deletePostStart(post.id);

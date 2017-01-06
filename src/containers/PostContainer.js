@@ -9,9 +9,9 @@ import { isEmpty } from 'lodash'
 
 class PostContainer extends Component {
   componentDidMount() {
-    let {author, fetchUserStart, post} = this.props;
-    if(isEmpty(author))
-      fetchUserStart(post.userId);
+    // let {author, fetchUserStart, post} = this.props;
+    // if(isEmpty(author))
+    //   fetchUserStart(post.userId);
   }
   handleDeletePost = (post) => {
     this.props.deletePostStart(post.id);
