@@ -29,6 +29,7 @@ class PostDetailPage extends Component {
         <h1>I am PostDetailPage.</h1>
         <PostContainer post={post}
           handleDeletePost={() => this.handleDeletePost(post)}
+          handlePostClick={() => {}}
         />
         {!isEmpty(post) && <CommentList postId={post.id}/>}
       </div>
