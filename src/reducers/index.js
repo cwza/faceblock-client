@@ -5,11 +5,13 @@ import authenticationReducer from './authenticationReducer'
 import { reducer as formReducer } from 'redux-form'
 import errorReducer from './errorReducer'
 import authenticationActions from '../actions/authenticationActions'
+import followRelationsReducer from './followRelationsReducer'
 import { routerReducer } from 'react-router-redux'
 
 const entitiesReducer = combineReducers({
   posts: postsReducer,
   users: usersReducer,
+  followRelations: followRelationsReducer,
 });
 
 const faceblockReducer = combineReducers({

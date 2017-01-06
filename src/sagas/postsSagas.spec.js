@@ -7,7 +7,7 @@ import { getPostsForHomePageByTime } from '../selectors/postsSelectors'
 import { posts } from '../mockDatas/data'
 const postsSagas = require('./postsSagas').private;
 
-describe('#callPostsApi() fetchPosts', () => {
+describe.skip('#callPostsApi() fetchPosts', () => {
   it('should call postsService.fetchPosts if success should dispatch fetchPostsSuccess otherwise dispatch fetchPostsError', () => {
     let queryStr = 'q=userId:(1)&sort=createTime&order=desc&limit=5';
     let response = {response: {}};

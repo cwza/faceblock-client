@@ -11,7 +11,7 @@ import { isEmpty } from 'lodash'
 function* callPostsApi(apiName, ...args) {
   try {
     let response = yield call(postsService[apiName], ...args);
-    // fetch posts of authors
+    // fetch authors or posts
     if(apiName.startsWith('fetch')) {
       let posts = response.entities.posts;
       let fetchedUserIds = [];

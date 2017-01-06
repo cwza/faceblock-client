@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Post from '../components/Post'
 import postsActions from '../actions/postsActions'
-import usersActions from '../actions/usersActions'
+// import usersActions from '../actions/usersActions'
 import { routerActions } from 'react-router-redux'
 import { getSelfId, getUserById } from '../selectors/usersSelectors'
-import { isEmpty } from 'lodash'
+// import { isEmpty } from 'lodash'
 
 class PostContainer extends Component {
   componentDidMount() {
@@ -21,12 +21,14 @@ class PostContainer extends Component {
   }
   render() {
     let { post, selfId, author } = this.props;
+    let handlePostClick = this.props.handlePostClick ? this.props.handlePostClick : () => this.handlePostClick(post.id);
+    let handleDeletePost = this.props.handleDeletePost ? this.props.handleDeletePost : () => this.handleDeletePost(post);
     return (
       <div>
         <h1>I am PostContainer Page.</h1>
         <Post post={post} author={author}
-          handlePostClick={() => this.handlePostClick(post.id)}
-          handleDeletePost={() => this.handleDeletePost(post)}
+          handlePostClick={handlePostClick}
+          handleDeletePost={handleDeletePost}
           canDelete={post.userId === selfId}
         />
       </div>
@@ -36,6 +38,8 @@ class PostContainer extends Component {
 
 PostContainer.propTypes = {
   post: React.PropTypes.object.isRequired,
+  handlePostClick: React.PropTypes.func,
+  handleDeletePost: React.PropTypes.func,
 }
 
 const mapStateToProps = (state, props) => {
@@ -48,5 +52,5 @@ const mapStateToProps = (state, props) => {
 export default connect(mapStateToProps, {
   deletePostStart: postsActions.deletePostStart,
   routerPush: routerActions.push,
-  fetchUserStart: usersActions.fetchUserStart,
+  // fetchUserStart: usersActions.fetchUserStart,
 })(PostContainer);

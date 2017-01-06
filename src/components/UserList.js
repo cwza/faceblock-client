@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import User from './User'
+import UserContainer from '../containers/UserContainer'
 
 class UserList extends Component {
   handleUserClick = (userId) => {
@@ -8,7 +8,7 @@ class UserList extends Component {
   renderUserList = (users) => {
     return users.map((user, i) => {
       return (
-        <User key={i} user={user}/>
+        <UserContainer key={i} user={user}/>
       )
     });
   }
