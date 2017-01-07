@@ -1,71 +1,65 @@
-import { camelizeKeys } from 'humps'
-import { API_ROOT, getReqHeaders } from './utilsApis'
+import { API_ROOT, callGet, callPost, callDelete } from './utilsApis'
 import 'isomorphic-fetch'
+import Promise from 'bluebird'
 
-// const mockFetchPosts = (endpoint) => {
-//   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
-//   return new Promise((resolve, reject) => {
-//
-//   });
-// }
 
+const fetchCommentsCount = (postId) => {
+  const fullUrl = API_ROOT + 'posts/' + postId + '/comments/count';
+  return callGet(fullUrl);
+}
+
+//get Posts and get Post comments Count
 const fetchPosts = (queryStr) => {
   const fullUrl = API_ROOT + 'posts?' + queryStr;
-  console.log('fetch posts url: ', fullUrl);
-  return fetch(fullUrl, {
-    method: "GET",
-    headers: getReqHeaders(),
-  }).then(response => {
-    return response.json().then(json => ({json, response}));
-  }).then(({json, response}) => {
-    if(!response.ok) return Promise.reject(json.error);
-    return camelizeKeys(json);
+  return callGet(fullUrl)
+    .then(response => {
+    let posts = response.entities.posts;
+    return Promise.reduce(posts, (newPosts, post) => {
+      return fetchCommentsCount(post.id).then(json => {
+        newPosts.push({...post, commentCounts: json.count});
+        return newPosts;
+      })
+    }, [])
+    .then(newPosts => {
+      response.entities.posts = newPosts;
+      return response;
+    })
   })
 }
 
 const createPost = (data) => {
   const fullUrl = API_ROOT + 'posts/';
-  console.log('create post url: ', fullUrl);
-  console.log('create post data: ', data);
-  return fetch(fullUrl, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: getReqHeaders(),
-    credentials: "same-origin"
-  }).then(response => {
-    return response.json().then(json => ({json, response}));
-  }).then(({json, response}) => {
-    if(!response.ok) return Promise.reject(json.error);
-    return camelizeKeys(json);
-  })
+  return callPost(fullUrl, data)
+    .then(response => {
+      let posts = response.entities.posts;
+      response.entities.posts = posts.map(post => ({...post, commentCounts: 0}))
+      return response;
+    });
 }
 
 const deletePost = (postId) => {
   const fullUrl = API_ROOT + 'posts/' + postId;
-  console.log('delete post url: ', fullUrl);
-  return fetch(fullUrl, {
-    method: "DELETE",
-    headers: getReqHeaders(),
-    credentials: "same-origin"
-  }).then(response => {
-    if(!response.ok) return response.json();
-  }).then(json => {
-    if(json) return Promise.reject(json.error);
-  });
+  return callDelete(fullUrl, postId);
 }
 
 const fetchPost = (postId) => {
   const fullUrl = API_ROOT + 'posts/' + postId;
-  console.log('fetch post url: ', fullUrl);
-  return fetch(fullUrl, {
-    method: "GET",
-    headers: getReqHeaders(),
-  }).then(response => {
-    return response.json().then(json => ({json, response}));
-  }).then(({json, response}) => {
-    if(!response.ok) return Promise.reject(json.error);
-    return camelizeKeys(json);
+  return callGet(fullUrl)
+    .then(response => {
+    let posts = response.entities.posts;
+    return Promise.reduce(posts, (newPosts, post) => {
+      return fetchCommentsCount(post.id).then(json => {
+        post.commentCounts = json.count;
+        newPosts.push(post);
+        return newPosts;
+      })
+    }, [])
+    .then(newPosts => {
+      response.entities.posts = newPosts;
+      return response;
+    })
   })
 }
 
-export { fetchPosts, createPost, deletePost, fetchPost };
+
+export { fetchPosts, createPost, deletePost, fetchPost, fetchCommentsCount };
