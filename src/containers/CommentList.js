@@ -8,8 +8,8 @@ import postsActions from '../actions/postsActions'
 class CommentList extends Component {
   componentDidMount() {
     let { postId } = this.props;
-    if(this.props.comments && this.props.comments.length === 0)
-      this.props.fetchOldPostsStart(this.genQueryStr(), getPostsForCommentList, {postId});
+    // if(this.props.comments && this.props.comments.length === 0)
+    this.props.fetchNewPostsStart(this.genQueryStr(), getPostsForCommentList, {postId});
   }
   genQueryStr = () => {
     return `q=replyTo:(${this.props.postId})&sort=createTime&order=desc&limit=5`;
@@ -45,5 +45,6 @@ const mapStateToProps = (state, props) => {
 
 export default connect(mapStateToProps, {
   fetchOldPostsStart: postsActions.fetchOldPostsStart,
+  fetchNewPostsStart: postsActions.fetchNewPostsStart,
   createPostStart: postsActions.createPostStart,
 })(CommentList);

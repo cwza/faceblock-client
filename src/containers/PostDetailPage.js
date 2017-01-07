@@ -10,10 +10,10 @@ import { isEmpty } from 'lodash'
 
 class PostDetailPage extends Component {
   componentDidMount() {
-    let {post, fetchPostStart} = this.props;
+    let { fetchPostStart } = this.props;
     let { postId } = this.props.params;
-    if(isEmpty(post))
-      fetchPostStart(postId);
+    // if(isEmpty(post))
+    fetchPostStart(postId);
   }
   componentDidUpdate() {
   }

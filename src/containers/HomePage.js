@@ -9,8 +9,8 @@ import PostList from '../components/PostList'
 let queryStr = 'q=userId:(1,2,21) and replyTo:(null)&sort=createTime&order=desc&limit=5';
 class HomePage extends Component {
   componentDidMount() {
-    if(this.props.posts && this.props.posts.length === 0)
-      this.props.fetchOldPostsStart(queryStr, getPostsForHomePageByTime);
+    // if(this.props.posts && this.props.posts.length === 0)
+    this.props.fetchNewPostsStart(queryStr, getPostsForHomePageByTime);
   }
   handleAddPostSubmit = (values) => {
     this.props.createPostStart(values);

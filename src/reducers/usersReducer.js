@@ -29,7 +29,7 @@ const itemsReducer = (state = {}, action) => {
   }
 }
 
-const isFetchingReducer = (state = {}, action) => {
+const isFetchingReducer = (state = false, action) => {
   switch(action.type) {
     case usersActions.fetchOldUsersStart().type:
     case usersActions.fetchNewUsersStart().type:

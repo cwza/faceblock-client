@@ -8,15 +8,15 @@ import usersActions from '../actions/usersActions'
 import { getSelfId } from '../selectors/usersSelectors'
 import UserContainer from './UserContainer'
 import { getUserById } from '../selectors/usersSelectors'
-import { isEmpty } from 'lodash'
+// import { isEmpty } from 'lodash'
 
 class UserPostsPage extends Component {
   componentDidMount() {
-    let { userId, user } = this.props.params;
-    if(this.props.posts && this.props.posts.length === 0)
-      this.props.fetchOldPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, {userId});
-    if(isEmpty(user))
-      this.props.fetchUserStart(userId);
+    let { userId } = this.props.params;
+    // if(this.props.posts && this.props.posts.length === 0)
+    this.props.fetchNewPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, {userId});
+    // if(isEmpty(user))
+    this.props.fetchUserStart(userId);
   }
   genQueryStr = (userId) => {
     return `q=userId:(${userId}) and replyTo:(null)&sort=createTime&order=desc&limit=5`
