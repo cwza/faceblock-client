@@ -8,10 +8,10 @@ const fetchCommentsCount = (postId) => {
   return callGet(fullUrl);
 }
 
-//get Posts and get Post comments Count
 const fetchPosts = (queryStr) => {
   const fullUrl = API_ROOT + 'posts?' + queryStr;
   return callGet(fullUrl)
+    // get Post comments Count
     .then(response => {
     let posts = response.entities.posts;
     return Promise.reduce(posts, (newPosts, post) => {
