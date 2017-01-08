@@ -26,25 +26,11 @@ describe.skip('#callPostsApi() fetchPosts', () => {
   });
 });
 
-describe('#getFetchOldPostsQueryStr()', () => {
-  it('should call getPostsForHomePageByTime selector and return new queryStr', () => {
-    let queryStr = 'q=userId:(1)&sort=createTime&order=desc&limit=5';
-    let props = {};
-    let iter = postsSagas.getFetchOldPostsQueryStr(queryStr, getPostsForHomePageByTime, props);
-    expect(iter.next().value).to.deep.equal(
-      select(getPostsForHomePageByTime, props)
-    );
-    expect(iter.next(posts).value).to.deep.equal(
-      queryStr + '&underNearId=1'
-    );
-  });
-});
-
 describe('#watchFetchOldPostsStart()', () => {
   it('', () => {
-    let iter = postsSagas.watchFetchOldPostsStart();
+    let iter = postsSagas.watchFetchPostsStart();
     expect(iter.next().value).to.deep.equal(
-      take(postsActions.fetchOldPostsStart().type)
+      take(postsActions.fetchPostsStart().type)
     );
   });
 })

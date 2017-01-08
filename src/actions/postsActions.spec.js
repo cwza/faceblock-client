@@ -1,14 +1,14 @@
 import { expect } from 'chai'
 import postsActions from './postsActions'
-test('#fetchOldPostsStart()', () => {
+test('#fetchPostsStart()', () => {
   let queryStr = 'userId:(1)&sort=createTime';
-  let fetchOldPostsStart = postsActions.fetchOldPostsStart(queryStr)
+  let fetchPostsStart = postsActions.fetchPostsStart(queryStr)
   let expected = {
-    type: 'FETCH_OLD_POSTS_START',
-    payload: {queryStr, postsSelector: undefined, selectorParams: undefined}
+    type: 'FETCH_POSTS_START',
+    payload: queryStr
   }
-  console.log('fetchOldPostsStart: ', fetchOldPostsStart);
-  expect(fetchOldPostsStart).to.deep.equal(expected);
+  console.log('fetchPostsStart: ', fetchPostsStart);
+  expect(fetchPostsStart).to.deep.equal(expected);
 });
 test('#fetchPostsSuccess()', () => {
   let response = 'I am response';
