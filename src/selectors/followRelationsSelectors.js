@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
-import { getFaceblockEntities, getSelectorParams } from './utilsSelectors'
+import { getFaceblockEntities } from './utilsSelectors'
+import { memoize } from 'lodash'
 
 const getFollowRelationsObject = createSelector(
   [getFaceblockEntities],
@@ -31,13 +32,15 @@ const getAllFollowRelations = createSelector(
 );
 
 const getFollowRelationByUserIdAndFollowerId = createSelector(
-  [getAllFollowRelations, getSelectorParams],
-  (followRelations={}, {userId, followerId}) => {
-    let followRelation = followRelations.filter(followRelation => followRelation.userId === userId && followRelation.followerId === followerId);
-    if(followRelation.length > 0)
-      return followRelation[0];
-    return {};
-  }
+  [getAllFollowRelations],
+  (followRelations={}) => memoize (
+    ({userId, followerId}) => {
+      let followRelation = followRelations.filter(followRelation => followRelation.userId === userId && followRelation.followerId === followerId);
+      if(followRelation.length > 0)
+        return followRelation[0];
+      return {};
+    }
+  )
 );
 
 export {

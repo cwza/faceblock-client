@@ -45,7 +45,7 @@ CommentList.propTypes = {
 
 const mapStateToProps = (state, props) => {
   return {
-    comments: getPostsForCommentList(state, {postId: props.postId})
+    comments: getPostsForCommentList(state)({postId: props.postId})
   }
 }
 

@@ -45,7 +45,7 @@ UserContainer.propTypes = {
 const mapStateToProps = (state, props) => {
   return {
     selfId: getSelfId(state),
-    followRelation: getFollowRelationByUserIdAndFollowerId(state, {userId: props.user.id, followerId: getSelfId(state)}),
+    followRelation: getFollowRelationByUserIdAndFollowerId(state)({userId: props.user.id, followerId: getSelfId(state)}),
   }
 }
 

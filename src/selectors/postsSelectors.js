@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect'
-import { getFaceblockEntities, getSelectorParams } from './utilsSelectors'
+import { getFaceblockEntities } from './utilsSelectors'
 import { getFriendsIds, getSelfId } from './usersSelectors'
 import { getSearchKeyword } from './formSelectors'
+import { memoize } from 'lodash'
 
 const getPostById = (state, postId) => {
   if(state.apis.faceblock.entities && state.apis.faceblock.entities.posts
@@ -52,25 +53,29 @@ const getPostsForHomePageByTime = createSelector(
 );
 
 const getPostsForCommentList = createSelector(
-  [getAllPosts, getSelectorParams],
-  (posts=[], {postId}) => {
-    console.log('props.postId: ', postId);
-    let result = posts.filter(post => post.replyTo === postId)
-      .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
-    return result;
-  }
+  [getAllPosts],
+  (posts=[]) => memoize(
+    ({postId}) => {
+      console.log('props.postId: ', postId);
+      let result = posts.filter(post => post.replyTo === postId)
+        .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
+      return result;
+    }
+  )
 )
 
 //TODO: if post.content contains hashtag about self name, they should be get too
 const getPostsForUserPostsPage = createSelector(
-  [getAllPosts, getSelectorParams],
-  (posts=[], {userId}) => {
-    console.log('props.params.userId: ', userId);
-    let result = posts.filter(post => post.userId.toString() === userId)
-      .filter(post => post.replyTo === null)
-      .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
-    return result;
-  }
+  [getAllPosts],
+  (posts=[]) => memoize (
+    ({userId}) => {
+      console.log('props.params.userId: ', userId);
+      let result = posts.filter(post => post.userId.toString() === userId)
+        .filter(post => post.replyTo === null)
+        .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
+      return result;
+    }
+  )
 )
 
 const getPostsForSearchPostPage = createSelector(

@@ -54,7 +54,7 @@ UserPostsPage.propTypes = {
 
 const mapStateToProps = (state, props) => {
   return {
-    posts: getPostsForUserPostsPage(state, {userId: props.params.userId}),
+    posts: getPostsForUserPostsPage(state)({userId: props.params.userId}),
     selfId: getSelfId(state),
     user: getUserById(state, props.params.userId),
   }
