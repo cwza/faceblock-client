@@ -35,8 +35,7 @@ const isFetchingReducer = (state = false, action) => {
   switch(action.type) {
     case followRelationsActions.createFollowRelationStart().type:
     case followRelationsActions.deleteFollowRelationStart().type:
-    case followRelationsActions.fetchOldFollowRelationsStart().type:
-    case followRelationsActions.fetchNewFollowRelationsStart().type:
+    case followRelationsActions.fetchFollowRelationsStart().type:
     case followRelationsActions.fetchFollowRelationStart().type:
       return true;
     case followRelationsActions.deleteFollowRelationSuccess().type:

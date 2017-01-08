@@ -5,6 +5,7 @@ import { getSearchKeyword } from '../selectors/formSelectors'
 import { getPostsForSearchPostPage } from '../selectors/postsSelectors'
 import PostList from '../components/PostList'
 import postsActions from '../actions/postsActions'
+import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
 
 let selectorParams = {
   formName: 'KeywordSearch',
@@ -19,15 +20,19 @@ class SearchPostPage extends Component {
   }
   handleSearchFormOnChange = (value) => {
     if(value)
-      this.props.fetchOldPostsStart(this.genQueryStr(value), getPostsForSearchPostPage, selectorParams);
+      this.handleFetchNewPosts(value, this.props.posts);
   }
-  handleFetchOldPosts = (searchKeyword) => {
-    if(searchKeyword)
-      this.props.fetchOldPostsStart(this.genQueryStr(searchKeyword), getPostsForSearchPostPage, selectorParams);
+  handleFetchOldPosts = (searchKeyword, posts) => {
+    if(searchKeyword) {
+      let fetchOldPostsQueryStr = getFetchOldQueryStr(this.genQueryStr(searchKeyword), posts)
+      this.props.fetchPostsStart(fetchOldPostsQueryStr);
+    }
   }
-  handleFetchNewPosts = (searchKeyword) => {
-    if(searchKeyword)
-      this.props.fetchNewPostsStart(this.genQueryStr(searchKeyword), getPostsForSearchPostPage, selectorParams);
+  handleFetchNewPosts = (searchKeyword, posts) => {
+    if(searchKeyword) {
+      let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(searchKeyword), posts)
+      this.props.fetchPostsStart(fetchNewPostsQueryStr);
+    }
   }
   render() {
     let { searchKeyword, posts } = this.props;
@@ -37,8 +42,8 @@ class SearchPostPage extends Component {
         <KeywordSearchForm handleOnChange={this.handleSearchFormOnChange} />
         <h2>{this.genQueryStr(searchKeyword)}</h2>
         <PostList posts={posts}
-          handleFetchOldPosts={() => this.handleFetchOldPosts(searchKeyword)}
-          handleFetchNewPosts={() => this.handleFetchNewPosts(searchKeyword)} />
+          handleFetchOldPosts={() => this.handleFetchOldPosts(searchKeyword, posts)}
+          handleFetchNewPosts={() => this.handleFetchNewPosts(searchKeyword, posts)} />
       </div>
     )
   }
@@ -55,6 +60,5 @@ const mapStateToProps = (state, props) => {
 }
 
 export default connect(mapStateToProps, {
-  fetchOldPostsStart: postsActions.fetchOldPostsStart,
-  fetchNewPostsStart: postsActions.fetchNewPostsStart,
+  fetchPostsStart: postsActions.fetchPostsStart,
 })(SearchPostPage);

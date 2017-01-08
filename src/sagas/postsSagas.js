@@ -38,37 +38,11 @@ function* deletePost(postId) {
   }
 }
 
-function* getFetchOldPostsQueryStr(queryStr, postsSelector, selectorParams) {
-  let posts = yield select(postsSelector, selectorParams);
-  if(posts.length === 0 || posts === undefined)
-    return queryStr;
-  return queryStr + '&underNearId=' + posts[posts.length - 1].id;
-}
-
-function* getFetchNewPostsQueryStr(queryStr, postsSelector, selectorParams) {
-  let posts = yield select(postsSelector, selectorParams);
-  if(posts.length === 0 || posts === undefined)
-    return queryStr;
-  return queryStr + '&upperNearId=' + posts[0].id;
-}
-
 ///////////////////////////////////WATCHER////////////////////////////
-function* watchFetchOldPostsStart() {
-  // const requestChan = yield actionChannel(postsActions.fetchOldPostsStart().type);
+function* watchFetchPostsStart() {
   while(true) {
-    let {payload} = yield take(postsActions.fetchOldPostsStart().type);
-    // const {payload} = yield take(requestChan);
-    let queryStr = yield* getFetchOldPostsQueryStr(payload.queryStr, payload.postsSelector, payload.selectorParams);
-    yield fork(callPostsApi, 'fetchPosts', queryStr);
-    // yield fork(fetchPosts, queryStr);
-  }
-}
-
-function* watchFetchNewPostsStart() {
-  while(true) {
-    let {payload} = yield take(postsActions.fetchNewPostsStart().type);
-    let queryStr = yield* getFetchNewPostsQueryStr(payload.queryStr, payload.postsSelector, payload.selectorParams);
-    yield fork(callPostsApi, 'fetchPosts', queryStr);
+    let {payload} = yield take(postsActions.fetchPostsStart().type);
+    yield fork(callPostsApi, 'fetchPosts', payload);
   }
 }
 
@@ -95,9 +69,9 @@ function* watchFetchPostStart() {
 }
 
 export default {
-  watchFetchOldPostsStart, watchFetchNewPostsStart, watchCreatePostStart, watchDeletePostStart,
-  watchFetchPostStart,
+  watchCreatePostStart, watchDeletePostStart,
+  watchFetchPostStart, watchFetchPostsStart
 };
 if(process.env.NODE_ENV !== 'production') {
-  module.exports.private = {callPostsApi, getFetchOldPostsQueryStr, watchFetchOldPostsStart};
+  module.exports.private = {callPostsApi, watchFetchPostsStart};
 }

@@ -42,37 +42,14 @@ function* deleteFollowRelation(postId) {
   }
 }
 
-function* getFetchOldFollowRelationsQueryStr(queryStr, followRelationsSelector, selectorParams) {
-  let followRelations = yield select(followRelationsSelector, selectorParams);
-  if(followRelations.length === 0 || followRelations === undefined)
-    return queryStr;
-  return queryStr + '&underNearId=' + followRelations[followRelations.length - 1].id;
-}
-
-function* getFetchNewFollowRelationsQueryStr(queryStr, followRelationsSelector, selectorParams) {
-  let followRelations = yield select(followRelationsSelector, selectorParams);
-  if(followRelations.length === 0 || followRelations === undefined)
-    return queryStr;
-  return queryStr + '&upperNearId=' + followRelations[0].id;
-}
-
 ///////////////////////////////////WATCHER////////////////////////////
-function* watchFetchOldFollowRelationsStart() {
+function* watchFetchFollowRelationsStart() {
   // const requestChan = yield actionChannel(followRelationsActions.fetchOldFollowRelationsStart().type);
   while(true) {
-    let {payload} = yield take(followRelationsActions.fetchOldFollowRelationsStart().type);
+    let {payload} = yield take(followRelationsActions.fetchFollowRelationsStart().type);
     // const {payload} = yield take(requestChan);
-    let queryStr = yield* getFetchOldFollowRelationsQueryStr(payload.queryStr, payload.followRelationsSelector, payload.selectorParams);
-    yield fork(callFollowRelationsApi, 'fetchFollowRelations', queryStr);
+    yield fork(callFollowRelationsApi, 'fetchFollowRelations', payload);
     // yield fork(fetchFollowRelations, queryStr);
-  }
-}
-
-function* watchFetchNewFollowRelationsStart() {
-  while(true) {
-    let {payload} = yield take(followRelationsActions.fetchNewFollowRelationsStart().type);
-    let queryStr = yield* getFetchNewFollowRelationsQueryStr(payload.queryStr, payload.followRelationsSelector, payload.selectorParams);
-    yield fork(callFollowRelationsApi, 'fetchFollowRelations', queryStr);
   }
 }
 
@@ -99,9 +76,9 @@ function* watchFetchFollowRelationStart() {
 }
 
 export default {
-  watchFetchOldFollowRelationsStart, watchFetchNewFollowRelationsStart, watchCreateFollowRelationStart, watchDeleteFollowRelationStart,
+  watchFetchFollowRelationsStart, watchCreateFollowRelationStart, watchDeleteFollowRelationStart,
   watchFetchFollowRelationStart,
 };
 if(process.env.NODE_ENV !== 'production') {
-  module.exports.private = {callFollowRelationsApi, getFetchOldFollowRelationsQueryStr, watchFetchOldFollowRelationsStart};
+  module.exports.private = {callFollowRelationsApi, watchFetchFollowRelationsStart};
 }

@@ -8,13 +8,14 @@ import usersActions from '../actions/usersActions'
 import { getSelfId } from '../selectors/usersSelectors'
 import UserContainer from './UserContainer'
 import { getUserById } from '../selectors/usersSelectors'
-// import { isEmpty } from 'lodash'
+import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
 
 class UserPostsPage extends Component {
   componentDidMount() {
+    let { posts } = this.props;
     let { userId } = this.props.params;
     // if(this.props.posts && this.props.posts.length === 0)
-    this.props.fetchNewPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, {userId});
+    this.handleFetchNewPosts(userId, posts)
     // if(isEmpty(user))
     this.props.fetchUserStart(userId);
   }
@@ -24,11 +25,13 @@ class UserPostsPage extends Component {
   handleAddPostSubmit = (values) => {
     this.props.createPostStart(values);
   }
-  handleFetchOldPosts = (userId) => {
-    this.props.fetchOldPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, {userId});
+  handleFetchOldPosts = (userId, posts) => {
+    let fetchOldPostsQueryStr = getFetchOldQueryStr(this.genQueryStr(userId), posts)
+    this.props.fetchPostsStart(fetchOldPostsQueryStr);
   }
-  handleFetchNewPosts = (userId) => {
-    this.props.fetchNewPostsStart(this.genQueryStr(userId), getPostsForUserPostsPage, {userId});
+  handleFetchNewPosts = (userId, posts) => {
+    let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(userId), posts)
+    this.props.fetchPostsStart(fetchNewPostsQueryStr);
   }
   render() {
     let { posts, selfId, user } = this.props;
@@ -39,15 +42,14 @@ class UserPostsPage extends Component {
         <UserContainer user={user} handleUserClick={() => {}}/>
         {(selfId.toString() === userId) && <AddPostForm onSubmit={this.handleAddPostSubmit} />}
         <PostList posts={posts}
-          handleFetchOldPosts={() => this.handleFetchOldPosts(userId)}
-          handleFetchNewPosts={() => this.handleFetchNewPosts(userId)} />
+          handleFetchOldPosts={() => this.handleFetchOldPosts(userId, posts)}
+          handleFetchNewPosts={() => this.handleFetchNewPosts(userId, posts)} />
       </div>
     )
   }
 }
 
 UserPostsPage.propTypes = {
-  posts: React.PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state, props) => {
@@ -59,8 +61,7 @@ const mapStateToProps = (state, props) => {
 }
 
 export default connect(mapStateToProps, {
-  fetchOldPostsStart: postsActions.fetchOldPostsStart,
-  fetchNewPostsStart: postsActions.fetchNewPostsStart,
+  fetchPostsStart: postsActions.fetchPostsStart,
   createPostStart: postsActions.createPostStart,
   fetchUserStart: usersActions.fetchUserStart,
 })(UserPostsPage);

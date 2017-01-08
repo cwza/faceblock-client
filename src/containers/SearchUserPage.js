@@ -5,6 +5,7 @@ import { getSearchKeyword } from '../selectors/formSelectors'
 import { getUsersForSearchUserPage } from '../selectors/usersSelectors'
 import UserList from '../components/UserList'
 import usersActions from '../actions/usersActions'
+import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
 
 let selectorParams = {
   formName: 'KeywordSearch',
@@ -19,15 +20,19 @@ class SearchUserPage extends Component {
   }
   handleSearchFormOnChange = (value) => {
     if(value)
-      this.props.fetchOldUsersStart(this.genQueryStr(value), getUsersForSearchUserPage, selectorParams);
+      this.handleFetchNewUsers(value, this.props.users);
   }
-  handleFetchOldUsers = (searchKeyword) => {
-    if(searchKeyword)
-      this.props.fetchOldUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, selectorParams);
+  handleFetchOldUsers = (searchKeyword, users) => {
+    if(searchKeyword) {
+      let fetchOldUsersQueryStr = getFetchOldQueryStr(this.genQueryStr(searchKeyword), users)
+      this.props.fetchUsersStart(fetchOldUsersQueryStr);
+    }
   }
-  handleFetchNewUsers = (searchKeyword) => {
-    if(searchKeyword)
-      this.props.fetchNewUsersStart(this.genQueryStr(searchKeyword), getUsersForSearchUserPage, selectorParams);
+  handleFetchNewUsers = (searchKeyword, users) => {
+    if(searchKeyword) {
+      let fetchNewUsersQueryStr = getFetchNewQueryStr(this.genQueryStr(searchKeyword), users)
+      this.props.fetchUsersStart(fetchNewUsersQueryStr);
+    }
   }
   render() {
     let { searchKeyword, users } = this.props;
@@ -37,8 +42,8 @@ class SearchUserPage extends Component {
         <KeywordSearchForm handleOnChange={this.handleSearchFormOnChange} />
         <h2>{this.genQueryStr(searchKeyword)}</h2>
         <UserList users={users}
-          handleFetchOldUsers={() => this.handleFetchOldUsers(searchKeyword)}
-          handleFetchNewUsers={() => this.handleFetchNewUsers(searchKeyword)} />
+          handleFetchOldUsers={() => this.handleFetchOldUsers(searchKeyword, users)}
+          handleFetchNewUsers={() => this.handleFetchNewUsers(searchKeyword, users)} />
       </div>
     )
   }
@@ -55,6 +60,5 @@ const mapStateToProps = (state, props) => {
 }
 
 export default connect(mapStateToProps, {
-  fetchOldUsersStart: usersActions.fetchOldUsersStart,
-  fetchNewUsersStart: usersActions.fetchNewUsersStart,
+  fetchUsersStart: usersActions.fetchUsersStart,
 })(SearchUserPage);

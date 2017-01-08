@@ -60,4 +60,16 @@ const callDelete = (fullUrl) => {
   });
 }
 
-export {API_ROOT, getReqHeaders, callGet, callPost, callDelete}
+const getFetchOldQueryStr = (queryStr, entities) => {
+  if(entities.length === 0 || entities === undefined)
+    return queryStr;
+  return queryStr + '&underNearId=' + entities[entities.length - 1].id;
+}
+
+const getFetchNewQueryStr = (queryStr, entities) => {
+  if(entities.length === 0 || entities === undefined)
+    return queryStr;
+  return queryStr + '&upperNearId=' + entities[0].id;
+}
+
+export {API_ROOT, getReqHeaders, callGet, callPost, callDelete, getFetchOldQueryStr, getFetchNewQueryStr}

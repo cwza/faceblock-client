@@ -35,8 +35,7 @@ const isFetchingReducer = (state = false, action) => {
   switch(action.type) {
     case postsActions.createPostStart().type:
     case postsActions.deletePostStart().type:
-    case postsActions.fetchOldPostsStart().type:
-    case postsActions.fetchNewPostsStart().type:
+    case postsActions.fetchPostsStart().type:
     case postsActions.fetchPostStart().type:
       return true;
     case postsActions.deletePostSuccess().type:

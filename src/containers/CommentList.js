@@ -4,12 +4,13 @@ import AddPostForm from '../components/AddPostForm'
 import PostList from '../components/PostList'
 import { getPostsForCommentList } from '../selectors/postsSelectors'
 import postsActions from '../actions/postsActions'
+import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
 
 class CommentList extends Component {
   componentDidMount() {
-    let { postId } = this.props;
+    let { postId, comments } = this.props;
     // if(this.props.comments && this.props.comments.length === 0)
-    this.props.fetchNewPostsStart(this.genQueryStr(), getPostsForCommentList, {postId});
+    this.handleFetchNewPosts(postId, comments);
   }
   genQueryStr = () => {
     return `q=replyTo:(${this.props.postId})&sort=createTime&order=desc&limit=5`;
@@ -18,8 +19,13 @@ class CommentList extends Component {
     values.replyTo = this.props.postId;
     this.props.createPostStart(values);
   }
-  handleFetchOldPosts = (postId) => {
-    this.props.fetchOldPostsStart(this.genQueryStr(postId), getPostsForCommentList, {postId});
+  handleFetchNewPosts = (postId, posts) => {
+    let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(postId), posts)
+    this.props.fetchPostsStart(fetchNewPostsQueryStr);
+  }
+  handleFetchOldPosts = (postId, posts) => {
+    let fetchOldPostsQueryStr = getFetchOldQueryStr(this.genQueryStr(postId), posts)
+    this.props.fetchPostsStart(fetchOldPostsQueryStr);
   }
   render() {
     let { comments, postId } = this.props;
@@ -27,7 +33,7 @@ class CommentList extends Component {
       <div>
         <h1>I am CommentList.</h1>
         <AddPostForm onSubmit={this.handleAddPostSubmit} />
-        <PostList posts={comments} handleFetchOldPosts={() => this.handleFetchOldPosts(postId)} />
+        <PostList posts={comments} handleFetchOldPosts={() => this.handleFetchOldPosts(postId, comments)} />
       </div>
     )
   }
@@ -44,7 +50,6 @@ const mapStateToProps = (state, props) => {
 }
 
 export default connect(mapStateToProps, {
-  fetchOldPostsStart: postsActions.fetchOldPostsStart,
-  fetchNewPostsStart: postsActions.fetchNewPostsStart,
+  fetchPostsStart: postsActions.fetchPostsStart,
   createPostStart: postsActions.createPostStart,
 })(CommentList);
