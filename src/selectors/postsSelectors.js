@@ -45,6 +45,7 @@ const getPostsByRequestId = createSelector(
         return postsItems[postId.toString()]
       return {}
     })
+    console.log('result: ', result);
     return result;
   }
 )

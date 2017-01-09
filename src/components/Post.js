@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { isEmpty } from 'lodash'
+import * as utils from '../utils'
 
 class Post extends Component {
   renderPost = (post, handlePostClick, handleDeletePost, canDelete, author) => {
     if(!isEmpty(post)) {
       return (
         <div>
-          {!isEmpty(author) && <Link to={`/UserPostsPage/${author.id}`} activeClassName="active">{author.mail}</Link>}
+          {!isEmpty(author) && <Link to={`/UserPostsPage/${author.id}`} activeClassName="active">{utils.getMailUsername(author.mail)}</Link>}
           {canDelete && <button onClick={handleDeletePost}>Delete</button>}
           <div onClick={handlePostClick}>
             <h1>{JSON.stringify(post, null, 2)}</h1>

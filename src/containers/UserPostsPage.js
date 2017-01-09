@@ -9,6 +9,7 @@ import { getSelfId } from '../selectors/usersSelectors'
 import UserContainer from './UserContainer'
 import { getUserById } from '../selectors/usersSelectors'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
+import * as utils from '../utils'
 
 const componentName = 'UserPostsPage';
 class UserPostsPage extends Component {
@@ -21,7 +22,8 @@ class UserPostsPage extends Component {
     this.props.fetchUserStart(userId);
   }
   genQueryStr = (userId) => {
-    return `q=userId:(${userId}) and replyTo:(null)&sort=createTime&order=desc&limit=5`
+    let userName = utils.getMailUsername(this.props.user.mail);
+    return `q=userId:(${userId}) and replyTo:(null) or #${userName}&sort=createTime&order=desc&limit=5`
   }
   handleAddPostSubmit = (values) => {
     this.props.createPostStart(values);

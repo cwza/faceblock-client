@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 
 const getRequestInfoById = (state, requestId) => {
+  console.log('requestId: ', requestId);
   if(state.apis.faceblock.requestInfo && state.apis.faceblock.requestInfo[requestId])
     return state.apis.faceblock.requestInfo[requestId];
   return {};

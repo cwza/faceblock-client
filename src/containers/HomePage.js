@@ -5,8 +5,9 @@ import { getPostsByRequestId } from '../selectors/postsSelectors'
 import AddPostForm from '../components/AddPostForm'
 import PostList from '../components/PostList'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
-import { getSelfId } from '../selectors/usersSelectors'
+import { getSelfId, getSelfUser } from '../selectors/usersSelectors'
 import { getUserIdsByFollowerId } from '../selectors/followRelationsSelectors'
+import * as utils from '../utils'
 
 const componentName = 'HomePage';
 class HomePage extends Component {
@@ -15,8 +16,9 @@ class HomePage extends Component {
     this.handleFetchNewPosts(this.props.posts, this.props.selfId, this.props.followingIds);
   }
   genQueryStr = (selfId, followingIds) => {
+    let userName = utils.getMailUsername(this.props.selfUser.mail);
     let userIds = [selfId, ...followingIds];
-    let queryStr = `q=userId:(${userIds.join(',')}) and replyTo:(null)&sort=createTime&order=desc&limit=5`;
+    let queryStr = `q=userId:(${userIds.join(',')}) and replyTo:(null) or ${userName}&sort=createTime&order=desc&limit=5`;
     return queryStr;
   }
   handleAddPostSubmit = (values) => {
@@ -51,6 +53,7 @@ const mapStateToProps = (state, props) => {
   return {
     posts: getPostsByRequestId(state, componentName + '_' + getUserIdsByFollowerId(state)({followerId: getSelfId(state)})),
     selfId: getSelfId(state),
+    selfUser: getSelfUser(state),
     followingIds: getUserIdsByFollowerId(state)({followerId: getSelfId(state)}),
   }
 }

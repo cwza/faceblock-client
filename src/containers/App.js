@@ -30,14 +30,14 @@ class App extends Component {
     window.location.reload();
   }
   render() {
-    let { error, faceblockToken, selfId, usersIsFetching, postsIsFetching } = this.props;
+    let { error, faceblockToken, selfId, usersIsFetching, postsIsFetching, selfUser } = this.props;
     return (
       <div>
         <h1>I am App Page.</h1>
         <Loading usersIsFetching={usersIsFetching} postsIsFetching={postsIsFetching}/>
         <SideBar selfId={selfId} faceblockToken={faceblockToken} handleLogout={this.handleLogout}/>
         {error && <Error error={error} />}
-        {this.props.children}
+        {React.cloneElement(this.props.children, {selfUser})}
       </div>
     )
   }

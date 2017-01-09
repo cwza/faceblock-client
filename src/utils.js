@@ -29,4 +29,11 @@ const deletePropertiesFromObject = (obj, properties) => {
     }, {});
 }
 
-export {parseTimeStrFieldToDate, deletePropertiesFromObject, createUrlByParams, removeSpecialWordFromQuery};
+const getMailUsername = (emailAddress) => {
+   return emailAddress.match(/^(.+)@/)[1];
+}
+
+export {
+  parseTimeStrFieldToDate, deletePropertiesFromObject, createUrlByParams,
+  removeSpecialWordFromQuery, getMailUsername
+ };
