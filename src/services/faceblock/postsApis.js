@@ -49,8 +49,7 @@ const fetchPost = (postId) => {
     let posts = response.entities.posts;
     return Promise.reduce(posts, (newPosts, post) => {
       return fetchCommentsCount(post.id).then(json => {
-        post.commentCounts = json.count;
-        newPosts.push(post);
+        newPosts.push({...post, commentCounts: json.count});
         return newPosts;
       })
     }, [])

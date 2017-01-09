@@ -60,15 +60,16 @@ const getSelfUser = createSelector(
 //   (usersItems={}) => Object.values(usersItems)
 // );
 
-const getUsersForSearchUserPage = createSelector(
+const getUsersByRequestId = createSelector(
   [getUsersItems, getOrder],
   (usersItems={}, order) => {
-    console.log('usersItems: ', usersItems);
-    console.log('order: ', order);
-    let result = order.map(userId => usersItems[userId.toString()])
-    console.log('result: ', result);
+    let result = order.map(userId => {
+      if(usersItems[userId.toString()])
+        return usersItems[userId.toString()]
+      return {};
+    });
     return result;
   }
 )
 
-export {getSelfId, getFriendsIds, getSelfUser, getUsersForSearchUserPage, getUserById, getIsFetching};
+export {getSelfId, getFriendsIds, getSelfUser, getUsersByRequestId, getUserById, getIsFetching};

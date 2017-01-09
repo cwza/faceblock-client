@@ -27,7 +27,7 @@ describe('#itemsReducer()', () => {
       2: {id: 2, userId: 1, content: 'bb'},
       3: {id: 3, userId: 1, content: 'cc'},
     };
-    let newState = itemsReducer(oriState.items, postsActions.fetchPostsSuccess(apiResponse));
+    let newState = itemsReducer(oriState.items, postsActions.fetchPostsSuccess(apiResponse.response));
     console.log('newState: ', newState);
     expect(newState).to.deep.equal(expectedNewState);
   });
@@ -35,7 +35,7 @@ describe('#itemsReducer()', () => {
 describe('#isFetchingReducer()', () => {
   it('recieved fetchPostSuccess should return false', () => {
     let expectedNewState = false;
-    let newState = isFetchingReducer(true, postsActions.fetchPostsSuccess(apiResponse));
+    let newState = isFetchingReducer(true, postsActions.fetchPostsSuccess(apiResponse.response));
     console.log('newState: ', newState);
     expect(newState).to.deep.equal(expectedNewState);
   });

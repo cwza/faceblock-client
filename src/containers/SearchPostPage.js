@@ -2,36 +2,43 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import KeywordSearchForm from '../components/KeywordSearchForm'
 import { getSearchKeyword } from '../selectors/formSelectors'
-import { getPostsForSearchPostPage } from '../selectors/postsSelectors'
+import { getPostsByRequestId } from '../selectors/postsSelectors'
 import PostList from '../components/PostList'
 import postsActions from '../actions/postsActions'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
+import otherActions from '../actions/otherActions'
 
 let selectorParams = {
   formName: 'KeywordSearch',
   fieldName: 'searchKeyword'
-}
+};
+const componentName = 'SearchPostPage';
 class SearchPostPage extends Component {
   componentDidMount() {
   }
+  componentWillUnmount() {
+    this.props.removeRequestInfo(componentName);
+  }
   genQueryStr = (searchKeyword) => {
     searchKeyword = encodeURIComponent(searchKeyword);
-    return `q=content:(*${searchKeyword}*)&sort=createTime&order=desc&limit=5`;
+    return `q=${searchKeyword}&sort=createTime&order=desc&limit=5`;
   }
   handleSearchFormOnChange = (value) => {
-    if(value)
-      this.handleFetchNewPosts(value, this.props.posts);
+    if(value) {
+      let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(value), this.props.postsSelector(componentName + '_' + value))
+      this.props.fetchPostsStart(fetchNewPostsQueryStr, componentName + '_' + value);
+    }
   }
   handleFetchOldPosts = (searchKeyword, posts) => {
     if(searchKeyword) {
       let fetchOldPostsQueryStr = getFetchOldQueryStr(this.genQueryStr(searchKeyword), posts)
-      this.props.fetchPostsStart(fetchOldPostsQueryStr);
+      this.props.fetchPostsStart(fetchOldPostsQueryStr, componentName + '_' + searchKeyword);
     }
   }
   handleFetchNewPosts = (searchKeyword, posts) => {
     if(searchKeyword) {
       let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(searchKeyword), posts)
-      this.props.fetchPostsStart(fetchNewPostsQueryStr);
+      this.props.fetchPostsStart(fetchNewPostsQueryStr, componentName + '_' + searchKeyword);
     }
   }
   render() {
@@ -55,10 +62,12 @@ SearchPostPage.propTypes = {
 const mapStateToProps = (state, props) => {
   return {
     searchKeyword: getSearchKeyword(state, selectorParams),
-    posts: getPostsForSearchPostPage(state, selectorParams),
+    posts: getPostsByRequestId(state, componentName + '_' + getSearchKeyword(state, selectorParams)),
+    postsSelector: (arg) => getPostsByRequestId(state, ...arg),
   }
 }
 
 export default connect(mapStateToProps, {
   fetchPostsStart: postsActions.fetchPostsStart,
+  removeRequestInfo: otherActions.removeRequestInfo,
 })(SearchPostPage);

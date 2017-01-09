@@ -2,18 +2,22 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import KeywordSearchForm from '../components/KeywordSearchForm'
 import { getSearchKeyword } from '../selectors/formSelectors'
-import { getUsersForSearchUserPage } from '../selectors/usersSelectors'
+import { getUsersByRequestId } from '../selectors/usersSelectors'
 import UserList from '../components/UserList'
 import usersActions from '../actions/usersActions'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
+import otherActions from '../actions/otherActions'
 
-let selectorParams = {
+const selectorParams = {
   formName: 'KeywordSearch',
   fieldName: 'searchKeyword'
 }
-let componentName = 'SeachUserPage';
+const componentName = 'SearchUserPage';
 class SearchUserPage extends Component {
   componentDidMount() {
+  }
+  componentWillUnmount() {
+    this.props.removeRequestInfo(componentName);
   }
   genQueryStr = (searchKeyword) => {
     searchKeyword = encodeURIComponent(searchKeyword);
@@ -58,11 +62,12 @@ SearchUserPage.propTypes = {
 const mapStateToProps = (state, props) => {
   return {
     searchKeyword: getSearchKeyword(state, selectorParams),
-    users: getUsersForSearchUserPage(state, componentName + '_' + getSearchKeyword(state, selectorParams)),
-    usersSelector: (arg) => getUsersForSearchUserPage(state, ...arg),
+    users: getUsersByRequestId(state, componentName + '_' + getSearchKeyword(state, selectorParams)),
+    usersSelector: (arg) => getUsersByRequestId(state, ...arg),
   }
 }
 
 export default connect(mapStateToProps, {
   fetchUsersStart: usersActions.fetchUsersStart,
+  removeRequestInfo: otherActions.removeRequestInfo,
 })(SearchUserPage);

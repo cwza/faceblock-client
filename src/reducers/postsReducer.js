@@ -20,12 +20,13 @@ const itemsReducer = (state = {}, action) => {
     case postsActions.fetchPostsSuccess().type:
     case postsActions.createPostSuccess().type:
     case postsActions.fetchPostSuccess().type:
+      console.log('action: ', action);
       if(action.payload.response.entities.posts) {
         return mergeFetchedPostsToState(state, action.payload.response.entities.posts)
       }
       return state;
     case postsActions.deletePostSuccess().type:
-      return utils.deletePropertiesFromObject(state, [action.payload.toString()])
+      return utils.deletePropertiesFromObject(state, [action.payload.response.toString()])
     default:
       return state;
   }

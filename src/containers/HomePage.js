@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
-import { getPostsForHomePageByTime } from '../selectors/postsSelectors'
+import { getPostsByRequestId } from '../selectors/postsSelectors'
 import AddPostForm from '../components/AddPostForm'
 import PostList from '../components/PostList'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
 
-// TODO getQueryStr from compute, and add or #hashtag about self search
+const componentName = 'HomePage';
 class HomePage extends Component {
   componentDidMount() {
     // if(this.props.posts && this.props.posts.length === 0)
@@ -21,11 +21,11 @@ class HomePage extends Component {
   }
   handleFetchOldPosts = (posts) => {
     let fetchOldPostsQueryStr = getFetchOldQueryStr(this.genQueryStr(), posts)
-    this.props.fetchPostsStart(fetchOldPostsQueryStr);
+    this.props.fetchPostsStart(fetchOldPostsQueryStr, componentName);
   }
   handleFetchNewPosts = (posts) => {
     let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(), posts)
-    this.props.fetchPostsStart(fetchNewPostsQueryStr);
+    this.props.fetchPostsStart(fetchNewPostsQueryStr, componentName);
   }
   render() {
     let { posts } = this.props;
@@ -46,7 +46,7 @@ HomePage.propTypes = {
 
 const mapStateToProps = (state, props) => {
   return {
-    posts: getPostsForHomePageByTime(state),
+    posts: getPostsByRequestId(state, componentName),
   }
 }
 

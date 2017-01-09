@@ -8,9 +8,9 @@ import * as postsService from '../services/faceblock/postsApis'
 import * as usersSelectors from '../selectors/usersSelectors'
 import { isEmpty } from 'lodash'
 
-function* callPostsApi(apiName, ...args) {
+function* callPostsApi(apiName, actionType, apiInfos=[], otherInfos=[]) {
   try {
-    let response = yield call(postsService[apiName], ...args);
+    let response = yield call(postsService[apiName], ...apiInfos);
     // fetch authors or posts
     if(apiName.startsWith('fetch')) {
       let posts = response.entities.posts;
@@ -23,7 +23,7 @@ function* callPostsApi(apiName, ...args) {
         }
       });
     }
-    yield put(postsActions[apiName + 'Success']({response}));
+    yield put(postsActions[actionType + 'Success'](response, ...otherInfos));
   } catch(error) {
     yield put(otherActions.setError({error}))
   }
@@ -42,7 +42,9 @@ function* deletePost(postId) {
 function* watchFetchPostsStart() {
   while(true) {
     let {payload} = yield take(postsActions.fetchPostsStart().type);
-    yield fork(callPostsApi, 'fetchPosts', payload);
+    let apiInfos = [payload.queryStr];
+    let otherInfos = [payload.queryStr, payload.requestId]
+    yield fork(callPostsApi, 'fetchPosts', 'fetchPosts', apiInfos, otherInfos);
   }
 }
 
@@ -50,7 +52,7 @@ function* watchCreatePostStart() {
   while(true) {
     let {payload} = yield take(postsActions.createPostStart().type);
     let selfId = yield select(usersSelectors.getSelfId);
-    yield fork(callPostsApi, 'createPost', {...payload, userId: selfId});
+    yield fork(callPostsApi, 'createPost', 'createPost', [{...payload, userId: selfId}]);
   }
 }
 
@@ -64,7 +66,7 @@ function* watchDeletePostStart() {
 function* watchFetchPostStart() {
   while(true) {
     let {payload} = yield take(postsActions.fetchPostStart().type);
-    yield fork(callPostsApi, 'fetchPost', payload);
+    yield fork(callPostsApi, 'fetchPost', 'fetchPost', [payload]);
   }
 }
 

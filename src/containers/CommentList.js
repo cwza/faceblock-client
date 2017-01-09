@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AddPostForm from '../components/AddPostForm'
 import PostList from '../components/PostList'
-import { getPostsForCommentList } from '../selectors/postsSelectors'
+import { getPostsByRequestId } from '../selectors/postsSelectors'
 import postsActions from '../actions/postsActions'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
 
+const componentName = 'CommentList'
 class CommentList extends Component {
   componentDidMount() {
     let { postId, comments } = this.props;
@@ -21,11 +22,11 @@ class CommentList extends Component {
   }
   handleFetchNewPosts = (postId, posts) => {
     let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(postId), posts)
-    this.props.fetchPostsStart(fetchNewPostsQueryStr);
+    this.props.fetchPostsStart(fetchNewPostsQueryStr, componentName + '_' + postId);
   }
   handleFetchOldPosts = (postId, posts) => {
     let fetchOldPostsQueryStr = getFetchOldQueryStr(this.genQueryStr(postId), posts)
-    this.props.fetchPostsStart(fetchOldPostsQueryStr);
+    this.props.fetchPostsStart(fetchOldPostsQueryStr, componentName + '_' + postId);
   }
   render() {
     let { comments, postId } = this.props;
@@ -33,7 +34,9 @@ class CommentList extends Component {
       <div>
         <h1>I am CommentList.</h1>
         <AddPostForm onSubmit={this.handleAddPostSubmit} />
-        <PostList posts={comments} handleFetchOldPosts={() => this.handleFetchOldPosts(postId, comments)} />
+        <PostList posts={comments}
+          handleFetchOldPosts={() => this.handleFetchOldPosts(postId, comments)}
+          handleFetchNewPosts={() => this.handleFetchNewPosts(postId, comments)} />
       </div>
     )
   }
@@ -45,7 +48,7 @@ CommentList.propTypes = {
 
 const mapStateToProps = (state, props) => {
   return {
-    comments: getPostsForCommentList(state)({postId: props.postId})
+    comments: getPostsByRequestId(state, componentName + '_' + props.postId)
   }
 }
 

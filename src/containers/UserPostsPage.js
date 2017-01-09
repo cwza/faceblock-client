@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AddPostForm from '../components/AddPostForm'
 import PostList from '../components/PostList'
-import { getPostsForUserPostsPage } from '../selectors/postsSelectors'
+import { getPostsByRequestId } from '../selectors/postsSelectors'
 import postsActions from '../actions/postsActions'
 import usersActions from '../actions/usersActions'
 import { getSelfId } from '../selectors/usersSelectors'
@@ -10,6 +10,7 @@ import UserContainer from './UserContainer'
 import { getUserById } from '../selectors/usersSelectors'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
 
+const componentName = 'UserPostsPage';
 class UserPostsPage extends Component {
   componentDidMount() {
     let { posts } = this.props;
@@ -27,11 +28,11 @@ class UserPostsPage extends Component {
   }
   handleFetchOldPosts = (userId, posts) => {
     let fetchOldPostsQueryStr = getFetchOldQueryStr(this.genQueryStr(userId), posts)
-    this.props.fetchPostsStart(fetchOldPostsQueryStr);
+    this.props.fetchPostsStart(fetchOldPostsQueryStr, componentName + '_' + userId);
   }
   handleFetchNewPosts = (userId, posts) => {
     let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(userId), posts)
-    this.props.fetchPostsStart(fetchNewPostsQueryStr);
+    this.props.fetchPostsStart(fetchNewPostsQueryStr, componentName + '_' + userId);
   }
   render() {
     let { posts, selfId, user } = this.props;
@@ -54,7 +55,7 @@ UserPostsPage.propTypes = {
 
 const mapStateToProps = (state, props) => {
   return {
-    posts: getPostsForUserPostsPage(state)({userId: props.params.userId}),
+    posts: getPostsByRequestId(state, componentName + '_' + props.params.userId),
     selfId: getSelfId(state),
     user: getUserById(state, props.params.userId),
   }

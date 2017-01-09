@@ -1,8 +1,7 @@
 import { createSelector } from 'reselect'
 import { getFaceblockEntities } from './utilsSelectors'
-import { getFriendsIds, getSelfId } from './usersSelectors'
-import { getSearchKeyword } from './formSelectors'
 import { memoize } from 'lodash'
+import { getOrder } from './requestInfoSelectors'
 
 const getPostById = (state, postId) => {
   if(state.apis.faceblock.entities && state.apis.faceblock.entities.posts
@@ -39,19 +38,6 @@ const getAllPosts = createSelector(
   (postsItems={}) => Object.values(postsItems)
 );
 
-//TODO: if post.content contains hashtag about self name, they should be get too
-const getPostsForHomePageByTime = createSelector(
-  [getAllPosts, getFriendsIds, getSelfId],
-  (posts=[], friendsIds=[], selfId={}) => {
-    let userIds = [...friendsIds, selfId];
-    let result = posts.filter(post => userIds.includes(post.userId))
-      .filter(post => post.replyTo === null)
-      .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
-    // console.log('getPostsForHomePageByTime: ', result);
-    return result;
-  }
-);
-
 const getPostsForCommentList = createSelector(
   [getAllPosts],
   (posts=[]) => memoize(
@@ -64,31 +50,19 @@ const getPostsForCommentList = createSelector(
   )
 )
 
-//TODO: if post.content contains hashtag about self name, they should be get too
-const getPostsForUserPostsPage = createSelector(
-  [getAllPosts],
-  (posts=[]) => memoize (
-    ({userId}) => {
-      console.log('props.params.userId: ', userId);
-      let result = posts.filter(post => post.userId.toString() === userId)
-        .filter(post => post.replyTo === null)
-        .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
-      return result;
-    }
-  )
-)
-
-const getPostsForSearchPostPage = createSelector(
-  [getAllPosts, getSearchKeyword],
-  (posts=[], searchKeyword) => {
-    console.log('searchKeyword: ', searchKeyword);
-    let result = posts.filter(post => searchKeyword && post.content.includes(searchKeyword))
-      .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
+const getPostsByRequestId = createSelector(
+  [getPostsItems, getOrder],
+  (postsItems={}, order) => {
+    let result = order.map(postId => {
+      if(postsItems[postId.toString()])
+        return postsItems[postId.toString()]
+      return {}
+    })
     return result;
   }
 )
 
 export {
-  getPostsForHomePageByTime, getAllPosts, getPostById, getIsFetching, getPostsForCommentList,
-  getPostsForUserPostsPage, getPostsForSearchPostPage
+  getAllPosts, getPostById, getIsFetching, getPostsForCommentList,
+  getPostsByRequestId
 };

@@ -20,7 +20,6 @@ const itemsReducer = (state = {}, action) => {
     case usersActions.fetchUsersSuccess().type:
     case authenticationActions.loginSuccess().type:
     case usersActions.fetchUserSuccess().type:
-      console.log('action: ', action);
       if(action.payload.response.entities.users) {
         return mergeFetchedUsersToState(state, action.payload.response.entities.users)
       }
