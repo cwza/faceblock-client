@@ -7,8 +7,8 @@ let renderField = ({
     meta: { touched, error, warning }, ...rest
   }) => (
   <input {...rest} type="text" onChange={(e) => {
-      handleOnChange(e.target.value);
       input.onChange(e);
+      handleOnChange(e.target.value);
   }}/>
 );
 class KeywordSearchForm extends Component {

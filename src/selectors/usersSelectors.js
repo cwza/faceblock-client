@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { getFaceblockEntities, getAuthentication} from './utilsSelectors'
-import { getSearchKeyword } from './formSelectors'
+import { getOrder } from './requestInfoSelectors'
 
 const getUserById = (state, userId) => {
   if(state.apis.faceblock.entities && state.apis.faceblock.entities.users
@@ -55,17 +55,18 @@ const getSelfUser = createSelector(
   }
 )
 
-const getAllUsers = createSelector(
-  [getUsersItems],
-  (usersItems={}) => Object.values(usersItems)
-);
+// const getAllUsers = createSelector(
+//   [getUsersItems],
+//   (usersItems={}) => Object.values(usersItems)
+// );
 
 const getUsersForSearchUserPage = createSelector(
-  [getAllUsers, getSearchKeyword],
-  (users=[], searchKeyword) => {
-    console.log('searchKeyword: ', searchKeyword);
-    let result = users.filter(user => searchKeyword && user.mail.includes(searchKeyword))
-      .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
+  [getUsersItems, getOrder],
+  (usersItems={}, order) => {
+    console.log('usersItems: ', usersItems);
+    console.log('order: ', order);
+    let result = order.map(userId => usersItems[userId.toString()])
+    console.log('result: ', result);
     return result;
   }
 )

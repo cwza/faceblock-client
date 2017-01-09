@@ -11,27 +11,30 @@ let selectorParams = {
   formName: 'KeywordSearch',
   fieldName: 'searchKeyword'
 }
+let componentName = 'SeachUserPage';
 class SearchUserPage extends Component {
   componentDidMount() {
   }
   genQueryStr = (searchKeyword) => {
     searchKeyword = encodeURIComponent(searchKeyword);
-    return `q=mail:(*${searchKeyword}*)&sort=createTime&order=desc&limit=5`;
+    return `q=${searchKeyword}&sort=createTime&order=desc&limit=5`;
   }
   handleSearchFormOnChange = (value) => {
-    if(value)
-      this.handleFetchNewUsers(value, this.props.users);
+    if(value) {
+      let fetchNewUsersQueryStr = getFetchNewQueryStr(this.genQueryStr(value), this.props.usersSelector(componentName + '_' + value))
+      this.props.fetchUsersStart(fetchNewUsersQueryStr, componentName + '_' + value);
+    }
   }
   handleFetchOldUsers = (searchKeyword, users) => {
     if(searchKeyword) {
       let fetchOldUsersQueryStr = getFetchOldQueryStr(this.genQueryStr(searchKeyword), users)
-      this.props.fetchUsersStart(fetchOldUsersQueryStr);
+      this.props.fetchUsersStart(fetchOldUsersQueryStr, componentName + '_' + searchKeyword);
     }
   }
   handleFetchNewUsers = (searchKeyword, users) => {
     if(searchKeyword) {
       let fetchNewUsersQueryStr = getFetchNewQueryStr(this.genQueryStr(searchKeyword), users)
-      this.props.fetchUsersStart(fetchNewUsersQueryStr);
+      this.props.fetchUsersStart(fetchNewUsersQueryStr, componentName + '_' + searchKeyword);
     }
   }
   render() {
@@ -55,7 +58,8 @@ SearchUserPage.propTypes = {
 const mapStateToProps = (state, props) => {
   return {
     searchKeyword: getSearchKeyword(state, selectorParams),
-    users: getUsersForSearchUserPage(state, selectorParams),
+    users: getUsersForSearchUserPage(state, componentName + '_' + getSearchKeyword(state, selectorParams)),
+    usersSelector: (arg) => getUsersForSearchUserPage(state, ...arg),
   }
 }
 

@@ -16,6 +16,11 @@ Redux state like:
           items: {},
           isFetching: false
         }
+      },
+      requestInfo: {
+        [requestId]: {
+          order: []
+        }
       }
     }   
   },

@@ -7,9 +7,9 @@ import { isEmpty, some } from 'lodash'
 import { getSelfId } from '../selectors/usersSelectors'
 import { getFollowRelationByUserIdAndFollowerId } from '../selectors/followRelationsSelectors'
 
-function* callUsersApi(apiName, ...args) {
+function* callUsersApi(apiName, actionType, apiInfos=[], otherInfos=[]) {
   try {
-    let response = yield call(usersService[apiName], ...args);
+    let response = yield call(usersService[apiName], ...apiInfos);
     // fetch followRelation about self and user
     if(apiName.startsWith('fetch')) {
       let users = response.entities.users;
@@ -30,7 +30,7 @@ function* callUsersApi(apiName, ...args) {
         }
       });
     }
-    yield put(usersActions[apiName + 'Success']({response}));
+    yield put(usersActions[actionType + 'Success'](response, ...otherInfos));
   } catch(error) {
     yield put(otherActions.setError({error}))
   }
@@ -39,15 +39,17 @@ function* callUsersApi(apiName, ...args) {
 ///////////////////////////////////WATCHER////////////////////////////
 function* watchFetchUsersStart() {
   while(true) {
-    let {payload} = yield take(usersActions.fetchUsersStart().type);
-    yield fork(callUsersApi, 'fetchUsers', payload);
+    let { payload } = yield take(usersActions.fetchUsersStart().type);
+    let apiInfos = [payload.queryStr];
+    let otherInfos = [payload.queryStr, payload.requestId]
+    yield fork(callUsersApi, 'fetchUsers', 'fetchUsers', apiInfos, otherInfos);
   }
 }
 
 function* watchFetchUserStart() {
   while(true) {
     let {payload} = yield take(usersActions.fetchUserStart().type);
-    yield fork(callUsersApi, 'fetchUser', payload);
+    yield fork(callUsersApi, 'fetchUser', 'fetchUser', [payload]);
   }
 }
 

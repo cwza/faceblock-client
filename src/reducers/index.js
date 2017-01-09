@@ -7,6 +7,7 @@ import errorReducer from './errorReducer'
 import authenticationActions from '../actions/authenticationActions'
 import followRelationsReducer from './followRelationsReducer'
 import { routerReducer } from 'react-router-redux'
+import requestInfoReducer from './requestInfoReducer'
 
 const entitiesReducer = combineReducers({
   posts: postsReducer,
@@ -15,7 +16,8 @@ const entitiesReducer = combineReducers({
 });
 
 const faceblockReducer = combineReducers({
-  entities: entitiesReducer
+  entities: entitiesReducer,
+  requestInfo: requestInfoReducer
 });
 
 const apisReducer = combineReducers({
