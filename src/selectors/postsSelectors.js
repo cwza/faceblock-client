@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { getFaceblockEntities } from './utilsSelectors'
-import { memoize } from 'lodash'
 import { getOrder } from './requestInfoSelectors'
 
 const getPostById = (state, postId) => {
@@ -38,18 +37,6 @@ const getAllPosts = createSelector(
   (postsItems={}) => Object.values(postsItems)
 );
 
-const getPostsForCommentList = createSelector(
-  [getAllPosts],
-  (posts=[]) => memoize(
-    ({postId}) => {
-      console.log('props.postId: ', postId);
-      let result = posts.filter(post => post.replyTo === postId)
-        .slice(0).sort((a, b) => b.createTime - a.createTime || b.id - a.id);
-      return result;
-    }
-  )
-)
-
 const getPostsByRequestId = createSelector(
   [getPostsItems, getOrder],
   (postsItems={}, order) => {
@@ -63,6 +50,6 @@ const getPostsByRequestId = createSelector(
 )
 
 export {
-  getAllPosts, getPostById, getIsFetching, getPostsForCommentList,
+  getAllPosts, getPostById, getIsFetching,
   getPostsByRequestId
 };

@@ -33,7 +33,7 @@ const getAllFollowRelations = createSelector(
 
 const getFollowRelationByUserIdAndFollowerId = createSelector(
   [getAllFollowRelations],
-  (followRelations={}) => memoize (
+  (followRelations=[]) => memoize (
     ({userId, followerId}) => {
       let followRelation = followRelations.filter(followRelation => followRelation.userId === userId && followRelation.followerId === followerId);
       if(followRelation.length > 0)
@@ -43,6 +43,17 @@ const getFollowRelationByUserIdAndFollowerId = createSelector(
   )
 );
 
+const getUserIdsByFollowerId = createSelector(
+  [getAllFollowRelations],
+  (followRelations=[]) => memoize (
+    ({followerId}) => {
+      let result = followRelations.filter(followRelation => followRelation.followerId === followerId)
+        .map(followRelation => followRelation.userId)
+      return result;
+    }
+  )
+)
+
 export {
-  getFollowRelationByUserIdAndFollowerId, getIsFetching
+  getFollowRelationByUserIdAndFollowerId, getIsFetching, getUserIdsByFollowerId
 }
