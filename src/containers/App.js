@@ -9,12 +9,18 @@ import { getSelfId, getSelfUser } from '../selectors/usersSelectors'
 import SideBar from '../components/SideBar'
 import usersActions from '../actions/usersActions'
 import { isEmpty } from 'lodash'
+import followRelationsActions from '../actions/followRelationsActions'
+import { getFetchingStatus } from '../selectors/requestInfoSelectors'
+import { getUserIdsByFollowerId } from '../selectors/followRelationsSelectors'
 
+const componentName = 'App';
 class App extends Component {
   componentDidMount() {
-    let { selfUser, selfId, fetchUserStart } = this.props;
+    let { selfUser, selfId, fetchUserStart, followings, fetchFollowingsStatus } = this.props;
     if(isEmpty(selfUser) && selfId)
       fetchUserStart(selfId);
+    if(isEmpty(followings) && selfId && fetchFollowingsStatus === 0)
+      this.props.fetchFollowRelationsStart(`q=followerId:(${selfId})`, `${componentName}_followings`)
   }
   componentDidUpdate() {
     let { error } = this.props;
@@ -49,6 +55,8 @@ const mapStateToProps = (state) => {
     faceblockToken: getAuthentication(state).item.faceblockToken,
     selfId: getSelfId(state),
     selfUser: getSelfUser(state),
+    fetchFollowingsStatus: getFetchingStatus(state, `${componentName}_followings`),
+    followings: getUserIdsByFollowerId(state)(getSelfId(state)),
   }
 }
 
@@ -56,4 +64,5 @@ export default connect(mapStateToProps, {
   logout: authenticationActions.logout,
   routerPush: routerActions.push,
   fetchUserStart: usersActions.fetchUserStart,
+  fetchFollowRelationsStart: followRelationsActions.fetchFollowRelationsStart,
 })(App);

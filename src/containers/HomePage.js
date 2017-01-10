@@ -9,17 +9,22 @@ import { getSelfId, getSelfUser } from '../selectors/usersSelectors'
 import { getUserIdsByFollowerId } from '../selectors/followRelationsSelectors'
 import * as utils from '../utils'
 import { isEmpty } from 'lodash'
+import { getFetchingStatus } from '../selectors/requestInfoSelectors'
 
 const componentName = 'HomePage';
 class HomePage extends Component {
   componentDidMount() {
-    if(isEmpty(this.props.posts))
-      this.handleFetchNewPosts(this.props.posts, this.props.selfId, this.props.followingIds);
+  }
+  componentDidUpdate() {
+    let { posts, fetchFollowingsStatus, selfId, followingIds, fetchPostsStatus } = this.props
+    console.log('posts: ', posts, ' fetchPostsStatus: ', fetchPostsStatus, ' fetchFollowingsStatus: ', fetchFollowingsStatus);
+    if(isEmpty(posts) && fetchPostsStatus === 0 && fetchFollowingsStatus === 2)
+      this.handleFetchNewPosts(posts, selfId, followingIds);
   }
   genQueryStr = (selfId, followingIds) => {
     let userName = utils.getMailUsername(this.props.selfUser.mail);
     let userIds = [selfId, ...followingIds];
-    let q = encodeURIComponent(`userId:(${userIds.join(',')}) and replyTo:(null) or ${userName}`);
+    let q = encodeURIComponent(`userId:(${userIds.join(',')}) and replyTo:(null) or #${userName}`);
     let queryStr = `q=${q}&sort=createTime&order=desc&limit=5`;
     return queryStr;
   }
@@ -57,6 +62,8 @@ const mapStateToProps = (state, props) => {
     selfId: getSelfId(state),
     selfUser: getSelfUser(state),
     followingIds: getUserIdsByFollowerId(state)({followerId: getSelfId(state)}),
+    fetchFollowingsStatus: getFetchingStatus(state, `App_followings`),
+    fetchPostsStatus: getFetchingStatus(state, componentName + '_' + getUserIdsByFollowerId(state)({followerId: getSelfId(state)})),
   }
 }
 
