@@ -7,9 +7,9 @@ import { getUserById } from '../selectors/usersSelectors'
 import * as followRelationsService from '../services/faceblock/followRelationsApis'
 import { isEmpty } from 'lodash'
 
-function* callFollowRelationsApi(apiName, ...args) {
+function* callFollowRelationsApi(apiName, actionType, apiInfos=[], otherInfos=[]) {
   try {
-    let response = yield call(followRelationsService[apiName], ...args);
+    let response = yield call(followRelationsService[apiName], ...apiInfos);
     // fetch users about followRelations
     if(apiName.startsWith('fetch')) {
       let followRelations = response.entities.followRelations;
@@ -27,7 +27,7 @@ function* callFollowRelationsApi(apiName, ...args) {
         }
       });
     }
-    yield put(followRelationsActions[apiName + 'Success']({response}));
+    yield put(followRelationsActions[actionType + 'Success'](response, ...otherInfos));
   } catch(error) {
     yield put(otherActions.setError({error}))
   }
@@ -44,19 +44,18 @@ function* deleteFollowRelation(postId) {
 
 ///////////////////////////////////WATCHER////////////////////////////
 function* watchFetchFollowRelationsStart() {
-  // const requestChan = yield actionChannel(followRelationsActions.fetchOldFollowRelationsStart().type);
   while(true) {
     let {payload} = yield take(followRelationsActions.fetchFollowRelationsStart().type);
-    // const {payload} = yield take(requestChan);
-    yield fork(callFollowRelationsApi, 'fetchFollowRelations', payload);
-    // yield fork(fetchFollowRelations, queryStr);
+    let apiInfos = [payload.queryStr];
+    let otherInfos = [payload.queryStr, payload.requestId]
+    yield fork(callFollowRelationsApi, 'fetchFollowRelations', 'fetchFollowRelations', apiInfos, otherInfos);
   }
 }
 
 function* watchCreateFollowRelationStart() {
   while(true) {
     let {payload} = yield take(followRelationsActions.createFollowRelationStart().type);
-    yield fork(callFollowRelationsApi, 'createFollowRelation', payload);
+    yield fork(callFollowRelationsApi, 'createFollowRelation', 'createFollowRelation', [payload]);
   }
 }
 
@@ -71,7 +70,7 @@ function* watchFetchFollowRelationStart() {
   while(true) {
     let {payload} = yield take(followRelationsActions.fetchFollowRelationStart().type);
     let queryStr = `q=userId:(${payload.userId}) and followerId:(${payload.followerId})`;
-    yield fork(callFollowRelationsApi, 'fetchFollowRelations', queryStr);
+    yield fork(callFollowRelationsApi, 'fetchFollowRelations', 'fetchFollowRelation', [queryStr]);
   }
 }
 

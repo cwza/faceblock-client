@@ -1,6 +1,7 @@
 import usersActions from '../actions/usersActions'
 import postsActions from '../actions/postsActions'
 import otherActions from '../actions/otherActions'
+import followRelationsActions from '../actions/followRelationsActions'
 import { union } from 'lodash'
 import * as utils from '../utils'
 
@@ -41,6 +42,11 @@ const requestInfoReducer = (state={}, action) => {
       return {
         ...state,
         [action.payload.requestId]: getRequestInfo(state[action.payload.requestId], action.payload.queryStr, action.payload.response.entities.posts)
+      };
+    case followRelationsActions.fetchFollowRelationsSuccess().type:
+      return {
+        ...state,
+        [action.payload.requestId]: getRequestInfo(state[action.payload.requestId], action.payload.queryStr, action.payload.response.entities.followRelations)
       };
     case otherActions.removeRequestInfo().type:
       return removeRequestInfo(state, action.payload)
