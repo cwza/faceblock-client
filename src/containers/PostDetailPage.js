@@ -22,6 +22,7 @@ class PostDetailPage extends Component {
   }
   render() {
     let { post } = this.props;
+    let { postId } = this.props.params;
     return (
       <div>
         <h1>I am PostDetailPage.</h1>
@@ -29,7 +30,7 @@ class PostDetailPage extends Component {
           handleDeletePost={() => this.handleDeletePost(post)}
           handlePostClick={() => {}}
         />
-        {<CommentList postId={post.id}/>}
+        {<CommentList postId={postId}/>}
       </div>
     )
   }
