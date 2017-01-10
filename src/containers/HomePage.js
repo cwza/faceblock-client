@@ -57,13 +57,15 @@ HomePage.propTypes = {
 }
 
 const mapStateToProps = (state, props) => {
+  let selfId = getSelfId(state);
+  let followingIds = getUserIdsByFollowerId(state)({followerId: selfId});
   return {
-    posts: getPostsByRequestId(state, componentName + '_' + getUserIdsByFollowerId(state)({followerId: getSelfId(state)})),
-    selfId: getSelfId(state),
+    selfId,
+    followingIds,
+    posts: getPostsByRequestId(state, componentName + '_' + followingIds),
     selfUser: getSelfUser(state),
-    followingIds: getUserIdsByFollowerId(state)({followerId: getSelfId(state)}),
-    fetchFollowingsStatus: getFetchingStatus(state, `App_followings`),
-    fetchPostsStatus: getFetchingStatus(state, componentName + '_' + getUserIdsByFollowerId(state)({followerId: getSelfId(state)})),
+    fetchFollowingsStatus: getFetchingStatus(state, `Private_followings`),
+    fetchPostsStatus: getFetchingStatus(state, componentName + '_' + followingIds),
   }
 }
 

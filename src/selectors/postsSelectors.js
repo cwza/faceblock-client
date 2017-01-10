@@ -32,11 +32,11 @@ const getAllPosts = createSelector(
 const getPostsByRequestId = createSelector(
   [getPostsItems, getOrder],
   (postsItems={}, order) => {
-    let result = order.map(postId => {
+    let result = order.reduce((result, postId) => {
       if(postsItems[postId.toString()])
-        return postsItems[postId.toString()]
-      return {}
-    })
+        result.push(postsItems[postId.toString()])
+      return result;
+    },[])
     console.log('result: ', result);
     return result;
   }

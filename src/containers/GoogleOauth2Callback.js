@@ -5,6 +5,7 @@ import authenticationActions from '../actions/authenticationActions'
 import { getAuthentication } from '../selectors/utilsSelectors'
 import Loading from '../components/Loading'
 import { routerActions } from 'react-router-redux'
+import { getSelfId } from '../selectors/usersSelectors'
 
 class GoogleOauth2Callback extends Component {
   componentDidMount() {
@@ -12,8 +13,8 @@ class GoogleOauth2Callback extends Component {
     this.props.loginStart('google', this.params.accessToken);
   }
   componentDidUpdate() {
-    let { authentication } = this.props;
-    if(authentication.item.faceblockToken)
+    let { selfId } = this.props;
+    if(selfId)
       this.redirectToHomePage();
   }
   redirectToHomePage = () => {
@@ -33,6 +34,7 @@ GoogleOauth2Callback.propTypes = {
 const mapStateToProps = (state) => {
   return {
     authentication: getAuthentication(state),
+    selfId: getSelfId(state),
   }
 }
 

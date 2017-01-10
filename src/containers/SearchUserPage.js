@@ -7,6 +7,7 @@ import UserList from '../components/UserList'
 import usersActions from '../actions/usersActions'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
 import otherActions from '../actions/otherActions'
+import * as utils from '../utils'
 
 const selectorParams = {
   formName: 'KeywordSearch',
@@ -24,6 +25,7 @@ class SearchUserPage extends Component {
     return `q=${searchKeyword}&sort=createTime&order=desc&limit=5`;
   }
   handleSearchFormOnChange = (value) => {
+    value = utils.removeSpecialWordFromQuery(value);
     if(value) {
       let fetchNewUsersQueryStr = getFetchNewQueryStr(this.genQueryStr(value), this.props.usersSelector(componentName + '_' + value))
       this.props.fetchUsersStart(fetchNewUsersQueryStr, componentName + '_' + value);
@@ -60,9 +62,10 @@ SearchUserPage.propTypes = {
 }
 
 const mapStateToProps = (state, props) => {
+  let searchKeyword = getSearchKeyword(state, selectorParams);
   return {
-    searchKeyword: getSearchKeyword(state, selectorParams),
-    users: getUsersByRequestId(state, componentName + '_' + getSearchKeyword(state, selectorParams)),
+    searchKeyword,
+    users: getUsersByRequestId(state, componentName + '_' + searchKeyword),
     usersSelector: (arg) => getUsersByRequestId(state, ...arg),
   }
 }

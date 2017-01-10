@@ -55,11 +55,11 @@ const getSelfUser = createSelector(
 const getUsersByRequestId = createSelector(
   [getUsersItems, getOrder],
   (usersItems={}, order) => {
-    let result = order.map(userId => {
+    let result = order.reduce((result, userId) => {
       if(usersItems[userId.toString()])
-        return usersItems[userId.toString()]
-      return {};
-    });
+        result.push(usersItems[userId.toString()])
+      return result;
+    },[])
     return result;
   }
 )

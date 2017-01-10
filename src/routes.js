@@ -10,7 +10,7 @@ import SearchPostPage from './containers/SearchPostPage'
 import NoMatchPage from './components/NoMatchPage'
 import GoogleOauth2Callback from './containers/GoogleOauth2Callback'
 import Authentication from './components/Authentication'
-import Private from './components/Private'
+import Private from './containers/Private'
 
 const needLogin = () => {
   let reduxLocalStorage = localStorage.getItem('redux');

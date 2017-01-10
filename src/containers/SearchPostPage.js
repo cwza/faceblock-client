@@ -7,8 +7,9 @@ import PostList from '../components/PostList'
 import postsActions from '../actions/postsActions'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
 import otherActions from '../actions/otherActions'
+import * as utils from '../utils'
 
-let selectorParams = {
+const selectorParams = {
   formName: 'KeywordSearch',
   fieldName: 'searchKeyword'
 };
@@ -24,6 +25,7 @@ class SearchPostPage extends Component {
     return `q=${searchKeyword}&sort=createTime&order=desc&limit=5`;
   }
   handleSearchFormOnChange = (value) => {
+    value = utils.removeSpecialWordFromQuery(value);
     if(value) {
       let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(value), this.props.postsSelector(componentName + '_' + value))
       this.props.fetchPostsStart(fetchNewPostsQueryStr, componentName + '_' + value);
@@ -60,9 +62,10 @@ SearchPostPage.propTypes = {
 }
 
 const mapStateToProps = (state, props) => {
+  let searchKeyword = getSearchKeyword(state, selectorParams);
   return {
-    searchKeyword: getSearchKeyword(state, selectorParams),
-    posts: getPostsByRequestId(state, componentName + '_' + getSearchKeyword(state, selectorParams)),
+    searchKeyword,
+    posts: getPostsByRequestId(state, componentName + '_' + searchKeyword),
     postsSelector: (arg) => getPostsByRequestId(state, ...arg),
   }
 }
