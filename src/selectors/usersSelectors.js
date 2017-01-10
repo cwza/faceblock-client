@@ -17,14 +17,6 @@ const getUsersObject = createSelector(
   }
 );
 
-const getIsFetching = createSelector(
-  [getUsersObject],
-  (usersObject={}) => {
-    if(usersObject.isFetching) return usersObject.isFetching;
-    return false;
-  }
-)
-
 const getUsersItems = createSelector(
   [getUsersObject],
   (usersObject={}) => {
@@ -72,4 +64,4 @@ const getUsersByRequestId = createSelector(
   }
 )
 
-export {getSelfId, getFriendsIds, getSelfUser, getUsersByRequestId, getUserById, getIsFetching};
+export {getSelfId, getFriendsIds, getSelfUser, getUsersByRequestId, getUserById};

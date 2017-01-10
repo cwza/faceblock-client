@@ -10,14 +10,6 @@ const getFollowRelationsObject = createSelector(
   }
 );
 
-const getIsFetching = createSelector(
-  [getFollowRelationsObject],
-  (followRelationsObject={}) => {
-    if(followRelationsObject.isFetching) return followRelationsObject.isFetching;
-    return false;
-  }
-)
-
 const getFollowRelationsItems = createSelector(
   [getFollowRelationsObject],
   (followRelationsObject={}) => {
@@ -55,5 +47,5 @@ const getUserIdsByFollowerId = createSelector(
 )
 
 export {
-  getFollowRelationByUserIdAndFollowerId, getIsFetching, getUserIdsByFollowerId
+  getFollowRelationByUserIdAndFollowerId, getUserIdsByFollowerId
 }

@@ -17,14 +17,6 @@ const getPostsObject = createSelector(
   }
 );
 
-const getIsFetching = createSelector(
-  [getPostsObject],
-  (postsObject={}) => {
-    if(postsObject.isFetching) return postsObject.isFetching;
-    return false;
-  }
-)
-
 const getPostsItems = createSelector(
   [getPostsObject],
   (postsObject={}) => {
@@ -51,6 +43,6 @@ const getPostsByRequestId = createSelector(
 )
 
 export {
-  getAllPosts, getPostById, getIsFetching,
+  getAllPosts, getPostById,
   getPostsByRequestId
 };

@@ -1,11 +1,13 @@
-import usersActions from '../actions/usersActions'
-import postsActions from '../actions/postsActions'
 import otherActions from '../actions/otherActions'
-import followRelationsActions from '../actions/followRelationsActions'
 import { union } from 'lodash'
 import * as utils from '../utils'
+import { camelize } from 'humps'
 
-const getOrder = (state=[], queryStr, entities) => {
+const getOrder = (state=[], action) => {
+  if(!action.payload.queryStr || !action.type.endsWith('SUCCESS'))
+    return state;
+  let entities = action.payload.response.entities[camelize(action.type.match('FETCH_(.*)_SUCCESS')[1].toLowerCase())];
+  let queryStr = action.payload.queryStr;
   let entityIds = entities.map(entity => entity.id);
   if(queryStr.includes('upperNearId')) {
     return union(entityIds, state);
@@ -14,10 +16,22 @@ const getOrder = (state=[], queryStr, entities) => {
   }
 }
 
-const getRequestInfo = (state={}, queryStr, entities) => {
+const getFetchingStatus = (state=0, action) => {
+  if(action.type.endsWith('START')) {
+    return 1;
+  } else if(action.type.endsWith('SUCCESS')) {
+    return 2;
+  } else if(action.type.endsWith('ERROR')) {
+    return 0;
+  }
+  return state;
+}
+
+const getRequestInfo = (state={}, action) => {
   return {
     ...state,
-    order: getOrder(state.order, queryStr, entities),
+    order: getOrder(state.order, action),
+    fetchingStatus: getFetchingStatus(state.fetchingStatus, action),
   }
 }
 
@@ -32,26 +46,16 @@ const removeRequestInfo = (state={}, requestIdBegin) => {
 }
 
 const requestInfoReducer = (state={}, action) => {
+  if(!action.payload || !action.payload.requestId)
+    return state;
   switch(action.type) {
-    case usersActions.fetchUsersSuccess().type:
-      return {
-        ...state,
-        [action.payload.requestId]: getRequestInfo(state[action.payload.requestId], action.payload.queryStr, action.payload.response.entities.users)
-      };
-    case postsActions.fetchPostsSuccess().type:
-      return {
-        ...state,
-        [action.payload.requestId]: getRequestInfo(state[action.payload.requestId], action.payload.queryStr, action.payload.response.entities.posts)
-      };
-    case followRelationsActions.fetchFollowRelationsSuccess().type:
-      return {
-        ...state,
-        [action.payload.requestId]: getRequestInfo(state[action.payload.requestId], action.payload.queryStr, action.payload.response.entities.followRelations)
-      };
     case otherActions.removeRequestInfo().type:
-      return removeRequestInfo(state, action.payload)
+      return removeRequestInfo(state, action.payload.requestId)
     default:
-      return state;
+      return {
+        ...state,
+        [action.payload.requestId]: getRequestInfo(state[action.payload.requestId], action)
+      };
   }
 }
 

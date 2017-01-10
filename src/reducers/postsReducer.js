@@ -4,7 +4,6 @@ import { normalize } from 'normalizr'
 // import { handleActions } from 'redux-actions'
 import { postListSchema } from '../schemas/faceblockSchemas'
 import postsActions from '../actions/postsActions'
-import otherActions from '../actions/otherActions'
 import * as utils from '../utils'
 
 const normalizePosts = (posts) => {
@@ -32,32 +31,13 @@ const itemsReducer = (state = {}, action) => {
   }
 }
 
-const isFetchingReducer = (state = false, action) => {
-  switch(action.type) {
-    case postsActions.createPostStart().type:
-    case postsActions.deletePostStart().type:
-    case postsActions.fetchPostsStart().type:
-    case postsActions.fetchPostStart().type:
-      return true;
-    case postsActions.deletePostSuccess().type:
-    case postsActions.createPostSuccess().type:
-    case postsActions.fetchPostsSuccess().type:
-    case postsActions.fetchPostSuccess().type:
-    case otherActions.setError().type:
-      return false;
-    default:
-      return state;
-  }
-}
-
 const postsReducer = combineReducers({
   items: itemsReducer,
-  isFetching: isFetchingReducer
 });
 
 
 export default postsReducer;
 // export {itemsReducer, isFetchingReducer}
 if(process.env.NODE_ENV !== 'production') {
-  module.exports.private = {itemsReducer, isFetchingReducer};
+  module.exports.private = {itemsReducer};
 }

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-let { itemsReducer, isFetchingReducer } = require('./postsReducer').private
+let { itemsReducer } = require('./postsReducer').private
 import postsActions from '../actions/postsActions'
 
 let postsFromApi = [
@@ -18,7 +18,6 @@ let oriState = {
     2: {id: 2, userId: 1, content: 'aa'},
     3: {id: 3, userId: 1, content: 'cc'},
   },
-  isFetching: true,
 };
 describe('#itemsReducer()', () => {
   it('should return merged posts', () => {
@@ -28,14 +27,6 @@ describe('#itemsReducer()', () => {
       3: {id: 3, userId: 1, content: 'cc'},
     };
     let newState = itemsReducer(oriState.items, postsActions.fetchPostsSuccess(apiResponse.response));
-    console.log('newState: ', newState);
-    expect(newState).to.deep.equal(expectedNewState);
-  });
-});
-describe('#isFetchingReducer()', () => {
-  it('recieved fetchPostSuccess should return false', () => {
-    let expectedNewState = false;
-    let newState = isFetchingReducer(true, postsActions.fetchPostsSuccess(apiResponse.response));
     console.log('newState: ', newState);
     expect(newState).to.deep.equal(expectedNewState);
   });
