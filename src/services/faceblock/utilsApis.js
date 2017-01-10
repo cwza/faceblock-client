@@ -64,13 +64,20 @@ const callDelete = (fullUrl) => {
 const getFetchOldQueryStr = (queryStr, entities) => {
   if(isEmpty(entities))
     return queryStr;
-  return queryStr + '&underNearId=' + entities[entities.length - 1].id;
+  for(let entity of entities.slice(0).reverse()) {
+    if(!isEmpty(entity))
+      return queryStr + '&underNearId=' + entity.id;
+  }
 }
 
 const getFetchNewQueryStr = (queryStr, entities) => {
   if(isEmpty(entities))
     return queryStr;
-  return queryStr + '&upperNearId=' + entities[0].id;
+  for(let entity of entities) {
+    if(!isEmpty(entity)) {
+      return queryStr + '&upperNearId=' + entity.id;
+    }
+  }
 }
 
 export {API_ROOT, getReqHeaders, callGet, callPost, callDelete, getFetchOldQueryStr, getFetchNewQueryStr}

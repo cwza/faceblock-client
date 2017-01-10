@@ -19,7 +19,8 @@ class HomePage extends Component {
   genQueryStr = (selfId, followingIds) => {
     let userName = utils.getMailUsername(this.props.selfUser.mail);
     let userIds = [selfId, ...followingIds];
-    let queryStr = `q=userId:(${userIds.join(',')}) and replyTo:(null) or ${userName}&sort=createTime&order=desc&limit=5`;
+    let q = encodeURIComponent(`userId:(${userIds.join(',')}) and replyTo:(null) or ${userName}`);
+    let queryStr = `q=${q}&sort=createTime&order=desc&limit=5`;
     return queryStr;
   }
   handleAddPostSubmit = (values) => {

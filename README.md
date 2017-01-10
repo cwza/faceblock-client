@@ -14,12 +14,12 @@ Redux state like:
       entities: {
         posts: {
           items: {},
-          isFetching: false
         }
       },
       requestInfo: {
         [requestId]: {
-          order: []
+          order: [],
+          fetchingStatus: 0,
         }
       }
     }   

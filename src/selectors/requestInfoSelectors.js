@@ -9,10 +9,18 @@ const getRequestInfoById = (state, requestId) => {
 
 const getOrder = createSelector(
   [getRequestInfoById],
-  (requestInfo) => {
+  (requestInfo={}) => {
     if(requestInfo.order) return requestInfo.order;
     return [];
   }
 )
 
-export { getOrder };
+const getFetchingStatus = createSelector(
+  [getRequestInfoById],
+  (requestInfo={}) => {
+    if([0, 1, 2].includes(requestInfo.fetchingStatus)) return requestInfo.fetchingStatus;
+    return 0;
+  }
+)
+
+export { getOrder, getFetchingStatus };

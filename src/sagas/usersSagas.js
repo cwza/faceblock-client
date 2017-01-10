@@ -50,7 +50,9 @@ function* watchFetchUsersStart() {
 function* watchFetchUserStart() {
   while(true) {
     let {payload} = yield take(usersActions.fetchUserStart().type);
-    yield fork(callUsersApi, 'fetchUser', 'fetchUser', [payload]);
+    let apiInfos = [payload.userId];
+    let otherInfos = [payload.requestId]
+    yield fork(callUsersApi, 'fetchUser', 'fetchUser', apiInfos, otherInfos);
   }
 }
 

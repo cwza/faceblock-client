@@ -33,15 +33,6 @@ function* callFollowRelationsApi(apiName, actionType, apiInfos=[], otherInfos=[]
   }
 }
 
-function* deleteFollowRelation(postId) {
-  try {
-    yield call(followRelationsService.deleteFollowRelation, postId);
-    yield put(followRelationsActions.deleteFollowRelationSuccess(postId));
-  } catch(error) {
-    yield put(otherActions.setError({error}))
-  }
-}
-
 ///////////////////////////////////WATCHER////////////////////////////
 function* watchFetchFollowRelationsStart() {
   while(true) {
@@ -55,14 +46,18 @@ function* watchFetchFollowRelationsStart() {
 function* watchCreateFollowRelationStart() {
   while(true) {
     let {payload} = yield take(followRelationsActions.createFollowRelationStart().type);
-    yield fork(callFollowRelationsApi, 'createFollowRelation', 'createFollowRelation', [payload]);
+    let apiInfos = [payload.followRelation];
+    let otherInfos = [payload.requestId]
+    yield fork(callFollowRelationsApi, 'createFollowRelation', 'createFollowRelation', apiInfos, otherInfos);
   }
 }
 
 function* watchDeleteFollowRelationStart() {
   while(true) {
     let {payload} = yield take(followRelationsActions.deleteFollowRelationStart().type);
-    yield fork(deleteFollowRelation, payload);
+    let apiInfos = [payload.id];
+    let otherInfos = [payload.id, payload.requestId]
+    yield fork(callFollowRelationsApi, 'deleteFollowRelation', 'deleteFollowRelation', apiInfos, otherInfos);
   }
 }
 

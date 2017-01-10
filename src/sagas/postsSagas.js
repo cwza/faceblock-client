@@ -29,15 +29,6 @@ function* callPostsApi(apiName, actionType, apiInfos=[], otherInfos=[]) {
   }
 }
 
-function* deletePost(postId) {
-  try {
-    yield call(postsService.deletePost, postId);
-    yield put(postsActions.deletePostSuccess(postId));
-  } catch(error) {
-    yield put(otherActions.setError({error}))
-  }
-}
-
 ///////////////////////////////////WATCHER////////////////////////////
 function* watchFetchPostsStart() {
   while(true) {
@@ -52,21 +43,27 @@ function* watchCreatePostStart() {
   while(true) {
     let {payload} = yield take(postsActions.createPostStart().type);
     let selfId = yield select(usersSelectors.getSelfId);
-    yield fork(callPostsApi, 'createPost', 'createPost', [{...payload, userId: selfId}]);
+    let apiInfos = [{...payload.post, userId: selfId}];
+    let otherInfos = [payload.requestId]
+    yield fork(callPostsApi, 'createPost', 'createPost', apiInfos, otherInfos);
   }
 }
 
 function* watchDeletePostStart() {
   while(true) {
     let {payload} = yield take(postsActions.deletePostStart().type);
-    yield fork(deletePost, payload);
+    let apiInfos = [payload.id];
+    let otherInfos = [payload.id, payload.requestId]
+    yield fork(callPostsApi, 'deletePost', 'deletePost', apiInfos, otherInfos);
   }
 }
 
 function* watchFetchPostStart() {
   while(true) {
     let {payload} = yield take(postsActions.fetchPostStart().type);
-    yield fork(callPostsApi, 'fetchPost', 'fetchPost', [payload]);
+    let apiInfos = [payload.postId];
+    let otherInfos = [payload.requestId]
+    yield fork(callPostsApi, 'fetchPost', 'fetchPost', apiInfos, otherInfos);
   }
 }
 

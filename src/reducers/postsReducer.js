@@ -25,7 +25,7 @@ const itemsReducer = (state = {}, action) => {
       }
       return state;
     case postsActions.deletePostSuccess().type:
-      return utils.deletePropertiesFromObject(state, [action.payload.response.toString()])
+      return utils.deletePropertiesFromObject(state, [action.payload.id.toString()])
     default:
       return state;
   }

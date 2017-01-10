@@ -24,7 +24,7 @@ const itemsReducer = (state = {}, action) => {
       }
       return state;
     case followRelationsActions.deleteFollowRelationSuccess().type:
-      return utils.deletePropertiesFromObject(state, [action.payload.response.toString()])
+      return utils.deletePropertiesFromObject(state, [action.payload.id.toString()])
     default:
       return state;
   }
