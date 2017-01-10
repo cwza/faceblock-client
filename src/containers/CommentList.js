@@ -5,13 +5,14 @@ import PostList from '../components/PostList'
 import { getPostsByRequestId } from '../selectors/postsSelectors'
 import postsActions from '../actions/postsActions'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
+import { isEmpty } from 'lodash'
 
 const componentName = 'CommentList'
 class CommentList extends Component {
   componentDidMount() {
     let { postId, comments } = this.props;
-    // if(this.props.comments && this.props.comments.length === 0)
-    this.handleFetchNewPosts(postId, comments);
+    if(isEmpty(comments))
+      this.handleFetchNewPosts(postId, comments);
   }
   genQueryStr = () => {
     return `q=replyTo:(${this.props.postId})&sort=createTime&order=desc&limit=5`;

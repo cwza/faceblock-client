@@ -13,17 +13,16 @@ class GoogleOauth2Callback extends Component {
   }
   componentDidUpdate() {
     let { authentication } = this.props;
-    if(authentication.item.faceblockToken && !authentication.isFetching)
+    if(authentication.item.faceblockToken)
       this.redirectToHomePage();
   }
   redirectToHomePage = () => {
     this.props.routerPush('/');
   }
   render() {
-    let isFetching = this.props.authentication.isFetching;
     return (
       <div>
-        <Loading isFetching={isFetching}/>
+        <Loading/>
       </div>
     )
   }

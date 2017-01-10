@@ -10,16 +10,16 @@ import UserContainer from './UserContainer'
 import { getUserById } from '../selectors/usersSelectors'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
 import * as utils from '../utils'
+import { isEmpty } from 'lodash'
 
 const componentName = 'UserPostsPage';
 class UserPostsPage extends Component {
   componentDidMount() {
-    let { posts } = this.props;
-    let { userId } = this.props.params;
-    // if(this.props.posts && this.props.posts.length === 0)
-    this.handleFetchNewPosts(userId, posts)
+    let { userId, posts } = this.props.params;
     // if(isEmpty(user))
     this.props.fetchUserStart(userId);
+    if(isEmpty(posts))
+      this.handleFetchNewPosts(userId, posts)
   }
   genQueryStr = (userId) => {
     let userName = utils.getMailUsername(this.props.user.mail);

@@ -5,10 +5,8 @@ import { getError } from '../selectors/utilsSelectors'
 import Error from '../components/Error'
 import authenticationActions from '../actions/authenticationActions'
 import { getAuthentication } from '../selectors/utilsSelectors'
-import { getSelfId, getSelfUser, getIsFetching as getUsersIsFetching } from '../selectors/usersSelectors'
-import { getIsFetching as getPostsIsFetching } from '../selectors/postsSelectors'
+import { getSelfId, getSelfUser } from '../selectors/usersSelectors'
 import SideBar from '../components/SideBar'
-import Loading from '../components/Loading'
 import usersActions from '../actions/usersActions'
 import { isEmpty } from 'lodash'
 
@@ -30,11 +28,10 @@ class App extends Component {
     window.location.reload();
   }
   render() {
-    let { error, faceblockToken, selfId, usersIsFetching, postsIsFetching, selfUser } = this.props;
+    let { error, faceblockToken, selfId, selfUser } = this.props;
     return (
       <div>
         <h1>I am App Page.</h1>
-        <Loading usersIsFetching={usersIsFetching} postsIsFetching={postsIsFetching}/>
         <SideBar selfId={selfId} faceblockToken={faceblockToken} handleLogout={this.handleLogout}/>
         {error && <Error error={error} />}
         {React.cloneElement(this.props.children, {selfUser})}
@@ -52,8 +49,6 @@ const mapStateToProps = (state) => {
     faceblockToken: getAuthentication(state).item.faceblockToken,
     selfId: getSelfId(state),
     selfUser: getSelfUser(state),
-    usersIsFetching: getUsersIsFetching(state),
-    postsIsFetching: getPostsIsFetching(state),
   }
 }
 

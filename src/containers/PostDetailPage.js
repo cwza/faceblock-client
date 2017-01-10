@@ -3,10 +3,9 @@ import PostContainer from './PostContainer'
 import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
 // import usersActions from '../actions/usersActions'
-import { getPostById, getIsFetching as postsIsFetching } from '../selectors/postsSelectors'
+import { getPostById } from '../selectors/postsSelectors'
 import { routerActions } from 'react-router-redux'
 import CommentList from './CommentList'
-import { isEmpty } from 'lodash'
 
 class PostDetailPage extends Component {
   componentDidMount() {
@@ -19,8 +18,7 @@ class PostDetailPage extends Component {
   }
   handleDeletePost = (post) => {
     this.props.deletePostStart(post.id);
-    if(!this.props.postsIsFetching)
-      this.props.routerBack();
+    this.props.routerBack();
   }
   render() {
     let { post } = this.props;
@@ -31,7 +29,7 @@ class PostDetailPage extends Component {
           handleDeletePost={() => this.handleDeletePost(post)}
           handlePostClick={() => {}}
         />
-        {!isEmpty(post) && <CommentList postId={post.id}/>}
+        {<CommentList postId={post.id}/>}
       </div>
     )
   }
@@ -43,7 +41,6 @@ PostDetailPage.propTypes = {
 const mapStateToProps = (state, props) => {
   return {
     post: getPostById(state, props.params.postId),
-    postsIsFetching: postsIsFetching(state),
   }
 }
 

@@ -1,4 +1,5 @@
 import { camelizeKeys } from 'humps'
+import { isEmpty } from 'lodash'
 
 const API_ROOT = 'http://localhost:3001/'
 
@@ -61,13 +62,13 @@ const callDelete = (fullUrl) => {
 }
 
 const getFetchOldQueryStr = (queryStr, entities) => {
-  if(entities.length === 0 || entities === undefined)
+  if(isEmpty(entities))
     return queryStr;
   return queryStr + '&underNearId=' + entities[entities.length - 1].id;
 }
 
 const getFetchNewQueryStr = (queryStr, entities) => {
-  if(entities.length === 0 || entities === undefined)
+  if(isEmpty(entities))
     return queryStr;
   return queryStr + '&upperNearId=' + entities[0].id;
 }

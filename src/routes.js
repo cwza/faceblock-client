@@ -10,7 +10,7 @@ import SearchPostPage from './containers/SearchPostPage'
 import NoMatchPage from './components/NoMatchPage'
 import GoogleOauth2Callback from './containers/GoogleOauth2Callback'
 import Authentication from './components/Authentication'
-import { isEmpty } from 'lodash'
+import Private from './components/Private'
 
 const needLogin = () => {
   let reduxLocalStorage = localStorage.getItem('redux');
@@ -30,7 +30,7 @@ const requireAuth = (nextState, replace) => {
 
 export default (
   <Route path="/" component={App}>
-    <Route component={(props) => (<div>{!isEmpty(props.selfUser) && props.children}</div>)} onEnter={requireAuth}>
+    <Route component={Private} onEnter={requireAuth}>
       <IndexRoute component={HomePage} />
       <Route path="/users" component={UserPage} />
       <Route path="/UserPostsPage/:userId" component={UserPostsPage} />

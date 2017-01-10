@@ -8,12 +8,13 @@ import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/
 import { getSelfId, getSelfUser } from '../selectors/usersSelectors'
 import { getUserIdsByFollowerId } from '../selectors/followRelationsSelectors'
 import * as utils from '../utils'
+import { isEmpty } from 'lodash'
 
 const componentName = 'HomePage';
 class HomePage extends Component {
   componentDidMount() {
-    // if(this.props.posts && this.props.posts.length === 0)
-    this.handleFetchNewPosts(this.props.posts, this.props.selfId, this.props.followingIds);
+    if(isEmpty(this.props.posts))
+      this.handleFetchNewPosts(this.props.posts, this.props.selfId, this.props.followingIds);
   }
   genQueryStr = (selfId, followingIds) => {
     let userName = utils.getMailUsername(this.props.selfUser.mail);
