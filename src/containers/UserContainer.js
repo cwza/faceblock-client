@@ -46,7 +46,7 @@ const mapStateToProps = (state, props) => {
   let selfId = getSelfId(state);
   return {
     selfId,
-    followRelation: getFollowRelationByUserIdAndFollowerId(state)({userId: props.user.id, followerId: selfId}),
+    followRelation: getFollowRelationByUserIdAndFollowerId(state)(props.user.id, selfId),
   }
 }
 

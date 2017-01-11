@@ -70,7 +70,7 @@ HomePage.propTypes = {
 
 const mapStateToProps = (state, props) => {
   let selfId = getSelfId(state);
-  let followingIds = getUserIdsByFollowerId(state)({followerId: selfId});
+  let followingIds = getUserIdsByFollowerId(state)(selfId);
   let fetchPostsRequestId = `${componentName}_fetchPosts_`;
   let addPostRequestId = `${componentName}_addPost`;
   return {

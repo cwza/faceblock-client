@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect'
 import { getFaceblockEntities, getAuthentication} from './utilsSelectors'
 import { getOrder } from './requestInfoSelectors'
+import { getAllFollowRelations, getUserIdsByFollowerId } from './followRelationsSelectors'
+import { memoize } from 'lodash'
 
 const getUserById = (state, userId) => {
   if(state.apis.faceblock.entities && state.apis.faceblock.entities.users
@@ -59,9 +61,26 @@ const getUsersByRequestId = createSelector(
       if(usersItems[userId.toString()])
         result.push(usersItems[userId.toString()])
       return result;
-    },[])
+    }, []);
     return result;
   }
 )
 
-export {getSelfId, getFriendsIds, getSelfUser, getUsersByRequestId, getUserById};
+const getFollowingsByFollowerId = createSelector(
+  [getUsersItems, (state, followerId) => getUserIdsByFollowerId(state)(followerId)],
+  (usersItems={}, followingsIds=[], followerId) => memoize (
+    (followerId) => {
+      console.log('followingsIds: ', followingsIds, ' followerId: ', followerId);
+      let result = followingsIds.reduce((result, followingsId) => {
+        if(usersItems[followingsId.toString()])
+          result.push(usersItems[followingsId.toString()])
+        return result;
+      }, []);
+      return result;
+    }
+  )
+)
+export {
+  getSelfId, getFriendsIds, getSelfUser, getUsersByRequestId, getUserById,
+  getFollowingsByFollowerId
+};
