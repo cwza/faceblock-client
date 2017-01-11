@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { getFaceblockEntities, getAuthentication} from './utilsSelectors'
 import { getOrder } from './requestInfoSelectors'
-import { getAllFollowRelations, getUserIdsByFollowerId } from './followRelationsSelectors'
+import { getUserIdsByFollowerId, getFollowerIdsByUserId, getFollowRelationsByRequestId } from './followRelationsSelectors'
 import { memoize } from 'lodash'
 
 const getUserById = (state, userId) => {
@@ -70,7 +70,6 @@ const getFollowingsByFollowerId = createSelector(
   [getUsersItems, (state, followerId) => getUserIdsByFollowerId(state)(followerId)],
   (usersItems={}, followingsIds=[], followerId) => memoize (
     (followerId) => {
-      console.log('followingsIds: ', followingsIds, ' followerId: ', followerId);
       let result = followingsIds.reduce((result, followingsId) => {
         if(usersItems[followingsId.toString()])
           result.push(usersItems[followingsId.toString()])
@@ -80,7 +79,48 @@ const getFollowingsByFollowerId = createSelector(
     }
   )
 )
+
+const getFollowersByUserId = createSelector(
+  [getUsersItems, (state, userId) => getFollowerIdsByUserId(state)(userId)],
+  (usersItems={}, followerIds=[], userId) => memoize (
+    (userId) => {
+      console.log('followerIds: ', followerIds, ' userId: ', userId);
+      let result = followerIds.reduce((result, followerId) => {
+        if(usersItems[followerId.toString()])
+          result.push(usersItems[followerId.toString()])
+        return result;
+      }, []);
+      return result;
+    }
+  )
+)
+
+const getFollowersByFollowRelationsRequestId = createSelector(
+  [getUsersItems, getFollowRelationsByRequestId],
+  (userItems={}, followRelations=[]) => {
+    let result = followRelations.reduce((result, followRelation) => {
+      if(userItems[followRelation.followerId.toString()])
+        result.push(userItems[followRelation.followerId.toString()])
+      return result;
+    }, []);
+    return result;
+  }
+)
+
+const getFollowingsByFollowRelationsRequestId = createSelector(
+  [getUsersItems, getFollowRelationsByRequestId],
+  (userItems={}, followRelations=[]) => {
+    let result = followRelations.reduce((result, followRelation) => {
+      if(userItems[followRelation.userId.toString()])
+        result.push(userItems[followRelation.userId.toString()])
+      return result;
+    }, []);
+    return result;
+  }
+)
+
 export {
   getSelfId, getFriendsIds, getSelfUser, getUsersByRequestId, getUserById,
-  getFollowingsByFollowerId
+  getFollowingsByFollowerId, getFollowersByUserId, getFollowersByFollowRelationsRequestId,
+  getFollowingsByFollowRelationsRequestId,
 };

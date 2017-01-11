@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import followRelationsActions from '../actions/followRelationsActions'
-import { getFollowingsByFollowerId } from '../selectors/usersSelectors'
+import { getFollowingsByFollowRelationsRequestId } from '../selectors/usersSelectors'
 import UserList from '../components/UserList'
 
 const componentName = 'UserFollowingsPage';
@@ -22,9 +22,10 @@ class UserFollowingsPage extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  let userId = parseInt(props.params.userId, 10);
+  let { userId } = props.params;
+  let fetchFollowingsRequestId = `${componentName}_${userId}_fetchFollowings`;
   return {
-    followings: getFollowingsByFollowerId(state, userId)(userId),
+    followings: getFollowingsByFollowRelationsRequestId(state, fetchFollowingsRequestId),
   }
 }
 

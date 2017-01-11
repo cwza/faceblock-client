@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { getFaceblockEntities } from './utilsSelectors'
 import { memoize } from 'lodash'
+import { getOrder } from './requestInfoSelectors'
 
 const getFollowRelationsObject = createSelector(
   [getFaceblockEntities],
@@ -39,7 +40,6 @@ const getUserIdsByFollowerId = createSelector(
   [getAllFollowRelations],
   (followRelations=[]) => memoize (
     (followerId) => {
-      console.log('.....followerId: ', followerId);
       let result = followRelations.filter(followRelation => followRelation.followerId === followerId)
         .map(followRelation => followRelation.userId)
       return result;
@@ -47,6 +47,30 @@ const getUserIdsByFollowerId = createSelector(
   )
 )
 
+const getFollowerIdsByUserId = createSelector(
+  [getAllFollowRelations],
+  (followRelations=[]) => memoize (
+    (userId) => {
+      let result = followRelations.filter(followRelation => followRelation.userId === userId)
+        .map(followRelation => followRelation.followerId)
+      return result;
+    }
+  )
+)
+
+const getFollowRelationsByRequestId = createSelector(
+  [getFollowRelationsItems, getOrder],
+  (followRelationItems={}, order) => {
+    let result = order.reduce((result, followRelationId) => {
+      if(followRelationItems[followRelationId.toString()])
+        result.push(followRelationItems[followRelationId.toString()])
+      return result;
+    }, []);
+    return result;
+  }
+)
+
 export {
-  getFollowRelationByUserIdAndFollowerId, getUserIdsByFollowerId, getAllFollowRelations
+  getFollowRelationByUserIdAndFollowerId, getUserIdsByFollowerId, getAllFollowRelations,
+  getFollowerIdsByUserId, getFollowRelationsByRequestId,
 }
