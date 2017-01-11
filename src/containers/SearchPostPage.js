@@ -16,6 +16,7 @@ const selectorParams = {
 const componentName = 'SearchPostPage';
 class SearchPostPage extends Component {
   componentDidMount() {
+    this.fetchPostsRequestId = componentName + '_' + this.props.searchKeyword;
     this.handleFetchNewPosts('*', this.props.posts);
   }
   componentWillUnmount() {
@@ -34,13 +35,13 @@ class SearchPostPage extends Component {
   handleFetchOldPosts = (searchKeyword, posts) => {
     if(searchKeyword) {
       let fetchOldPostsQueryStr = getFetchOldQueryStr(this.genQueryStr(searchKeyword), posts)
-      this.props.fetchPostsStart(fetchOldPostsQueryStr, componentName + '_' + searchKeyword);
+      this.props.fetchPostsStart(fetchOldPostsQueryStr, this.fetchPostsRequestId);
     }
   }
   handleFetchNewPosts = (searchKeyword, posts) => {
     if(searchKeyword) {
       let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(searchKeyword), posts)
-      this.props.fetchPostsStart(fetchNewPostsQueryStr, componentName + '_' + searchKeyword);
+      this.props.fetchPostsStart(fetchNewPostsQueryStr, this.fetchPostsRequestId);
     }
   }
   render() {
@@ -63,9 +64,10 @@ SearchPostPage.propTypes = {
 
 const mapStateToProps = (state, props) => {
   let searchKeyword = getSearchKeyword(state, selectorParams) ? getSearchKeyword(state, selectorParams) : '*';
+  let fetchPostsRequestId = componentName + '_' + searchKeyword;
   return {
     searchKeyword,
-    posts: getPostsByRequestId(state, componentName + '_' + searchKeyword),
+    posts: getPostsByRequestId(state, fetchPostsRequestId),
     postsSelector: (arg) => getPostsByRequestId(state, ...arg),
   }
 }

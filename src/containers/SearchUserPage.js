@@ -16,6 +16,7 @@ const selectorParams = {
 const componentName = 'SearchUserPage';
 class SearchUserPage extends Component {
   componentDidMount() {
+    this.fetchUsersRequestId = componentName + '_' + this.props.searchKeyword;
     this.handleFetchNewUsers('*', this.props.users);
   }
   componentWillUnmount() {
@@ -34,13 +35,13 @@ class SearchUserPage extends Component {
   handleFetchOldUsers = (searchKeyword, users) => {
     if(searchKeyword) {
       let fetchOldUsersQueryStr = getFetchOldQueryStr(this.genQueryStr(searchKeyword), users)
-      this.props.fetchUsersStart(fetchOldUsersQueryStr, componentName + '_' + searchKeyword);
+      this.props.fetchUsersStart(fetchOldUsersQueryStr, this.fetchUsersRequestId);
     }
   }
   handleFetchNewUsers = (searchKeyword, users) => {
     if(searchKeyword) {
       let fetchNewUsersQueryStr = getFetchNewQueryStr(this.genQueryStr(searchKeyword), users)
-      this.props.fetchUsersStart(fetchNewUsersQueryStr, componentName + '_' + searchKeyword);
+      this.props.fetchUsersStart(fetchNewUsersQueryStr, this.fetchUsersRequestId);
     }
   }
   render() {
@@ -63,9 +64,10 @@ SearchUserPage.propTypes = {
 
 const mapStateToProps = (state, props) => {
   let searchKeyword = getSearchKeyword(state, selectorParams) ? getSearchKeyword(state, selectorParams) : '*';
+  let fetchUsersRequestId = componentName + '_' + searchKeyword;
   return {
     searchKeyword,
-    users: getUsersByRequestId(state, componentName + '_' + searchKeyword),
+    users: getUsersByRequestId(state, fetchUsersRequestId),
     usersSelector: (arg) => getUsersByRequestId(state, ...arg),
   }
 }
