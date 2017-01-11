@@ -21,7 +21,7 @@ const getFetchingStatus = (state=0, action) => {
     return 1;
   } else if(action.type.endsWith('SUCCESS')) {
     return 2;
-  } else if(action.type.endsWith('ERROR')) {
+  } else if(action.type.endsWith('ERROR') || action.type === otherActions.resetFetchingStatus().type) {
     return 0;
   }
   return state;
