@@ -30,17 +30,22 @@ const requireAuth = (nextState, replace) => {
    }
 }
 
+const propsComponent = (component, extraProps) => {
+  return (props, params) => React.createElement(
+    component, {...props, ...extraProps, key: props.router.location.pathname})
+}
+
 export default (
   <Route path="/" component={App}>
     <Route component={Private} onEnter={requireAuth}>
       <IndexRoute component={HomePage} />
-      <Route path="/users" component={UserPage} />
-      <Route path="/UserPostsPage/:userId" component={UserPostsPage} />
-      <Route path="/UserFollowingsPage/:userId" component={UserFollowingsPage} />
-      <Route path="/UserFollowersPage/:userId" component={UserFollowersPage} />
-      <Route path="/post/:postId" component={PostDetailPage}></Route>
-      <Route path="/SearchUserPage" component={SearchUserPage}></Route>
-      <Route path="/SearchPostPage" component={SearchPostPage}></Route>
+      <Route path="/users" component={propsComponent(UserPage)} />
+      <Route path="/UserPostsPage/:userId" component={propsComponent(UserPostsPage)} />
+      <Route path="/UserFollowingsPage/:userId" component={propsComponent(UserFollowingsPage)} />
+      <Route path="/UserFollowersPage/:userId" component={propsComponent(UserFollowersPage)} />
+      <Route path="/post/:postId" component={propsComponent(PostDetailPage)}></Route>
+      <Route path="/SearchUserPage" component={propsComponent(SearchUserPage)}></Route>
+      <Route path="/SearchPostPage" component={propsComponent(SearchPostPage)}></Route>
     </Route>
     <Route path="/authentication" component={Authentication}></Route>
     <Route path="/googleOauth2Callback" component={GoogleOauth2Callback}></Route>

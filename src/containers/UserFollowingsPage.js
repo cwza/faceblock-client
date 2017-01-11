@@ -10,6 +10,7 @@ class UserFollowingsPage extends Component {
     let { userId } = this.props.params;
     this.fetchFollowingsRequestId = `${componentName}_${userId}_fetchFollowings`;
     this.props.fetchFollowRelationsStart(`q=followerId:(${userId})`, this.fetchFollowingsRequestId);
+    console.log('heyeheykljfsdlkdfA');
   }
   render() {
     return (

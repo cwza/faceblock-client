@@ -36,6 +36,7 @@ class CommentList extends Component {
   handleFetchNewPosts = (postId, posts) => {
     let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(postId), posts)
     this.props.fetchPostsStart(fetchNewPostsQueryStr, this.fetchCommentsRequestId);
+    console.log('fetchCommentsRequestId: ', this.fetchCommentsRequestId);
   }
   handleFetchOldPosts = (postId, posts) => {
     let fetchOldPostsQueryStr = getFetchOldQueryStr(this.genQueryStr(postId), posts)
