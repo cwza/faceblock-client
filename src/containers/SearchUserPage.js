@@ -16,6 +16,7 @@ const selectorParams = {
 const componentName = 'SearchUserPage';
 class SearchUserPage extends Component {
   componentDidMount() {
+    this.handleFetchNewUsers('*', this.props.users);
   }
   componentWillUnmount() {
     this.props.removeRequestInfo(componentName);
@@ -26,10 +27,9 @@ class SearchUserPage extends Component {
   }
   handleSearchFormOnChange = (value) => {
     value = utils.removeSpecialWordFromQuery(value);
-    if(value) {
-      let fetchNewUsersQueryStr = getFetchNewQueryStr(this.genQueryStr(value), this.props.usersSelector(componentName + '_' + value))
-      this.props.fetchUsersStart(fetchNewUsersQueryStr, componentName + '_' + value);
-    }
+    if(!value) value = '*';
+    let fetchNewUsersQueryStr = getFetchNewQueryStr(this.genQueryStr(value), this.props.usersSelector(componentName + '_' + value))
+    this.props.fetchUsersStart(fetchNewUsersQueryStr, componentName + '_' + value);
   }
   handleFetchOldUsers = (searchKeyword, users) => {
     if(searchKeyword) {
@@ -62,7 +62,7 @@ SearchUserPage.propTypes = {
 }
 
 const mapStateToProps = (state, props) => {
-  let searchKeyword = getSearchKeyword(state, selectorParams);
+  let searchKeyword = getSearchKeyword(state, selectorParams) ? getSearchKeyword(state, selectorParams) : '*';
   return {
     searchKeyword,
     users: getUsersByRequestId(state, componentName + '_' + searchKeyword),

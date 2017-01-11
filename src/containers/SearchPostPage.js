@@ -16,6 +16,7 @@ const selectorParams = {
 const componentName = 'SearchPostPage';
 class SearchPostPage extends Component {
   componentDidMount() {
+    this.handleFetchNewPosts('*', this.props.posts);
   }
   componentWillUnmount() {
     this.props.removeRequestInfo(componentName);
@@ -26,10 +27,9 @@ class SearchPostPage extends Component {
   }
   handleSearchFormOnChange = (value) => {
     value = utils.removeSpecialWordFromQuery(value);
-    if(value) {
-      let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(value), this.props.postsSelector(componentName + '_' + value))
-      this.props.fetchPostsStart(fetchNewPostsQueryStr, componentName + '_' + value);
-    }
+    if(!value) value = '*';
+    let fetchNewPostsQueryStr = getFetchNewQueryStr(this.genQueryStr(value), this.props.postsSelector(componentName + '_' + value))
+    this.props.fetchPostsStart(fetchNewPostsQueryStr, componentName + '_' + value);
   }
   handleFetchOldPosts = (searchKeyword, posts) => {
     if(searchKeyword) {
@@ -62,7 +62,7 @@ SearchPostPage.propTypes = {
 }
 
 const mapStateToProps = (state, props) => {
-  let searchKeyword = getSearchKeyword(state, selectorParams);
+  let searchKeyword = getSearchKeyword(state, selectorParams) ? getSearchKeyword(state, selectorParams) : '*';
   return {
     searchKeyword,
     posts: getPostsByRequestId(state, componentName + '_' + searchKeyword),
