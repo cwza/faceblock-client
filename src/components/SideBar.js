@@ -12,6 +12,7 @@ class SideBar extends Component {
           <li><Link to="/" onlyActiveOnIndex={true} activeClassName="active">Home</Link></li>
           <li><Link to="/users" activeClassName="active">Users</Link></li>
           <li><Link to={`/UserPostsPage/${selfId}`} activeClassName="active">MyPage</Link></li>
+          <li><Link to={`/UserFollowingsPage/${selfId}`} activeClassName="active">MyFollowings</Link></li>
           <li><Link to="/SearchUserPage" activeClassName="active">SearchUserPage</Link></li>
           <li><Link to="/SearchPostPage" activeClassName="active">SearchPostPage</Link></li>
         </ul>

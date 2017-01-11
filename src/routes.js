@@ -11,6 +11,7 @@ import NoMatchPage from './components/NoMatchPage'
 import GoogleOauth2Callback from './containers/GoogleOauth2Callback'
 import Authentication from './components/Authentication'
 import Private from './containers/Private'
+import UserFollowingsPage from './containers/UserFollowingsPage'
 
 const needLogin = () => {
   let reduxLocalStorage = localStorage.getItem('redux');
@@ -34,6 +35,7 @@ export default (
       <IndexRoute component={HomePage} />
       <Route path="/users" component={UserPage} />
       <Route path="/UserPostsPage/:userId" component={UserPostsPage} />
+      <Route path="/UserFollowingsPage/:userId" component={UserFollowingsPage} />
       <Route path="/post/:postId" component={PostDetailPage}></Route>
       <Route path="/SearchUserPage" component={SearchUserPage}></Route>
       <Route path="/SearchPostPage" component={SearchPostPage}></Route>
