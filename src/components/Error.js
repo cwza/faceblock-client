@@ -9,6 +9,9 @@ class Error extends Component {
       visible: true
     }
   }
+  componentWillReceiveProps(newProps) {
+    this.setState({ visible: true });
+  }
   onDismiss = () => {
     this.setState({ visible: false });
   }
@@ -16,10 +19,10 @@ class Error extends Component {
     if(!isEmpty(error))
       return (
         <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss}>
-          <h1 hidden>{error.code}</h1>
-          <h1>error name: {error.name}</h1>
-          <h1>error message: {error.message}</h1>
-          <h1 hidden>{error.longMessage}</h1>
+          <h6 hidden>{error.code}</h6>
+          <h6>error name: {error.name}</h6>
+          <h6>error message: {error.message}</h6>
+          <h6 hidden>{error.longMessage}</h6>
         </Alert>
       )
   }

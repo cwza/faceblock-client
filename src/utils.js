@@ -1,4 +1,7 @@
 const removeSpecialWordFromQuery = (queryStr) => {
+  if(queryStr.length === 1 && '#.`'.includes(queryStr)) {
+    return '';
+  }
   if(queryStr) {
     return queryStr.replace(/[&\/\\,+()$~%'":?<>{}!=^\[\]\\]/g,'');
   }
