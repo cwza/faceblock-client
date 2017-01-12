@@ -10,19 +10,21 @@ class UserFollowersPage extends Component {
   componentDidMount() {
     let { userId } = this.props.params;
     let { users } = this.props;
-    this.fetchFollowersRequestId = `${componentName}_${userId}_fetchFollowers`;
     this.handleFetchNewFollowRelations(userId, users);
+  }
+  genFetchFollowersRequestId = (userId) => {
+    return `${componentName}_${userId}_fetchFollowers`;
   }
   genQueryStr = (userId) => {
     return `q=userId:(${userId})&sort=createTime&order=desc&limit=5`;
   }
   handleFetchOldFollowRelations = (userId, users) => {
     let fetchOldUsersQueryStr = getFetchOldQueryStr(this.genQueryStr(userId), users)
-    this.props.fetchFollowRelationsStart(fetchOldUsersQueryStr, this.fetchFollowersRequestId);
+    this.props.fetchFollowRelationsStart(fetchOldUsersQueryStr, this.genFetchFollowersRequestId(userId));
   }
   handleFetchNewFollowRelations = (userId, users) => {
     let fetchNewUsersQueryStr = getFetchNewQueryStr(this.genQueryStr(userId), users)
-    this.props.fetchFollowRelationsStart(fetchNewUsersQueryStr, this.fetchFollowersRequestId);
+    this.props.fetchFollowRelationsStart(fetchNewUsersQueryStr, this.genFetchFollowersRequestId(userId));
   }
   render() {
     let { userId } = this.props.params;

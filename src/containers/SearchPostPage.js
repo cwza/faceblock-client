@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import KeywordSearchForm from '../components/KeywordSearchForm'
 import { getSearchKeyword } from '../selectors/formSelectors'
-import { getPostsByRequestId } from '../selectors/postsSelectors'
 import otherActions from '../actions/otherActions'
 import PostListContainer from './PostListContainer'
 
@@ -53,7 +52,6 @@ const mapStateToProps = (state, props) => {
   let searchKeyword = getSearchKeyword(state, selectorParams);
   return {
     searchKeyword,
-    postsSelector: (arg) => getPostsByRequestId(state, ...arg),
   }
 }
 

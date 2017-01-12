@@ -8,9 +8,10 @@ const componentName = 'UserFollowingsPage';
 class UserFollowingsPage extends Component {
   componentDidMount() {
     let { userId } = this.props.params;
-    this.fetchFollowingsRequestId = `${componentName}_${userId}_fetchFollowings`;
-    this.props.fetchFollowRelationsStart(`q=followerId:(${userId})`, this.fetchFollowingsRequestId);
-    console.log('heyeheykljfsdlkdfA');
+    this.props.fetchFollowRelationsStart(`q=followerId:(${userId})`, this.genFetchFollowingsRequestId(userId));
+  }
+  genFetchFollowingsRequestId = (userId) => {
+    return `${componentName}_${userId}_fetchFollowings`;
   }
   render() {
     return (
