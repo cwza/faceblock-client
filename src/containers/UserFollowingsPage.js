@@ -16,7 +16,7 @@ class UserFollowingsPage extends Component {
   render() {
     return (
       <div>
-        <h1>I am UserFollowingsPage</h1>
+        <h1 hidden>I am UserFollowingsPage</h1>
         <UserList users={this.props.followings} />
       </div>
     )

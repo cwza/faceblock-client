@@ -30,7 +30,7 @@ class UserListContainer extends Component {
     let { users, queryStr, fetchUsersRequestId, fetchUsersStatus } = this.props;
     return (
       <div>
-        <h1>I am UserListContainer.</h1>
+        <h1 hidden>I am UserListContainer.</h1>
         {fetchUsersStatus === 1 && <Loading />}
         <UserList users={users}
           handleFetchOldUsers={() => this.handleFetchOldUsers(queryStr, users, fetchUsersRequestId)}

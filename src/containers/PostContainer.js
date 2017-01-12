@@ -25,7 +25,7 @@ class PostContainer extends Component {
     let handleDeletePost = this.props.handleDeletePost ? this.props.handleDeletePost : () => this.handleDeletePost(post);
     return (
       <div>
-        <h1>I am PostContainer Page.</h1>
+        <h1 hidden>I am PostContainer Page.</h1>
         <Post post={post} author={author}
           handlePostClick={handlePostClick}
           handleDeletePost={handleDeletePost}

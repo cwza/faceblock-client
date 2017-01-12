@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import UserContainer from '../containers/UserContainer'
+import { Button } from 'reactstrap'
+import { Container, Row, Col } from 'reactstrap'
 
 class UserList extends Component {
   handleUserClick = (userId) => {
@@ -16,10 +18,24 @@ class UserList extends Component {
     let { users, handleFetchNewUsers, handleFetchOldUsers } = this.props;
     return (
       <div>
-        <h1>I am UserList Page.</h1>
-        {handleFetchNewUsers && <button onClick={handleFetchNewUsers}>Load New</button>}
-        {this.renderUserList(users)}
-        {handleFetchOldUsers && <button onClick={handleFetchOldUsers}>Load Old</button>}
+        <h1 hidden>I am UserList Page.</h1>
+        <Container center-block>
+          <Row>
+            <Col>
+              {handleFetchNewUsers && <Button className="btn-block" color="info" onClick={handleFetchNewUsers}>Load New</Button>}
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {this.renderUserList(users)}
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {handleFetchOldUsers && <Button className="btn-block" color="info" onClick={handleFetchOldUsers}>Load Old</Button>}
+            </Col>
+          </Row>
+        </Container>
       </div>
     )
   }

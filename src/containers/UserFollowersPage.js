@@ -31,7 +31,7 @@ class UserFollowersPage extends Component {
     let { followers } = this.props;
     return (
       <div>
-        <h1>I am UserFollowersPage</h1>
+        <h1 hidden>I am UserFollowersPage</h1>
         <UserList users={this.props.followers}
           handleFetchOldUsers={() => this.handleFetchOldFollowRelations(userId, followers)}
           handleFetchNewUsers={() => this.handleFetchNewFollowRelations(userId, followers)} />

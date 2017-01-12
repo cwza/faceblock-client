@@ -25,7 +25,7 @@ class PostDetailPage extends Component {
     let { postId } = this.props.params;
     return (
       <div>
-        <h1>I am PostDetailPage.</h1>
+        <h1 hidden>I am PostDetailPage.</h1>
         <PostContainer post={post}
           handleDeletePost={() => this.handleDeletePost(post)}
           handlePostClick={() => {}}

@@ -25,7 +25,7 @@ class UserContainer extends Component {
     let handleUserClick = this.props.handleUserClick ? this.props.handleUserClick : () => this.handleUserClick(user.id);
     return (
       <div>
-        <h1>I am UserContainer Page.</h1>
+        <h1 hidden>I am UserContainer Page.</h1>
         <User user={user}
           followRelation={followRelation}
           handleFollowClick={() => this.handleFollowClick(user.id, selfId, followRelation)}

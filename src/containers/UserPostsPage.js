@@ -55,7 +55,7 @@ class UserPostsPage extends Component {
     let { userId } = this.props.params;
     return (
       <div>
-        <h1>I am UserPostsPage.</h1>
+        <h1 hidden>I am UserPostsPage.</h1>
         <UserContainer user={user} handleUserClick={() => {}}/>
         {(selfId.toString() === userId) && <AddPostForm onSubmit={this.handleAddPostSubmit} />}
         {this.renderPostListContainer(userId)}

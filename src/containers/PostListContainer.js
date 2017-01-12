@@ -30,7 +30,7 @@ class PostListContainer extends Component {
     let { posts, queryStr, fetchPostsRequestId, fetchPostsStatus } = this.props;
     return (
       <div>
-        <h1>I am PostListContainer.</h1>
+        <h1 hidden>I am PostListContainer.</h1>
         {fetchPostsStatus === 1 && <Loading />}
         <PostList posts={posts}
           handleFetchOldPosts={() => this.handleFetchOldPosts(queryStr, posts, fetchPostsRequestId)}

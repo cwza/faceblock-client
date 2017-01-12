@@ -36,9 +36,9 @@ class SearchUserPage extends Component {
     let { searchKeyword } = this.props;
     return (
       <div>
-        <h1>I am SearchUserPage.</h1>
+        <h1 hidden>I am SearchUserPage.</h1>
         <KeywordSearchForm handleOnChange={this.handleSearchFormOnChange} />
-        <h2>{this.genQueryStr(searchKeyword)}</h2>
+        <h2 hidden>{this.genQueryStr(searchKeyword)}</h2>
         {this.renderUserListContainer(searchKeyword)}
       </div>
     )

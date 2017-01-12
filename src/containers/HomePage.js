@@ -53,7 +53,7 @@ class HomePage extends Component {
     let { selfId, followingIds, selfUser, fetchFollowingsStatus } = this.props;
     return (
       <div>
-        <h1>I am Home Page.</h1>
+        <h1 hidden>I am Home Page.</h1>
         <UserContainer user={selfUser} handleUserClick={() => {}}/>
         <AddPostForm onSubmit={this.handleAddPostSubmit} />
         {this.renderPostListContainer(fetchFollowingsStatus, selfId, followingIds)}

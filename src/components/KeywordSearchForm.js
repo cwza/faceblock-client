@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form';
-
+import { Form, Input } from 'reactstrap';
 
 let renderField = ({
     input, handleOnChange,
     meta: { touched, error, warning }, ...rest
   }) => (
-  <input {...rest} type="text" onChange={(e) => {
+  <Input {...rest} type="text" onChange={(e) => {
       input.onChange(e);
       handleOnChange(e.target.value);
   }}/>
@@ -16,12 +16,10 @@ class KeywordSearchForm extends Component {
     let { handleOnChange } = this.props;
     return (
       <div>
-        <h1>I am KeywordSearchForm.</h1>
-        <form id="KeywordSearchForm">
-          <div>
-            <Field handleOnChange={handleOnChange} name="searchKeyword" component={renderField} placeholder="input search keyword"/>
-          </div>
-        </form>
+        <h1 hidden>I am KeywordSearchForm.</h1>
+        <Form id="KeywordSearchForm">
+          <Field handleOnChange={handleOnChange} name="searchKeyword" component={renderField} placeholder="input search keyword"/>
+        </Form>
       </div>
     )
   }

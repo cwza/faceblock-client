@@ -42,7 +42,7 @@ class CommentList extends Component {
     let { postId } = this.props;
     return (
       <div>
-        <h1>I am CommentList.</h1>
+        <h1 hidden>I am CommentList.</h1>
         <AddPostForm onSubmit={this.handleAddPostSubmit} />
         {this.renderPostListContainer(postId)}
       </div>

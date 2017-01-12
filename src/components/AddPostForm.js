@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form';
+import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
 
 const validate = (values) => {
   const errors = {};
@@ -12,13 +13,13 @@ const renderTextAreaField = ({
     input, label,
     meta: { touched, error, warning }, ...rest
   }) => (
-  <div>
-    <label>{label}</label>
+  <FormGroup>
+    <Label>{label}</Label>
     <div>
-      <textarea form="AddPostForm" cols="35" wrap="soft" {...input} {...rest} />
-      {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
+      <Input type="textarea" form="AddPostForm" rows="8" wrap="soft" {...input} {...rest} />
+      {touched && ((error && <span style={{color:"red"}}>{error}</span>) || (warning && <span>{warning}</span>))}
     </div>
-  </div>
+  </FormGroup>
 )
 
 class AddPostForm extends Component {
@@ -26,13 +27,13 @@ class AddPostForm extends Component {
     let { handleSubmit } = this.props;
     return (
       <div>
-        <h1>I am AddPost.</h1>
-        <form id="AddPostForm" onSubmit={handleSubmit}>
-          <div>
+        <h1 hidden>I am AddPost.</h1>
+        <Container center-block>
+          <Form id="AddPostForm" onSubmit={handleSubmit}>
             <Field name="content" placeholder="input something" component={renderTextAreaField} label="Content" />
-          </div>
-          <button type="submit">Submit</button>
-        </form>
+            <Button className="btn-block" color="primary" type="submit">Add New Post</Button>
+          </Form>
+        </Container>
       </div>
     )
   }

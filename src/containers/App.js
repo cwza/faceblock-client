@@ -26,7 +26,7 @@ class App extends Component {
     let { error, faceblockToken, selfId } = this.props;
     return (
       <div>
-        <h1>I am App Page.</h1>
+        <h1 hidden>I am App Page.</h1>
         <SideBar selfId={selfId} faceblockToken={faceblockToken} handleLogout={this.handleLogout}/>
         {error && <Error error={error} />}
         {this.props.children}

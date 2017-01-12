@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PostContainer from '../containers/PostContainer'
+import { Button } from 'reactstrap'
+import { Container, Row, Col } from 'reactstrap'
 
 class PostList extends Component {
   handlePostClick = (postId) => {
@@ -16,10 +18,24 @@ class PostList extends Component {
     let { posts, handleFetchNewPosts, handleFetchOldPosts } = this.props;
     return (
       <div>
-        <h1>I am PostList Page.</h1>
-        {handleFetchNewPosts && <button onClick={handleFetchNewPosts}>Load New</button>}
-        {this.renderPostList(posts)}
-        {handleFetchOldPosts && <button onClick={handleFetchOldPosts}>Load Old</button>}
+        <h1 hidden>I am PostList Page.</h1>
+        <Container center-block>
+        <Row>
+          <Col>
+            {handleFetchNewPosts && <Button className="btn-block" color="info" onClick={handleFetchNewPosts}>Load New</Button>}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {this.renderPostList(posts)}
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {handleFetchOldPosts && <Button className="btn-block" color="info" onClick={handleFetchOldPosts}>Load Old</Button>}
+          </Col>
+        </Row>
+        </Container>
       </div>
     )
   }

@@ -2,17 +2,26 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { isEmpty } from 'lodash'
 import * as utils from '../utils'
+import { Card, CardText, CardLink, CardBlock, Row, Col, Button } from 'reactstrap'
 
 class Post extends Component {
   renderPost = (post, handlePostClick, handleDeletePost, canDelete, author) => {
     if(!isEmpty(post)) {
       return (
         <div>
-          {!isEmpty(author) && <Link to={`/UserPostsPage/${author.id}`} activeClassName="active">{utils.getMailUsername(author.mail)}</Link>}
-          {canDelete && <button onClick={handleDeletePost}>Delete</button>}
-          <div onClick={handlePostClick}>
-            <h1>{JSON.stringify(post, null, 2)}</h1>
-          </div>
+          <Card>
+            <CardBlock>
+              {!isEmpty(author) && <CardLink tag={Link} to={`/UserPostsPage/${author.id}`} activeClassName="active">{utils.getMailUsername(author.mail)}</CardLink> }
+              {canDelete && <Button color="danger" size="sm" onClick={handleDeletePost}>Delete</Button>}
+            </CardBlock>
+            <CardBlock onClick={handlePostClick}>
+              <CardText>{post.content}</CardText>
+              <Row>
+                <Col xs="3"><small className="text-muted">Create at: {post.createTime}</small></Col>
+                <Col xs="3"><small className="text-muted">Comments Count: {post.commentCounts}</small></Col>
+              </Row>
+            </CardBlock>
+          </Card>
         </div>
       )
     }
