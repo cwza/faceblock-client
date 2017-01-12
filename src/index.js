@@ -6,6 +6,7 @@ import routes from './routes'
 import Root from './containers/Root'
 import configureStore from './store/configureStore'
 import rootSaga from './sagas'
+import 'bootstrap/dist/css/bootstrap.css'
 
 const defaultState = {
   localStorage: {userId: 1, faceblockToken: 'xxx'}
