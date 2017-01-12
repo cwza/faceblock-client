@@ -57,8 +57,8 @@
     "lodash": "^4.17.2",
     "normalizr": "^3.0.2",
     "react": "^15.4.1",
+    "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
-    "react-modal": "^1.6.4",
     "react-redux": "^5.0.1",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
@@ -68,8 +68,7 @@
     "redux-localstorage": "^0.4.1",
     "redux-logger": "^2.7.4",
     "redux-saga": "^0.13.0",
-    "reselect": "^2.5.4",
-    "whatwg-fetch": "^1.0.0"
+    "reselect": "^2.5.4"
   },
   "scripts": {
     "start": "node scripts/start.js",
