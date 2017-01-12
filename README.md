@@ -1,4 +1,4 @@
-Project is created by create-react-app 1.0.2 and run eject for customize.
+Project is created by create-react-app.
 
 Core:
   react, redux, react-router, react-router-redux, redux-saga, reselect, normalizr
