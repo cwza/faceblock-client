@@ -1,7 +1,7 @@
 import { camelizeKeys } from 'humps'
 import { isEmpty } from 'lodash'
 
-const API_ROOT = 'http://localhost:3001/'
+const API_ROOT = 'http://localhost:3001/api/'
 
 const getFaceblockTokenFromLocalStorage = () => {
   let reduxLocalStorage = localStorage.getItem('redux');
