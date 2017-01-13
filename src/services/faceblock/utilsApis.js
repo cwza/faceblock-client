@@ -15,7 +15,7 @@ const getFaceblockTokenFromLocalStorage = () => {
 const getReqHeaders = () => {
   return {
     "Content-Type": "application/json",
-    "faceblock_token": getFaceblockTokenFromLocalStorage(),
+    "faceblock-token": getFaceblockTokenFromLocalStorage(),
   };
 }
 
