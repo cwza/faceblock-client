@@ -19,7 +19,7 @@ class UserList extends Component {
     return (
       <div>
         <h1 hidden>I am UserList Page.</h1>
-        <Container center-block>
+        <Container>
           <Row>
             <Col>
               {handleFetchNewUsers && <Button className="btn-block" color="info" onClick={handleFetchNewUsers}>Load New</Button>}

@@ -19,22 +19,22 @@ class PostList extends Component {
     return (
       <div>
         <h1 hidden>I am PostList Page.</h1>
-        <Container center-block>
-        <Row>
-          <Col>
-            {handleFetchNewPosts && <Button className="btn-block" color="info" onClick={handleFetchNewPosts}>Load New</Button>}
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {this.renderPostList(posts)}
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            {handleFetchOldPosts && <Button className="btn-block" color="info" onClick={handleFetchOldPosts}>Load Old</Button>}
-          </Col>
-        </Row>
+        <Container>
+          <Row>
+            <Col>
+              {handleFetchNewPosts && <Button className="btn-block" color="info" onClick={handleFetchNewPosts}>Load New</Button>}
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {this.renderPostList(posts)}
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {handleFetchOldPosts && <Button className="btn-block" color="info" onClick={handleFetchOldPosts}>Load Old</Button>}
+            </Col>
+          </Row>
         </Container>
       </div>
     )

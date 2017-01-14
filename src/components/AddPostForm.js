@@ -28,7 +28,7 @@ class AddPostForm extends Component {
     return (
       <div>
         <h1 hidden>I am AddPost.</h1>
-        <Container center-block>
+        <Container>
           <Form id="AddPostForm" onSubmit={handleSubmit}>
             <Field name="content" placeholder="input something" component={renderTextAreaField} label="Content" />
             <Button className="btn-block" color="primary" type="submit">Add New Post</Button>
