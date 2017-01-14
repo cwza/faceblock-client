@@ -28,9 +28,6 @@ class SideBar extends Component {
                 <NavLink tag={Link} to="/" onlyActiveOnIndex={true} activeClassName="active">Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} to="/users" activeClassName="active">Users</NavLink>
-              </NavItem>
-              <NavItem>
                 <NavLink tag={Link} to={`/UserPostsPage/${selfId}`} activeClassName="active">MyPage</NavLink>
               </NavItem>
               <NavItem>

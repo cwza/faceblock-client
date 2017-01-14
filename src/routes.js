@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import App from './containers/App'
-import UserPage from './containers/UserPage'
 import HomePage from './containers/HomePage'
 import UserPostsPage from './containers/UserPostsPage'
 import PostDetailPage from './containers/PostDetailPage'
@@ -39,7 +38,6 @@ export default (
   <Route path="/" component={App}>
     <Route component={Private} onEnter={requireAuth}>
       <IndexRoute component={HomePage} />
-      <Route path="/users" component={propsComponent(UserPage)} />
       <Route path="/UserPostsPage/:userId" component={propsComponent(UserPostsPage)} />
       <Route path="/UserFollowingsPage/:userId" component={propsComponent(UserFollowingsPage)} />
       <Route path="/UserFollowersPage/:userId" component={propsComponent(UserFollowersPage)} />
