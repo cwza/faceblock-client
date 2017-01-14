@@ -22,7 +22,7 @@ class User extends Component {
                     {!isEmpty(followRelation) && <Button color="danger" size="sm" onClick={handleFollowClick}>UnFollow</Button>}
                   </div>}
                 </CardBlock>
-                <CardBlock onClick={handleUserClick}>
+                <CardBlock onClick={handleUserClick} style={{cursor: 'pointer'}}>
                   <CardText>{JSON.stringify(user, null, 2)}</CardText>
                 </CardBlock>
               </Col>
