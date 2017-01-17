@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink, Button } from 'reactstrap';
+import * as Constants from '../Constants'
 
 
 class SideBar extends Component {
@@ -21,7 +22,7 @@ class SideBar extends Component {
       <div>
         <Navbar color="faded" light toggleable>
           <NavbarToggler right onClick={this.toggleNavbar} />
-          <NavbarBrand href="/">Faceblock</NavbarBrand>
+          <NavbarBrand href={Constants.ROOT_PATH}>Faceblock</NavbarBrand>
           <Collapse className="navbar-toggleable-md" isOpen={!this.state.collapsed} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
