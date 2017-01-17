@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import User from '../components/User'
-import { routerActions } from 'react-router-redux'
 import { getSelfId } from '../selectors/usersSelectors'
 import { getFollowRelationByUserIdAndFollowerId } from '../selectors/followRelationsSelectors'
 import { isEmpty } from 'lodash'
 import followRelationsActions from '../actions/followRelationsActions'
+import browserHistory from '../browserHistory'
 
 class UserContainer extends Component {
   componentDidMount() {
   }
   handleUserClick = (userId) => {
-    this.props.routerPush('/UserPostsPage/' + userId);
+    browserHistory.push('/UserPostsPage/' + userId);
   }
   handleFollowClick = (userId, selfId, followRelation) => {
     if(!isEmpty(followRelation))
@@ -51,7 +51,6 @@ const mapStateToProps = (state, props) => {
 }
 
 export default connect(mapStateToProps, {
-  routerPush: routerActions.push,
   deleteFollowRelationStart: followRelationsActions.deleteFollowRelationStart,
   createFollowRelationStart: followRelationsActions.createFollowRelationStart,
 })(UserContainer);

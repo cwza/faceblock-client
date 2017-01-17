@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { routerActions } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { getError } from '../selectors/utilsSelectors'
 import Error from '../components/Error'
@@ -7,6 +6,7 @@ import authenticationActions from '../actions/authenticationActions'
 import { getAuthentication } from '../selectors/utilsSelectors'
 import SideBar from '../components/SideBar'
 import { getSelfId } from '../selectors/usersSelectors'
+import browserHistory from '../browserHistory'
 
 class App extends Component {
   componentDidMount() {
@@ -19,7 +19,7 @@ class App extends Component {
   }
   handleLogout = () => {
     this.props.logout();
-    this.props.routerPush('/');
+    browserHistory.push('/');
     window.location.reload();
   }
   render() {
@@ -48,5 +48,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   logout: authenticationActions.logout,
-  routerPush: routerActions.push,
 })(App);

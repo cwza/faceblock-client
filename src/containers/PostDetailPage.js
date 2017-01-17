@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import postsActions from '../actions/postsActions'
 // import usersActions from '../actions/usersActions'
 import { getPostById } from '../selectors/postsSelectors'
-import { routerActions } from 'react-router-redux'
 import CommentList from './CommentList'
+import browserHistory from '../browserHistory'
 
 class PostDetailPage extends Component {
   componentDidMount() {
@@ -18,7 +18,7 @@ class PostDetailPage extends Component {
   }
   handleDeletePost = (post) => {
     this.props.deletePostStart(post.id);
-    this.props.routerBack();
+    browserHistory.goBack();
   }
   render() {
     let { post } = this.props;
@@ -47,7 +47,6 @@ const mapStateToProps = (state, props) => {
 
 export default connect(mapStateToProps, {
   deletePostStart: postsActions.deletePostStart,
-  routerBack: routerActions.goBack,
   fetchPostStart: postsActions.fetchPostStart,
   // fetchUserStart: usersActions.fetchUserStart,
 })(PostDetailPage);

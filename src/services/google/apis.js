@@ -8,7 +8,7 @@ const getOauthLoginUrl = () => {
   const params = {
     scope: 'email profile',
     state: '/profile',
-    redirect_uri: Constants.HOST + '/googleOauth2Callback',
+    redirect_uri: Constants.HOST + Constants.ROOT_PATH + '/googleOauth2Callback',
     response_type: 'token',
     client_id: '1070623711198-sla74ke91d17j71gp13t7f7iuk627tfk.apps.googleusercontent.com'
   }

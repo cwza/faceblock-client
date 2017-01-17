@@ -4,8 +4,8 @@ import {getParamsFromHash } from '../services/google/apis'
 import authenticationActions from '../actions/authenticationActions'
 import { getAuthentication } from '../selectors/utilsSelectors'
 import Loading from '../components/Loading'
-import { routerActions } from 'react-router-redux'
 import { getSelfId } from '../selectors/usersSelectors'
+import browserHistory from '../browserHistory'
 
 class GoogleOauth2Callback extends Component {
   componentDidMount() {
@@ -18,7 +18,8 @@ class GoogleOauth2Callback extends Component {
       this.redirectToHomePage();
   }
   redirectToHomePage = () => {
-    this.props.routerPush('/');
+    browserHistory.push('/');
+    // this.props.routerPush('/');
   }
   render() {
     return (
@@ -40,5 +41,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   loginStart: authenticationActions.loginStart,
-  routerPush: routerActions.push,
 })(GoogleOauth2Callback);

@@ -2,7 +2,7 @@ import { camelizeKeys } from 'humps'
 import { isEmpty } from 'lodash'
 
 //TODO add real server domain
-let API_ROOT = 'http://faceblock:3001/api/';
+let API_ROOT = 'http://139.59.238.182/api/';
 if(process.env.NODE_ENV === 'development') {
   API_ROOT = 'http://localhost:3001/api/';
 // const API_ROOT = 'https://localhost:3043/api/';
