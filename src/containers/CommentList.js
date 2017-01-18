@@ -5,6 +5,7 @@ import postsActions from '../actions/postsActions'
 import otherActions from '../actions/otherActions'
 import { getFetchingStatus } from '../selectors/requestInfoSelectors'
 import PostListContainer from './PostListContainer'
+import { reset as resetForm } from 'redux-form';
 
 const componentName = 'CommentList'
 class CommentList extends Component {
@@ -30,6 +31,7 @@ class CommentList extends Component {
   handleAddPostSubmit = (values) => {
     values.replyTo = this.props.postId;
     this.props.createPostStart(values, this.genAddPostRequestId(this.props.postId));
+    this.props.resetForm('AddPost');
   }
   renderPostListContainer = (postId) => {
     return (
@@ -65,4 +67,5 @@ const mapStateToProps = (state, props) => {
 export default connect(mapStateToProps, {
   createPostStart: postsActions.createPostStart,
   resetFetchingStatus: otherActions.resetFetchingStatus,
+  resetForm: resetForm,
 })(CommentList);

@@ -10,6 +10,7 @@ import UserContainer from './UserContainer'
 import otherActions from '../actions/otherActions'
 import PostListContainer from './PostListContainer'
 import Loading from '../components/Loading'
+import { reset as resetForm } from 'redux-form';
 
 const componentName = 'HomePage';
 const addPostRequestId = `${componentName}_addPost`;
@@ -36,6 +37,7 @@ class HomePage extends Component {
   }
   handleAddPostSubmit = (values) => {
     this.props.createPostStart(values, addPostRequestId);
+    this.props.resetForm('AddPost');
   }
   renderPostListContainer = (fetchFollowingsStatus, selfId, followingIds) => {
     // only renderPostList while followings is already fetched
@@ -80,4 +82,5 @@ const mapStateToProps = (state, props) => {
 export default connect(mapStateToProps, {
   createPostStart: postsActions.createPostStart,
   resetFetchingStatus: otherActions.resetFetchingStatus,
+  resetForm: resetForm,
 })(HomePage);

@@ -10,6 +10,7 @@ import * as utils from '../utils'
 import { getFetchingStatus } from '../selectors/requestInfoSelectors'
 import otherActions from '../actions/otherActions'
 import PostListContainer from './PostListContainer'
+import { reset as resetForm } from 'redux-form';
 
 const componentName = 'UserPostsPage';
 class UserPostsPage extends Component {
@@ -42,6 +43,7 @@ class UserPostsPage extends Component {
   }
   handleAddPostSubmit = (values) => {
     this.props.createPostStart(values, this.genAddPostRequestId(this.props.params.userId));
+    this.props.resetForm('AddPost');
   }
   renderPostListContainer = (userId) => {
     return (
@@ -83,4 +85,5 @@ export default connect(mapStateToProps, {
   createPostStart: postsActions.createPostStart,
   fetchUserStart: usersActions.fetchUserStart,
   resetFetchingStatus: otherActions.resetFetchingStatus,
+  resetForm: resetForm,
 })(UserPostsPage);
