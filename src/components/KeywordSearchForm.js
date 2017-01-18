@@ -6,7 +6,7 @@ let renderField = ({
     input, handleOnChange,
     meta: { touched, error, warning }, ...rest
   }) => (
-  <Input {...rest} type="text" onChange={(e) => {
+  <Input {...rest} type="search" onChange={(e) => {
       input.onChange(e);
       handleOnChange(e.target.value);
   }}/>
