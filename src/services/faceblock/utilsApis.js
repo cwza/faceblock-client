@@ -2,7 +2,7 @@ import { camelizeKeys } from 'humps'
 import { isEmpty } from 'lodash'
 
 //TODO add real server domain
-let API_ROOT = 'https://139.59.238.182/api/';
+let API_ROOT = 'https://cwzc.pw/api/';
 if(process.env.NODE_ENV === 'development') {
   API_ROOT = 'http://localhost:3001/api/';
 // const API_ROOT = 'https://localhost:3043/api/';
