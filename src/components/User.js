@@ -23,7 +23,7 @@ class User extends Component {
                   </div>}
                 </CardBlock>
                 <CardBlock onClick={handleUserClick} style={{cursor: 'pointer'}}>
-                  <CardText>{JSON.stringify(user, null, 2)}</CardText>
+                  <CardText>{user.mail}</CardText>
                 </CardBlock>
               </Col>
             </Row>

@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { isEmpty } from 'lodash'
 import * as utils from '../utils'
 import { Card, CardText, CardLink, CardBlock, Row, Col, Button, CardImg } from 'reactstrap'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 class Post extends Component {
   renderPost = (post, handlePostClick, handleDeletePost, canDelete, author) => {
@@ -27,7 +27,7 @@ class Post extends Component {
                 <CardBlock onClick={handlePostClick} style={{cursor: 'pointer'}}>
                   <CardText>{post.content}</CardText>
                   <Row>
-                    <Col xs="3"><small className="text-muted">{moment(post.createTime).fromNow(true)}</small></Col>
+                    <Col xs="3"><small className="text-muted">{moment(post.createTime).fromNow()}</small></Col>
                     <Col xs="3"><small className="text-muted">Comments Count: {post.commentCounts}</small></Col>
                   </Row>
                 </CardBlock>

@@ -17,12 +17,13 @@ class Error extends Component {
   }
   renderError = (error) => {
     if(!isEmpty(error))
+      console.log('error: ', error);
       return (
         <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss}>
-          <h6 hidden>{error.code}</h6>
-          <h6>error name: {error.name}</h6>
-          <h6>error message: {error.message}</h6>
-          <h6 hidden>{error.longMessage}</h6>
+          {error.code && <h6 hidden>{error.code}</h6>}
+          {error.name && <h6>error name: {error.name}</h6>}
+          {error.message && <h6>error message: {error.message}</h6>}
+          {error.longMessage && <h6 hidden>{error.longMessage}</h6>}
         </Alert>
       )
   }
