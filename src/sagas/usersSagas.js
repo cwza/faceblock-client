@@ -18,7 +18,6 @@ function* callUsersApi(apiName, actionType, apiInfos=[], otherInfos=[]) {
       yield* users.map(function *(user) {
         let followRelationWillBeFetched = {userId: selfId, followRelation: user.id};
         let followRelation = yield select((state, args) => getFollowRelationByUserIdAndFollowerId(state)(args), followRelationWillBeFetched)
-        console.log('followRelation: ', followRelation, ' followRelationWillBeFetched: ', followRelationWillBeFetched);
         if(isEmpty(followRelation) && !some(fetchedFollowRelations, followRelationWillBeFetched)) {
           yield put(followRelationsActions.fetchFollowRelationStart(selfId, user.id));
           fetchedFollowRelations.push(followRelationWillBeFetched);

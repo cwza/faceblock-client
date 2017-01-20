@@ -41,7 +41,6 @@ const removeRequestInfo = (state={}, requestIdBegin) => {
       return utils.deletePropertiesFromObject(newState, requestId);
     return newState;
   }, state)
-  console.log('result: ', result);
   return result;
 }
 

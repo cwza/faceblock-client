@@ -84,7 +84,6 @@ const getFollowersByUserId = createSelector(
   [getUsersItems, (state, userId) => getFollowerIdsByUserId(state)(userId)],
   (usersItems={}, followerIds=[], userId) => memoize (
     (userId) => {
-      console.log('followerIds: ', followerIds, ' userId: ', userId);
       let result = followerIds.reduce((result, followerId) => {
         if(usersItems[followerId.toString()])
           result.push(usersItems[followerId.toString()])

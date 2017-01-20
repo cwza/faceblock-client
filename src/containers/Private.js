@@ -16,7 +16,6 @@ class Private extends Component {
       fetchUserStart(selfId);
     if(isEmpty(followings) && selfId && fetchFollowingsStatus === 0)
       this.props.fetchFollowRelationsStart(`q=followerId:(${selfId})&sort=id`, `${componentName}_followings`)
-    console.log('selfId: ', selfId);
   }
   render() {
     if(isEmpty(this.props.selfUser))
