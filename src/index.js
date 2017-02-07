@@ -7,6 +7,9 @@ import rootSaga from './sagas'
 import 'bootstrap/dist/css/bootstrap.css'
 import browserHistory from './browserHistory'
 import { syncHistoryWithStore } from 'react-router-redux'
+import shim from './shim'
+
+shim();
 
 const defaultState = {
   localStorage: {userId: 1, faceblockToken: 'xxx'}
