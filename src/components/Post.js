@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { isEmpty } from 'lodash'
 import * as utils from '../utils'
-import { Card, CardText, CardLink, CardBlock, Row, Col, Button, CardImg } from 'reactstrap'
+import { Card, CardText, CardLink, CardBlock, Row, Col, CardImg } from 'reactstrap'
 import moment from 'moment-timezone'
+import ConfirmModel from './ConfirmModel'
 
 class Post extends Component {
   renderPost = (post, handlePostClick, handleDeletePost, canDelete, author) => {
@@ -22,7 +23,7 @@ class Post extends Component {
               </Col>
               <Col>
                 <CardBlock>
-                  {canDelete && <Button color="danger" size="sm" onClick={handleDeletePost}>Delete</Button>}
+                  {canDelete && <ConfirmModel onConfirm={this.props.handleDeletePost} body='Do you really want to Delete This Post?' confirmText='Apply' title='Delete Post' buttonLabel='Delete'/>}
                 </CardBlock>
                 <CardBlock onClick={handlePostClick} style={{cursor: 'pointer'}}>
                   <CardText>{post.content}</CardText>
