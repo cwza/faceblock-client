@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import loadingImg from '../images/ajax-loader.gif';
 
 class Loading extends Component {
   render() {
     return (
-      <span>
-        Now Loading....
-      </span>
+      <div className="text-center">
+        <img className="rounded" src={loadingImg} alt="Loading" />
+      </div>
     )
   }
 }

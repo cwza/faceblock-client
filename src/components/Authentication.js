@@ -9,7 +9,7 @@ class Authentication extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="text-center">
         <Button color="primary" onClick={this.googleClick}>Login With Google</Button>
       </div>
     )
