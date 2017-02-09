@@ -1,6 +1,5 @@
 import * as utils from '../../utils'
 import * as Constants from '../../Constants'
-import fetch from 'isomorphic-fetch'
 import { camelizeKeys } from 'humps'
 
 const getOauthLoginUrl = () => {
