@@ -5,7 +5,6 @@ import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/
 import { getUsersByRequestId } from '../selectors/usersSelectors'
 import { getFetchingStatus } from '../selectors/requestInfoSelectors'
 import usersActions from '../actions/usersActions'
-import Loading from '../components/Loading'
 
 class UserListContainer extends Component {
   componentDidMount() {
@@ -31,8 +30,8 @@ class UserListContainer extends Component {
     return (
       <div>
         <h1 hidden>I am UserListContainer.</h1>
-        {fetchUsersStatus === 1 && <Loading />}
         <UserList users={users}
+          fetchStatus={fetchUsersStatus}
           handleFetchOldUsers={() => this.handleFetchOldUsers(queryStr, users, fetchUsersRequestId)}
           handleFetchNewUsers={() => this.handleFetchNewUsers(queryStr, users, fetchUsersRequestId)} />
       </div>

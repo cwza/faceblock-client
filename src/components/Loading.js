@@ -3,8 +3,10 @@ import loadingImg from '../images/ajax-loader.gif';
 
 class Loading extends Component {
   render() {
+    const { fetchStatus } = this.props;
+    const style = {visibility: (fetchStatus === 1 || fetchStatus === undefined) ? 'visible' : 'hidden'}
     return (
-      <div className="text-center">
+      <div style={style} className="text-center">
         <img className="rounded" src={loadingImg} alt="Loading" />
       </div>
     )
@@ -12,6 +14,7 @@ class Loading extends Component {
 }
 
 Loading.propTypes = {
+  fetchStatus: React.PropTypes.number,
 }
 
 export default Loading;

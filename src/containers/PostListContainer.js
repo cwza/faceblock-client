@@ -5,7 +5,6 @@ import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/
 import { getPostsByRequestId } from '../selectors/postsSelectors'
 import { getFetchingStatus } from '../selectors/requestInfoSelectors'
 import postsActions from '../actions/postsActions'
-import Loading from '../components/Loading'
 
 class PostListContainer extends Component {
   componentDidMount() {
@@ -31,8 +30,8 @@ class PostListContainer extends Component {
     return (
       <div>
         <h1 hidden>I am PostListContainer.</h1>
-        {fetchPostsStatus === 1 && <Loading />}
         <PostList posts={posts}
+          fetchStatus={fetchPostsStatus}
           handleFetchOldPosts={() => this.handleFetchOldPosts(queryStr, posts, fetchPostsRequestId)}
           handleFetchNewPosts={() => this.handleFetchNewPosts(queryStr, posts, fetchPostsRequestId)} />
       </div>

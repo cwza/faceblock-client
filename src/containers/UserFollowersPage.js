@@ -4,6 +4,7 @@ import followRelationsActions from '../actions/followRelationsActions'
 import { getFollowersByFollowRelationsRequestId } from '../selectors/usersSelectors'
 import UserList from '../components/UserList'
 import { getFetchOldQueryStr, getFetchNewQueryStr } from '../services/faceblock/utilsApis'
+import { getFetchingStatus } from '../selectors/requestInfoSelectors'
 
 const componentName = 'UserFollowersPage';
 class UserFollowersPage extends Component {
@@ -28,11 +29,12 @@ class UserFollowersPage extends Component {
   }
   render() {
     let { userId } = this.props.params;
-    let { followers } = this.props;
+    let { followers, fetchFollowersStatus } = this.props;
     return (
       <div>
         <h1 hidden>I am UserFollowersPage</h1>
         <UserList users={this.props.followers}
+          fetchStatus={fetchFollowersStatus}
           handleFetchOldUsers={() => this.handleFetchOldFollowRelations(userId, followers)}
           handleFetchNewUsers={() => this.handleFetchNewFollowRelations(userId, followers)} />
       </div>
@@ -45,6 +47,7 @@ const mapStateToProps = (state, props) => {
   let fetchFollowersRequestId = `${componentName}_${userId}_fetchFollowers`;
   return {
     followers: getFollowersByFollowRelationsRequestId(state, fetchFollowersRequestId),
+    fetchFollowersStatus: getFetchingStatus(state, fetchFollowersRequestId),
   }
 }
 

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import UserContainer from '../containers/UserContainer'
-import { Button } from 'reactstrap'
+// import { Button } from 'reactstrap'
 import { Container, Row, Col } from 'reactstrap'
+import Waypoint from 'react-waypoint'
+import Loading from './Loading'
 
 class UserList extends Component {
   handleUserClick = (userId) => {
@@ -14,6 +16,19 @@ class UserList extends Component {
       )
     });
   }
+  renderWaypoint = (handleLoadMore) => {
+    if(!handleLoadMore) return;
+    const { fetchStatus } = this.props;
+    return (
+      <div>
+        <Loading fetchStatus={fetchStatus} />
+        <Waypoint key={1} onEnter={() => {
+          if(fetchStatus === 1) return;
+          handleLoadMore();
+        }}/>
+      </div>
+    )
+  }
   render() {
     let { users, handleFetchNewUsers, handleFetchOldUsers } = this.props;
     return (
@@ -22,7 +37,7 @@ class UserList extends Component {
         <Container>
           <Row>
             <Col>
-              {handleFetchNewUsers && <Button className="btn-block" color="info" onClick={handleFetchNewUsers}>Load New</Button>}
+              {this.renderWaypoint(handleFetchNewUsers)}
             </Col>
           </Row>
           <Row>
@@ -32,7 +47,7 @@ class UserList extends Component {
           </Row>
           <Row>
             <Col>
-              {handleFetchOldUsers && <Button className="btn-block" color="info" onClick={handleFetchOldUsers}>Load Old</Button>}
+              {this.renderWaypoint(handleFetchOldUsers)}
             </Col>
           </Row>
         </Container>
@@ -45,6 +60,7 @@ UserList.propTypes = {
   users: React.PropTypes.array.isRequired,
   handleFetchOldUsers: React.PropTypes.func,
   handleFetchNewUsers: React.PropTypes.func,
+  fetchStatus: React.PropTypes.number,
 }
 
 export default UserList;
