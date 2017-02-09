@@ -26,7 +26,7 @@ const getReqHeaders = () => {
 }
 
 const callGet = (fullUrl) => {
-  console.log('fetch url: ', fullUrl);
+  // console.log('fetch url: ', fullUrl);
   return fetch(fullUrl, {
     method: "GET",
     headers: getReqHeaders(),
@@ -39,8 +39,8 @@ const callGet = (fullUrl) => {
 }
 
 const callPost = (fullUrl, data) => {
-  console.log('create url: ', fullUrl);
-  console.log('create data: ', data);
+  // console.log('create url: ', fullUrl);
+  // console.log('create data: ', data);
   return fetch(fullUrl, {
     method: "POST",
     body: JSON.stringify(data),
@@ -55,7 +55,7 @@ const callPost = (fullUrl, data) => {
 }
 
 const callDelete = (fullUrl) => {
-  console.log('delete url: ', fullUrl);
+  // console.log('delete url: ', fullUrl);
   return fetch(fullUrl, {
     method: "DELETE",
     headers: getReqHeaders(),

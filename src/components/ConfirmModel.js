@@ -18,7 +18,6 @@ class ConfirmModel extends Component {
     this.toggle();
   }
   render() {
-    console.log(this.props.onConfirm);
     return (
       <div>
         <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
