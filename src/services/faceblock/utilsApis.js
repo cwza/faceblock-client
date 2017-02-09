@@ -1,5 +1,6 @@
 import { camelizeKeys } from 'humps'
 import { isEmpty } from 'lodash'
+import fetch from 'isomorphic-fetch'
 
 //TODO add real server domain
 let API_ROOT = 'https://cwzc.pw/api/';

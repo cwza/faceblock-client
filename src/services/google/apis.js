@@ -1,6 +1,6 @@
 import * as utils from '../../utils'
 import * as Constants from '../../Constants'
-import 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch'
 import { camelizeKeys } from 'humps'
 
 const getOauthLoginUrl = () => {
@@ -20,7 +20,9 @@ const getParamsFromHash = (hash) => {
   let params = {};
   let queryString = hash.substring(1);
   let regex = /([^&=]+)=([^&]*)/g, m;
-  while (m = regex.exec(queryString)) {
+  while (true) {
+    m = regex.exec(queryString)
+    if(!m) break;
     params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
   }
   return camelizeKeys(params);
