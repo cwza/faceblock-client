@@ -1,5 +1,6 @@
-import polyfill from './polyfill'
-polyfill();
+// import polyfill from './polyfill'
+// polyfill();
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import routes from './routes'

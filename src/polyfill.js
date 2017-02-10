@@ -14,7 +14,7 @@ export default () => {
   if (!String.startsWith) {
     require('core-js/fn/string/starts-with');
   }
-  if(!Symbol) {
+  if(typeof Symbol === "undefined") {
     require('core-js/es6/symbol');
   }
 }
