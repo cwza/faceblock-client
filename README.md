@@ -11,6 +11,7 @@ Server Side is at [faceblock-server](https://github.com/cwza/faceblock-server)
 * Show posts, users with infinite scroll
 * Add post, Add post to post to post...(recursive comments)
 * Search posts, users reactively
+* Use elasticsearch like syntax to search(ex: t1 or t2 and t3)
 
 # Library
 * Core:
